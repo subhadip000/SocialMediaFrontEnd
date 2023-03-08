@@ -1,46 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Login.css'
 import log from '../../../assets/img/log.svg'
 import reg from '../../../assets/img/register.svg'
-import { FaUserAlt, FaLock, FaEnvelope } from 'react-icons/fa';
+import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 function Login() {
+
+    const [isSignUpMode, setIsSignUpMode] = useState(false);
+
+    const handleSignUpClick = () => {
+        setIsSignUpMode(true);
+    };
+
+    const handleSignInClick = () => {
+        setIsSignUpMode(false);
+    };
+
     return (
         <>
 
-            <div className="container">
+            <div className={`container ${isSignUpMode ? 'sign-up-mode' : ''}`}>
                 <div className="forms-container">
                     <div className="signin-signup">
-                        <form action="#" className="sign-in-form">
-                            <h2 className="title">Sign in</h2>
-                            <div className="input-field">
-                                <i><FaUserAlt/></i>
-                                
-                                <input type="text" placeholder="Username" />
-                            </div>
-                            <div className="input-field">
-                                <i><FaLock/></i>
-                                <input type="password" placeholder="Password" />
-                            </div>
-                            <input type="submit" value="Login" className="btn solid" />
-                            
-                        </form>
-                        <form action="#" className="sign-up-form">
-                            <h2 className="title">Sign up</h2>
-                            <div className="input-field">
-                                <i><FaUserAlt/></i>
-                                <input type="text" placeholder="Username" />
-                            </div>
-                            <div className="input-field">
-                                <i><FaEnvelope/></i>
-                                <input type="email" placeholder="Email" />
-                            </div>
-                            <div className="input-field">
-                            <i><FaLock/></i>
-                                <input type="password" placeholder="Password" />
-                            </div>
-                            <input type="submit" className="btn" value="Sign up" />
-                        </form>
+                        <SignUp />
+                        <SignIn />
                     </div>
                 </div>
 
@@ -52,7 +36,7 @@ function Login() {
                                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
                                 ex ratione. Aliquid!
                             </p>
-                            <button className="btn transparent" id="sign-up-btn">
+                            <button className="btn transparent" id="sign-up-btn" onClick={handleSignUpClick}>
                                 Sign up
                             </button>
                         </div>
@@ -65,7 +49,7 @@ function Login() {
                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
                                 laboriosam ad deleniti.
                             </p>
-                            <button className="btn transparent" id="sign-in-btn">
+                            <button className="btn transparent" id="sign-in-btn" onClick={handleSignInClick}>
                                 Sign in
                             </button>
                         </div>
