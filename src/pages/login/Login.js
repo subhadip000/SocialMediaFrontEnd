@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './Login.css'
-import log from '../../../assets/img/log.svg'
-import reg from '../../../assets/img/register.svg'
+import log from '../../assets/img/log.svg'
+import reg from '../../assets/img/register.svg'
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 
