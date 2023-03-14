@@ -7,6 +7,26 @@ const config = {
     "Content-Type": "application/json",
   },
 };
+//register
+export const UserRegisterAction = createAsyncThunk(
+  "user/register",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/register`,
+        input,
+        config
+      );
+      localStorage.setItem("userInfo", JSON.stringify(data));
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
 // Login
 export const UserLoginAction = createAsyncThunk(
   "user/login",
@@ -39,6 +59,23 @@ const UserSlice = createSlice({
     userInfo,
   },
   extraReducers: (builder) => {
+    //Register
+    builder.addCase(UserRegisterAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UserRegisterAction.fulfilled, (state, action) => {
+      state.userInfo = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UserRegisterAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
     //Login
     builder.addCase(UserLoginAction.pending, (state, action) => {
       state.isLoading = true;
@@ -56,7 +93,6 @@ const UserSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    //register
   },
 });
 

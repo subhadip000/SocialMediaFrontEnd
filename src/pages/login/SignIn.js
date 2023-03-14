@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { useDispatch } from "react-redux";
