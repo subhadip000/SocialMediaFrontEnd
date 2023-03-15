@@ -11,3 +11,9 @@
 
 --> Feed
 --> Comment
+
+--> Backend comment count
+--> Story add
+--> Like and comment popup
+--> Friends online
+--> data function
