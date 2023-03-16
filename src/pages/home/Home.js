@@ -22,7 +22,7 @@ const Home = () => {
       <Navbar />
       <div className="homeContainer">
         <Sidebar />
-            <Feed post={post}/>
+            <Feed post={post} isStory={true}/>
         <Rightbar />
       </div>
     </div>

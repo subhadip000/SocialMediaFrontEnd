@@ -49,7 +49,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            {myInfo ? <Feed post={myInfo?.Post} /> : null}
+            {myInfo ? <Feed post={myInfo?.Post} isStory={false} /> : null}
             <Rightbar profile />
             {/* <ProfileRightbar/> */}
           </div>
