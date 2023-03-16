@@ -1,12 +1,8 @@
 import React from "react";
 import "./Post.css";
 import Moment from 'react-moment';
-// import { IconButton } from "@mui/material";
-// import {
-//     MoreVert
-// } from "@mui/icons-material";
-import { AiFillHeart } from "react-icons/ai";
-import { FaComment, FaShare } from "react-icons/fa";
+import { FaTelegramPlane } from "react-icons/fa";
+import { FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 
 const Post = ({ post }) => {
   console.log(post?.author);
@@ -25,15 +21,10 @@ const Post = ({ post }) => {
             <span className="postUsername">{post?.author[0]?.firstName} {post?.author[0]?.lastName}</span>
             <span className="postDate">
               <Moment fromNow ago>
-              {post?.createdAt}
-              </Moment>             
-              </span>
+                {post?.createdAt}
+              </Moment>
+            </span>
           </div>
-          {/* <div className="postTopRight">
-                        <IconButton>
-                            <MoreVert className="postVertButton" />
-                        </IconButton>
-                    </div> */}
         </div>
         <div className="postCenter">
           <span className="postText">{post?.description}</span>
@@ -41,12 +32,18 @@ const Post = ({ post }) => {
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
-            <AiFillHeart className="bottomLeftIcon" style={{ color: "red" }} />
-            <span className="postLikeCounter">{post?.likes}</span>
+            <div className="LikeComment">
+              <FaHeart className="bottomLeftIcon" />
+              <span className="postLikeCounter"><span>Like {post?.likes}</span></span>
+            </div>
+            <div className="LikeComment">
+              <FaCommentAlt className="bottomLeftIcon" />
+              <span className="postLikeCounter"><span>Comment</span></span>
+            </div>
           </div>
           <div className="postBottomRight">
-            <span className="postCommentText">
-              comments count · share count
+            <span className="postShareText">
+              <FaShareAlt />
             </span>
           </div>
         </div>
@@ -54,18 +51,21 @@ const Post = ({ post }) => {
         <hr className="footerHr" />
         <div className="postBottomFooter">
           <div className="postBottomFooterItem">
-            <AiFillHeart className="footerIcon" />
-            <span className="footerText">Like</span>
-          </div>
-          <div className="postBottomFooterItem">
-            <FaComment className="footerIcon" />
-            <span className="footerText">Comment</span>
-          </div>
-          <div className="postBottomFooterItem">
-            <FaShare className="footerIcon" />
-            <span className="footerText">Share</span>
+            <a href="/profile/userId">
+              <img
+                src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                alt=""
+                className="commentProfileImg"
+              />
+            </a>
+            <p>nice picture</p>
           </div>
         </div>
+        <div className="addComment">
+          <input type="text" placeholder="Add your comment..." />
+          <FaTelegramPlane className="sendIcon" />
+        </div>
+
       </div>
     </div>
   );
