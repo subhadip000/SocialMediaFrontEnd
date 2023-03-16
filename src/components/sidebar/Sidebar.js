@@ -1,5 +1,5 @@
 import React from "react";
-import { MdFeed, MdLogout } from 'react-icons/md';
+import { MdFeed, MdLogout, MdOutlineSettings } from 'react-icons/md';
 import { BsChatFill } from 'react-icons/bs';
 import { FaUserFriends, FaVideo } from 'react-icons/fa';
 import "./Sidebar.css";
@@ -13,7 +13,7 @@ const Sidebar = () => {
         <MenuLink Icon={<BsChatFill />} text="Chats" />
         <MenuLink Icon={<FaVideo />} text="Videos" />
         <MenuLink Icon={<FaUserFriends />} text="Friends" />
-        
+        <MenuLink Icon={<MdOutlineSettings />} text="Settings" />
 
         <button className="sidebarButton">Show More</button>
         

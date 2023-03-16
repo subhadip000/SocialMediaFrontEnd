@@ -15,6 +15,7 @@ const Profile = () => {
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.user?.myInfo);
+  // console.log(myInfo);
   return (
     <div className="profile">
       <Navbar />
@@ -38,7 +39,7 @@ const Profile = () => {
               <h4 className="profileInfoName">
                 {myInfo?.firstName} {myInfo?.lastName}
               </h4>
-              <span className="profileInfoDesc">Hi Friends!</span>
+              <span className="profileInfoDesc">{myInfo?.bio}</span>
             </div>
           </div>
           <div className="profileRightBottom">

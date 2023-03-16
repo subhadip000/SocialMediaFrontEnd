@@ -14,14 +14,6 @@ const ProfileRightbar = () => {
 
             <div className="profileRightBarInfo">
                 <div className="profileRightBarInfoItem">
-                    <span className="profileRightBarInfoKey">Email: </span>
-                    <span className="profileRightBarInfoValue">amberlogan@gmail.com</span>
-                </div>
-                <div className="profileRightBarInfoItem">
-                    <span className="profileRightBarInfoKey">Phone Number: </span>
-                    <span className="profileRightBarInfoValue">+4 123 456 789</span>
-                </div>
-                <div className="profileRightBarInfoItem">
                     <span className="profileRightBarInfoKey">Address: </span>
                     <span className="profileRightBarInfoValue">
                         Melwood Str. 72 Liverpool
