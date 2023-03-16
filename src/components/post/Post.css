@@ -98,8 +98,7 @@
 
 .post .postWrapper .postBottomFooter {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
 }
 
 .post .postWrapper .postBottomFooter .postBottomFooterItem {
@@ -109,7 +108,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: 0.5s;
-    justify-content: center;
+    /* justify-content: center; */
     gap: 5px;
 }
 

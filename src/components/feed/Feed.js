@@ -4,13 +4,14 @@ import PostCreate from "../PostCreate/PostCreate";
 import Stories from "../stories/Stories";
 import "./Feed.css";
 
-const Feed = ({post}) => {
+const Feed = ({post, isStory}) => {
   
   // console.log(post);
   return (
     <div className="feed">
       <div className="feedWrapper">
-        <Stories />
+        {isStory?<Stories />:null}
+        
         <PostCreate />
         {post ? post.map((e, i) => {
           return <Post post={e} key={i} />;

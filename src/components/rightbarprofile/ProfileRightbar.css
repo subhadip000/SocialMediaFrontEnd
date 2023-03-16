@@ -15,57 +15,31 @@
     font-weight: 500;
 }
 
-.profileRightBar .profileRightBarHeading .editButton {
-    border: none;
-    padding: 7px;
-    border-radius: 5px;
-    background-color: #011631;
-    color: white;
-    cursor: pointer;
-}
-
-.profileRightBar .profileRightBarInfo {
-    margin-bottom: 30px;
-}
-
-.profileRightBar .profileRightBarInfo .profileRightBarInfoItem {
-    margin-bottom: 10px;
-}
-
-.profileRightBar .profileRightBarInfo .profileRightBarInfoItem .profileRightBarInfoKey {
-    font-weight: 500;
-    margin-right: 20px;
-}
-
-.profileRightBar .profileRightBarInfo .profileRightBarInfoItem .profileRightBarInfoValue {
-    font-weight: 300;
-}
-
-.profileRightBar .profileRightBarFollowings {
+.profileRightBar .profileRightBarPhotos {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin-top: 20px;
 }
 
-.profileRightBar .profileRightBarFollowings .profileRightBarFollowing {
+.profileRightBar .profileRightBarPhotos .profileRightBarPhoto {
     display: flex;
     flex-direction: column;
     margin-bottom: 20px;
     cursor: pointer;
 }
 
-.profileRightBar .profileRightBarFollowings .profileRightBarFollowing .profileRightBarFollowingImg {
+.profileRightBar .profileRightBarPhotos .profileRightBarPhoto .profileRightBarPhotoImg {
     width: 100px;
     height: 100px;
     object-fit: cover;
     border-radius: 5px;
 }
-
+/* 
 .profileRightBar .profileRightBarFollowings .profileRightBarFollowing .profileRightBarFollowingName {
     align-self: center;
     margin-top: 5px;
-}
+} */
 
 @media only screen and (max-width: 768px) {
     .profileRightBar {
