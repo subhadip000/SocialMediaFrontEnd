@@ -1,7 +1,7 @@
 import React from "react";
 import * as Yup from "yup";
 import { FaUserAlt, FaLock } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserLoginAction } from "../../redux/slices/UserSlice";
 import { useFormik } from "formik";
 
@@ -28,10 +28,14 @@ const SignIn = () => {
     validationSchema: formSchema,
   });
 
+  const user = useSelector((state) => state.user);
+  const { appErr, serverErr } = user;
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className="sign-in-form">
         <h2 className="title">Sign in</h2>
+        <strong className="error">{appErr ? appErr : null}</strong>
         <div className="input-field">
           <i>
             <FaUserAlt />
@@ -39,14 +43,16 @@ const SignIn = () => {
 
           <input
             type="email"
+            name="email"
             placeholder="Email"
             value={formik.values.email}
             onChange={formik.handleChange("email")}
-            // onBlur={formik.handleBlur("email")}
+            onBlur={formik.handleBlur("email")}
           />
-          {/* <h3 className="error">
+          <small className="error">
             {formik.touched.email && formik.errors.email}
-          </h3> */}
+          </small>
+          
         </div>
         <div className="input-field">
           <i>
@@ -54,14 +60,15 @@ const SignIn = () => {
           </i>
           <input
             type="password"
+            name="password"
             placeholder="Password"
             value={formik.values.password}
             onChange={formik.handleChange("password")}
-            // onBlur={formik.handleBlur("password")}
+            onBlur={formik.handleBlur("password")}
           />
-          {/* <h3 className="error">
-            {formik.touched.email && formik.errors.email}
-          </h3> */}
+          <small className="error">
+            {formik.touched.password && formik.errors.password}
+          </small>
         </div>
         <input type="submit" value="Login" className="btn solid" />
       </form>
