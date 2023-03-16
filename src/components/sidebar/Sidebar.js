@@ -4,8 +4,13 @@ import { BsChatFill } from 'react-icons/bs';
 import { FaUserFriends, FaVideo } from 'react-icons/fa';
 import "./Sidebar.css";
 import MenuLink from "../menuLink/MenuLink";
+import { useDispatch } from "react-redux";
+import { UserLogoutAction } from "../../redux/slices/UserSlice";
 
 const Sidebar = () => {
+
+  const dispatch = useDispatch()
+
   return (
     <div className="sidebar">
       <div className="sidebarWrapper">
@@ -16,7 +21,7 @@ const Sidebar = () => {
         <MenuLink Icon={<MdOutlineSettings />} text="Settings" />
 
         <div className="sidebar-bottom">
-          <button className="sidebarButton"><MdLogout /><span>Logout</span></button>
+          <button type="button" className="sidebarButton" onClick={() => dispatch(UserLogoutAction())}><MdLogout /><span>Logout</span></button>
         </div>
 
       </div>

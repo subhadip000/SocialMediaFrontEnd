@@ -35,6 +35,9 @@ const SignIn = () => {
     <>
       <form onSubmit={formik.handleSubmit} className="sign-in-form">
         <h2 className="title">Sign in</h2>
+        <strong className="error">
+          {serverErr === "Network Error" ? serverErr : null}
+        </strong>
         <strong className="error">{appErr ? appErr : null}</strong>
         <div className="input-field">
           <i>
@@ -52,7 +55,6 @@ const SignIn = () => {
           <small className="error">
             {formik.touched.email && formik.errors.email}
           </small>
-          
         </div>
         <div className="input-field">
           <i>
@@ -72,6 +74,7 @@ const SignIn = () => {
         </div>
         <input type="submit" value="Login" className="btn solid" />
       </form>
+      <a className="forgetPass">Forget Password?</a>
     </>
   );
 };
