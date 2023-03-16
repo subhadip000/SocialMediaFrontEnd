@@ -15,13 +15,10 @@ const Sidebar = () => {
         <MenuLink Icon={<FaUserFriends />} text="Friends" />
         <MenuLink Icon={<MdOutlineSettings />} text="Settings" />
 
-        <button className="sidebarButton">Show More</button>
-        
         <div className="sidebar-bottom">
-        <hr className="sidebarHr" />
-        <MenuLink Icon={<MdLogout />} text="Logout" />
+          <button className="sidebarButton"><MdLogout /><span>Logout</span></button>
         </div>
-        
+
       </div>
     </div>
   );

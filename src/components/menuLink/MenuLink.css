@@ -5,6 +5,7 @@
     font-weight: 500;
     border-radius: 10px;
     cursor: pointer;
+    color: #707070;;
 }
 
 .menuLink .menuLinkText {
@@ -18,8 +19,9 @@
 }
 
 .menuLink:hover {
-    background-color: #011631;
+    background-color: #ffabcc;
     color: white;
+    /* color: #be185d;; */
 }
 
 @media only screen and (max-width: 992px) {
