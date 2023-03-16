@@ -9,7 +9,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaComment, FaShare } from "react-icons/fa";
 
 const Post = ({ post }) => {
-  // console.log(post);
+  console.log(post);
   return (
     <div className="post">
       <div className="postWrapper">
