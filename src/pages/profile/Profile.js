@@ -25,21 +25,27 @@ const Profile = () => {
           <div className="profileRightTop">
             <div className="profileCover">
               <img
-                src="https://www.planetware.com/wpimages/2019/11/canada-in-pictures-beautiful-places-to-photograph-morraine-lake.jpg"
-                alt=""
-                className="profileCoverImg"
-              />
-              <img
                 src={myInfo?.profilePhoto}
                 alt=""
                 className="profileUserImg"
               />
-            </div>
-            <div className="profileInfo">
-              <h4 className="profileInfoName">
-                {myInfo?.firstName} {myInfo?.lastName}
-              </h4>
-              <span className="profileInfoDesc">{myInfo?.bio}</span>
+              <div className="profileInfo">
+                <h4 className="profileInfoName">
+                  {myInfo?.firstName} {myInfo?.lastName}
+                </h4>
+                <span className="profileInfoDesc">{myInfo?.bio}</span>
+                <div className="followInfo">
+                  <span className="followInfoDesc"><b>10</b> Posts</span>
+                  <span className="followInfoDesc"><b>10</b> Followers</span>
+                  <span className="followInfoDesc"><b>10</b> Following</span>
+                </div>
+                <div className="userStatus">
+                  <span className="userStatusDesc">Relationship: Single</span>
+                </div>
+              </div>
+              <div className="editProfile">
+                <button className="editProfileBtn">Edit Profile</button>
+              </div>
             </div>
           </div>
           <div className="profileRightBottom">
