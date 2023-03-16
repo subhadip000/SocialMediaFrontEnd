@@ -9,7 +9,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaComment, FaShare } from "react-icons/fa";
 
 const Post = ({ post }) => {
-  console.log(post);
+  console.log(post?.author);
   return (
     <div className="post">
       <div className="postWrapper">
@@ -22,7 +22,7 @@ const Post = ({ post }) => {
                 className="postProfileImg"
               />
             </a>
-            <span className="postUsername">username</span>
+            <span className="postUsername">{post?.author[0]?.firstName} {post?.author[0]?.lastName}</span>
             <span className="postDate">
               <Moment fromNow ago>
               {post?.createdAt}
