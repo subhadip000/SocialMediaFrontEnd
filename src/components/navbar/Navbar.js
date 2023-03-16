@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
-import { BsSearch, BsFillPersonFill, BsChatFill, BsFillBellFill } from 'react-icons/bs';
+import { BsSearch, BsFillBellFill } from 'react-icons/bs';
+// import { GiHamburgerMenu } from 'react-icons/gi';
 import { useDispatch, useSelector } from "react-redux";
 import { MyProfileAction } from "../../redux/slices/UserSlice";
 import "./Navbar.css";
@@ -15,6 +16,7 @@ const Navbar = () => {
     <div className="navbarContainer">
       <div className="navbarLeft">
         <a href="/" style={{ textDecoration: "none" }}>
+          {/* <span className="hamburger"><GiHamburgerMenu/></span>          */}
           <span className="logo">OurApp</span>
         </a>
       </div>
@@ -30,14 +32,6 @@ const Navbar = () => {
       </div>
       <div className="navbarRight">
         <div className="navbarIcons">
-          <div className="navbarIconItem">
-            <BsFillPersonFill />
-            <span className="navbarIconBadge">2</span>
-          </div>
-          <div className="navbarIconItem">
-            <BsChatFill />
-            <span className="navbarIconBadge">10</span>
-          </div>
           <div className="navbarIconItem">
             <BsFillBellFill />
             <span className="navbarIconBadge">8</span>
