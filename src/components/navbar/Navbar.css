@@ -1,7 +1,8 @@
 .navbarContainer {
     width: 100%;
-    height: 50px;
-    background-color: #011631;
+    height: 60px;
+    /* background-color: #011631; */
+    background-color: white;
     display: flex;
     align-items: center;
     position: sticky;
@@ -12,10 +13,16 @@
 .navbarContainer .navbarLeft {
     flex: 3;
 }
+.navbarContainer .navbarLeft .hamburger{
+ display: none;
+ color: black;
+ font-size: 22px;
+}
 
 .navbarContainer .navbarLeft .logo {
     font-size: 24px;
-    color: white;
+    /* color: white; */
+    color: rgb(255, 120, 188);
     margin-left: 20px;
     font-weight: 500;
     cursor: pointer;
@@ -53,7 +60,7 @@
 }
 
 .navbarContainer .navbarRight {
-    flex: 4;
+    flex: 0;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -77,6 +84,7 @@
     margin-right: 15px;
     position: relative;
     cursor: pointer;
+    color: rgb(26, 25, 25);
 }
 
 .navbarContainer .navbarRight .navbarIcons .navbarIconBadge {
@@ -98,9 +106,10 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 2px solid white;
+    border: 2px solid rgb(255, 120, 188);
     object-fit: cover;
     cursor: pointer;
+    margin-right: 15px;
 }
 
 @media only screen and (max-width: 992px) {
@@ -145,12 +154,15 @@
     }
 
     .navbarContainer .navbarLeft {
-        flex: 1;
+        flex: 2;
+    }
+    .navbarContainer .navbarLeft .hamburger{
+       display: inline;
     }
 
     .navbarContainer .navbarCenter {
-        flex: 1;
-        display: none;
+        flex: 3;
+        /* display: none; */
     }
 
     .navbarContainer .navbarRight {
