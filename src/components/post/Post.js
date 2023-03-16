@@ -1,5 +1,6 @@
 import React from "react";
 import "./Post.css";
+import Moment from 'react-moment';
 // import { IconButton } from "@mui/material";
 // import {
 //     MoreVert
@@ -22,7 +23,11 @@ const Post = ({ post }) => {
               />
             </a>
             <span className="postUsername">username</span>
-            <span className="postDate">post date</span>
+            <span className="postDate">
+              <Moment fromNow ago>
+              {post?.createdAt}
+              </Moment>             
+              </span>
           </div>
           {/* <div className="postTopRight">
                         <IconButton>

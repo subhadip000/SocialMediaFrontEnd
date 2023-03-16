@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsSearch, BsFillPersonFill, BsChatFill, BsFillBellFill } from 'react-icons/bs';
+import { useDispatch, useSelector } from "react-redux";
+import { MyProfileAction } from "../../redux/slices/UserSlice";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(MyProfileAction());
+  }, [dispatch]);
+
+  const myInfo = useSelector((state) => state.user?.myInfo);
   return (
     <div className="navbarContainer">
       <div className="navbarLeft">
@@ -35,8 +43,12 @@ const Navbar = () => {
             <span className="navbarIconBadge">8</span>
           </div>
         </div>
-        <a href="/">
-          <img src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png" alt="" className="navbarImg" />
+        <a href="/profile">
+          <img
+            src={myInfo?.profilePhoto}
+            alt=""
+            className="navbarImg"
+          />
         </a>
       </div>
     </div>
