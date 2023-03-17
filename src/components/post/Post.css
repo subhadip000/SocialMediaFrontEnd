@@ -79,12 +79,12 @@
 }
 
 .post .postWrapper .postBottom .postBottomLeft .bottomLeftIcon {
-    /* font-size: 20px; */
     cursor: pointer;
 }
 
 .post .postWrapper .postBottom .postBottomLeft .postLikeCounter {
     font-size: 15px;
+    cursor: pointer;
 }
 
 .post .postWrapper .postBottom .postBottomRight .postShareText {
@@ -108,7 +108,6 @@
     border-radius: 5px;
     cursor: pointer;
     transition: 0.5s;
-    /* justify-content: center; */
     gap: 5px;
 }
 
@@ -139,10 +138,6 @@
     font-weight: 500;
 }
 
-/* .post .postWrapper .postBottomFooterItem:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-} */
-
 .post .postWrapper .addComment {
     width: 100%;
     height: 35px;
@@ -170,5 +165,27 @@
     font-size: 20px;
     margin-left: 10px;
     /* color: gray; */
+    cursor: pointer;
+}
+
+
+
+.post .postWrapper .postBottom .postBottomLeft .LikeComment .PopupDiv {
+    display: flex;
+    align-items: center;
+}
+
+.post .postWrapper .postBottom .postBottomLeft .LikeComment .PopupDiv .PopupProfileImg {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.post .postWrapper .postBottom .postBottomLeft .LikeComment .PopupDiv .PopupUsername {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 10px;
     cursor: pointer;
 }

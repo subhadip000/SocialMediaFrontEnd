@@ -18,7 +18,6 @@
 .profileRightBar .profileRightBarPhotos {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     margin-top: 20px;
 }
 
@@ -27,6 +26,7 @@
     flex-direction: column;
     margin-bottom: 20px;
     cursor: pointer;
+    margin-right: 20px;
 }
 
 .profileRightBar .profileRightBarPhotos .profileRightBarPhoto .profileRightBarPhotoImg {
@@ -35,11 +35,6 @@
     object-fit: cover;
     border-radius: 5px;
 }
-/* 
-.profileRightBar .profileRightBarFollowings .profileRightBarFollowing .profileRightBarFollowingName {
-    align-self: center;
-    margin-top: 5px;
-} */
 
 @media only screen and (max-width: 768px) {
     .profileRightBar {
