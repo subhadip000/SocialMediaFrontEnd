@@ -15,7 +15,7 @@ const Profile = () => {
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.user?.myInfo);
-  // console.log(myInfo);
+  // console.log(myInfo?.Post);
   return (
     <div className="profile">
       <Navbar />
@@ -50,7 +50,7 @@ const Profile = () => {
           </div>
           <div className="profileRightBottom">
             {myInfo ? <Feed post={myInfo?.Post} isStory={false} /> : null}
-            <Rightbar profile />
+            <Rightbar profile post={myInfo?.Post}/>
             {/* <ProfileRightbar/> */}
           </div>
         </div>
