@@ -4,6 +4,7 @@ import { FaUserAlt, FaLock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { UserLoginAction } from "../../redux/slices/UserSlice";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
 
 //Form schema
 const formSchema = Yup.object({
@@ -74,7 +75,7 @@ const SignIn = () => {
         </div>
         <input type="submit" value="Login" className="btn solid" />
       </form>
-      <a className="forgetPass">Forget Password?</a>
+      <Link to="/forget-pass" className="forgetPass">Forget Password?</Link>
     </>
   );
 };

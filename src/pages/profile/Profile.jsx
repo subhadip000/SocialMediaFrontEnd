@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./Profile.css";
-import Feed from "./../../components/feed/Feed";
+import Feed from "../../components/feed/Feed";
 // import ProfileRightbar from "../../components/rightbarprofile/ProfileRightbar";
 import Rightbar from "../../components/rightbar/Rightbar";
 import { useDispatch, useSelector } from "react-redux";

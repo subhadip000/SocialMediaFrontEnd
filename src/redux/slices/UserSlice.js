@@ -66,6 +66,30 @@ export const UserLogoutAction = createAsyncThunk(
   }
 );
 
+// Forget Password
+export const ForgetPasswordAction = createAsyncThunk(
+  "user/forget-pass",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/forget-password`,
+        input,
+        config
+      );
+      return data;
+    } catch (error) {
+      if(!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
+
+
+
+//! change directory to userslice 
 //My Profile
 export const MyProfileAction = createAsyncThunk(
   "user/Profile",
@@ -154,6 +178,24 @@ const UserSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(UserLogoutAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Forget Password
+    builder.addCase(ForgetPasswordAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(ForgetPasswordAction.fulfilled, (state, action) => {
+      state.forget_pass = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(ForgetPasswordAction.rejected, (state, action) => {
       state.isLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
