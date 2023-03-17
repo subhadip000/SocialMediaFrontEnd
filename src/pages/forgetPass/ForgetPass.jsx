@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { ForgetPasswordAction } from "../../redux/slices/UserSlice";
+import { ForgetPasswordAction } from "../../redux/slices/AuthSlice";
 
 const ForgetPass = () => {
 

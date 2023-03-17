@@ -3,8 +3,8 @@ import * as Yup from "yup";
 import { FaUserAlt, FaLock, FaEnvelope } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { UserRegisterAction } from "../../redux/slices/UserSlice";
 import YupPassword from "yup-password";
+import { UserRegisterAction } from "../../redux/slices/AuthSlice";
 YupPassword(Yup);
 
 //Form schema

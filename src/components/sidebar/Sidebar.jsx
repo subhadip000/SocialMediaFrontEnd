@@ -5,7 +5,7 @@ import { FaUserFriends, FaVideo } from 'react-icons/fa';
 import "./Sidebar.css";
 import MenuLink from "../menuLink/MenuLink";
 import { useDispatch } from "react-redux";
-import { UserLogoutAction } from "../../redux/slices/UserSlice";
+import { UserLogoutAction } from "../../redux/slices/AuthSlice";
 
 const Sidebar = () => {
 
