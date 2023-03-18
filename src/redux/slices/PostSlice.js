@@ -7,7 +7,7 @@ const BaseUrl =
 export const FetchPostAction = createAsyncThunk(
   "post/fetch",
   async (i, { rejectWithValue, getState, dispatch }) => {
-    const user = getState()?.user;
+    const user = getState()?.auth;
     const { userInfo } = user;
     const configToken = {
       headers: {

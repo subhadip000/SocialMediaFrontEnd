@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const BaseUrl = "https://testing-blog-server.onrender.com"
-  // "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+// const BaseUrl = "https://testing-blog-server.onrender.com"
+const BaseUrl = "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 
 const config = {
   headers: {
@@ -92,7 +92,7 @@ const userInfo = localStorage.getItem("userInfo")
 
 // Then, handle actions in your reducers:
 const AuthSlice = createSlice({
-  name: "user",
+  name: "auth",
   initialState: {
     userInfo,
   },

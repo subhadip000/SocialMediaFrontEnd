@@ -6,10 +6,16 @@ import "./Sidebar.css";
 import MenuLink from "../menuLink/MenuLink";
 import { useDispatch } from "react-redux";
 import { UserLogoutAction } from "../../redux/slices/AuthSlice";
+import { Navigate } from "react-router";
 
 const Sidebar = () => {
 
+
   const dispatch = useDispatch()
+  const handleLogout = () =>{
+    dispatch(UserLogoutAction())
+    return <Navigate to={"/login"}/>
+  }
 
   return (
     <div className="sidebar">
@@ -21,7 +27,7 @@ const Sidebar = () => {
         <MenuLink Icon={<MdOutlineSettings />} text="Settings" />
 
         <div className="sidebar-bottom">
-          <button type="button" className="sidebarButton" onClick={() => dispatch(UserLogoutAction())}><MdLogout /><span>Logout</span></button>
+          <button type="button" className="sidebarButton" onClick={handleLogout}><MdLogout /><span>Logout</span></button>
         </div>
 
       </div>

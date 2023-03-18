@@ -17,9 +17,9 @@ function Login() {
   const handleSignInClick = () => {
     setIsSignUpMode(false);
   };
-  const userInfo = useSelector((state) => state.user?.userInfo);
+  const userInfo = useSelector((state) => state.auth?.userInfo);
   if (userInfo) {
-    console.log("working");
+    console.log("working: ",userInfo);
     return <Navigate to={"/"} />;
   }
 
