@@ -2,8 +2,9 @@ import React from "react";
 import * as Yup from "yup";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { UserLoginAction } from "../../redux/slices/UserSlice";
 import { useFormik } from "formik";
+import { Link } from "react-router-dom";
+import { UserLoginAction } from "../../redux/slices/AuthSlice";
 
 //Form schema
 const formSchema = Yup.object({
@@ -35,6 +36,9 @@ const SignIn = () => {
     <>
       <form onSubmit={formik.handleSubmit} className="sign-in-form">
         <h2 className="title">Sign in</h2>
+        <strong className="error">
+          {serverErr === "Network Error" ? serverErr : null}
+        </strong>
         <strong className="error">{appErr ? appErr : null}</strong>
         <div className="input-field">
           <i>
@@ -52,7 +56,6 @@ const SignIn = () => {
           <small className="error">
             {formik.touched.email && formik.errors.email}
           </small>
-          
         </div>
         <div className="input-field">
           <i>
@@ -72,6 +75,7 @@ const SignIn = () => {
         </div>
         <input type="submit" value="Login" className="btn solid" />
       </form>
+      <Link to="/forget-pass" className="forgetPass">Forget Password?</Link>
     </>
   );
 };

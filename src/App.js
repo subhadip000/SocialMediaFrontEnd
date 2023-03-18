@@ -5,6 +5,7 @@ import EditProfile from "./pages/profileEdit/EditProfile";
 import Login from "./pages/login/Login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/private/PrivateRoute";
+import ForgetPass from "./pages/forgetPass/ForgetPass";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/forget-pass" element={<ForgetPass />} />
           <Route
             path="/profile"
             element={

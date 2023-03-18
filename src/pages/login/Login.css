@@ -91,6 +91,7 @@ form.sign-in-form {
   background: none;
   outline: none;
   border: none;
+  border-radius: 50px;
   line-height: 1;
   font-weight: 600;
   font-size: 1.1rem;
@@ -152,6 +153,14 @@ form.sign-in-form {
 
 .btn:hover {
   background-color: #4d84e2;
+}
+
+.forgetPass{
+  /* border: 2px solid; */
+  width: 150px;
+  position: relative;
+  right: -540px;
+  bottom: 60px;
 }
 
 .panels-container {
@@ -380,7 +389,11 @@ form.sign-in-form {
 
 @media (max-width: 570px) {
   form {
-    padding: 0 1.5rem;
+    padding: 0 1.9rem;
+  }
+
+  .forgetPass{
+    right: -260px;
   }
 
   .image {

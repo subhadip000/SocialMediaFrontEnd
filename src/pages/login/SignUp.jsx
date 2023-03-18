@@ -1,10 +1,10 @@
 import React from "react";
 import * as Yup from "yup";
 import { FaUserAlt, FaLock, FaEnvelope } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { UserRegisterAction } from "../../redux/slices/UserSlice";
 import YupPassword from "yup-password";
+import { UserRegisterAction } from "../../redux/slices/AuthSlice";
 YupPassword(Yup);
 
 //Form schema
@@ -40,10 +40,15 @@ const SignUp = () => {
     validationSchema: formSchema,
   });
 
+  const user = useSelector((state) => state?.user);
+  const { appErr, serverErr } = user;
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className="sign-up-form">
         <h2 className="title">Sign up</h2>
+        <strong className="error">{serverErr === "Network Error" ? serverErr : null}</strong>
+        <strong className="error">{appErr ? appErr : null}</strong>
         <div className="input-field">
           <i>
             <FaUserAlt />

@@ -1,68 +1,72 @@
 .profile .profileWrapper {
-    display: flex;
+  display: flex;
 }
 
 .profile .profileWrapper .profileRight {
-    flex: 10;
+  flex: 10;
 }
 
 .profile .profileWrapper .profileRight .profileCover {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    /* border-bottom: 1px solid black; */
-    gap: 30px;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  /* border-bottom: 1px solid black; */
+  gap: 30px;
 }
 
 .profile .profileWrapper .profileRight .profileCover .profileUserImg {
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    margin: 30px;
-    object-fit: cover;
-    border: 3px solid white;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  margin: 30px;
+  object-fit: cover;
+  border: 3px solid white;
 }
 
 .profile .profileWrapper .profileRight .profileCover .profileInfo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .profile .profileWrapper .profileRight .profileInfo .profileInfoName {
-    font-size: 24px;
+  font-size: 24px;
 }
 
 .profile .profileWrapper .profileRight .profileInfo .profileInfoDesc {
-    font-weight: 300;
+  font-weight: 300;
 }
 
-.profile .profileWrapper .profileRight .profileInfo .followInfo{
-    display: flex;
-    gap: 13px;
+.profile .profileWrapper .profileRight .profileInfo .followInfo {
+  display: flex;
+  gap: 13px;
 }
-.profile .profileWrapper .profileRight .profileInfo .userStatus{
-    margin-top: 5px;
+.profile .profileWrapper .profileRight .profileInfo .userStatus {
+  margin-top: 5px;
 }
-.profile .profileWrapper .profileRight .editProfileBtn{
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: 700;
-    background-color: rgb(192, 192, 192);
-    border: none;
+.profile .profileWrapper .profileRight .editProfileBtn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 700;
+  background-color: rgb(192, 192, 192);
+  border: none;
 }
-.profile .profileWrapper .profileRight .editProfileBtn:hover{
-    background-color: rgb(165, 165, 165);
+.profile .profileWrapper .profileRight .editProfileBtn:hover {
+  background-color: rgb(165, 165, 165);
+}
+
+.editProfileBtn{
+    cursor: pointer;
 }
 
 .profile .profileWrapper .profileRight .profileRightBottom {
-    display: flex;
+  display: flex;
 }
 
 @media only screen and (max-width: 768px) {
-    .profile .profileWrapper .profileRight .profileCover {
-        flex-direction: column;
-    }
+  .profile .profileWrapper .profileRight .profileCover {
+    flex-direction: column;
+  }
 }
