@@ -86,6 +86,46 @@ export const ForgetPasswordAction = createAsyncThunk(
   }
 )
 
+// Change Password
+export const ChangePasswordAction = createAsyncThunk(
+  "user/change-pass",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/change-password`,
+        input,
+        config
+      );
+      return data;
+    } catch (error) {
+      if(!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
+// New Password
+export const NewPasswordAction = createAsyncThunk(
+  "user/new-pass",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/new-password`,
+        input,
+        config
+      );
+      return data;
+    } catch (error) {
+      if(!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data)
+    }
+  }
+)
+
 const userInfo = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
   : null;
@@ -164,6 +204,42 @@ const AuthSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(ForgetPasswordAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Change Password
+    builder.addCase(ChangePasswordAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(ChangePasswordAction.fulfilled, (state, action) => {
+      state.change_pass = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(ChangePasswordAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // New Password
+    builder.addCase(NewPasswordAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(NewPasswordAction.fulfilled, (state, action) => {
+      state.new_pass = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(NewPasswordAction.rejected, (state, action) => {
       state.isLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
