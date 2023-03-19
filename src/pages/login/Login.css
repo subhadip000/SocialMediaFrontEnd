@@ -157,10 +157,14 @@ form.sign-in-form {
 
 .forgetPass{
   /* border: 2px solid; */
-  width: 150px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  right: -540px;
-  bottom: 60px;
+  right: -500px;
+  cursor: pointer;
 }
 
 .panels-container {

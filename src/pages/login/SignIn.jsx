@@ -75,7 +75,9 @@ const SignIn = () => {
         </div>
         <input type="submit" value="Login" className="btn solid" />
       </form>
-      <Link to="/forget-pass" className="forgetPass">Forget Password?</Link>
+      <div className="forgetPass">
+        <Link to="/forget-pass">Forget Password?</Link>
+      </div>
     </>
   );
 };

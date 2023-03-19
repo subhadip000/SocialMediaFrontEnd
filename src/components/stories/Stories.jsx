@@ -15,6 +15,9 @@ const Stories = () => {
 
             <Storycard />
             <Storycard />
+            <Storycard />
+            <Storycard />
+            <Storycard />
 
         </div>
     );
