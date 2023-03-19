@@ -1,10 +1,26 @@
 import { MdOutlineDriveFolderUpload } from 'react-icons/md';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./EditProfile.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { MyProfileAction } from '../../redux/slices/UserSlice';
 
 const EditProfile = () => {
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(MyProfileAction());
+    }, [dispatch]);
+
+    const myInfo = useSelector((state) => state.user?.myInfo);
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    function handleFileSelect(event) {
+        setSelectedFile(URL.createObjectURL(event.target.files[0]));
+    }
+    // console.log(selectedFile);
     return (
         <div className="editProfile">
             <Navbar />
@@ -14,20 +30,24 @@ const EditProfile = () => {
                     <div className="profileRightTop">
                         <div className="profileCover">
                             <img
-                                src="https://www.planetware.com/wpimages/2019/11/canada-in-pictures-beautiful-places-to-photograph-morraine-lake.jpg"
-                                alt=""
-                                className="profileCoverImg"
-                            />
-                            <img
-                                src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                                src={myInfo?.profilePhoto}
                                 alt=""
                                 className="profileUserImg"
                             />
+                            <div className="profileInfo">
+                                <h4 className="profileInfoName">{myInfo?.firstName} {myInfo?.lastName}</h4>
+                                <span className="profileInfoDesc">{myInfo?.bio}</span>
+                                <div className="followInfo">
+                                    <span className="followInfoDesc"><b>10</b> Posts</span>
+                                    <span className="followInfoDesc"><b>10</b> Followers</span>
+                                    <span className="followInfoDesc"><b>10</b> Following</span>
+                                </div>
+                                <div className="userStatus">
+                                    <span className="userStatusDesc">Relationship: Single</span>
+                                </div>
+                            </div>
                         </div>
-                        <div className="profileInfo">
-                            <h4 className="profileInfoName">Amber Logan</h4>
-                            <span className="profileInfoDesc">Hi Friends!</span>
-                        </div>
+
                     </div>
                     <div className="editprofileRightBottom">
                         <div className="top">
@@ -35,7 +55,10 @@ const EditProfile = () => {
                         </div>
                         <div className="bottom">
                             <div className="left">
-                                <img src="/assets/profileCover/DefaultProfile.jpg" alt="" />
+                                {selectedFile && (
+                                    <img src={selectedFile} alt="" />
+                                )}
+
                             </div>
                             <div className="right">
                                 <form>
@@ -43,34 +66,27 @@ const EditProfile = () => {
                                         <label htmlFor="file">
                                             Image: <MdOutlineDriveFolderUpload className="icon" />
                                         </label>
-                                        <input type="file" id="file" style={{ display: "none" }} />
+                                        <input type="file" id="file" style={{ display: "none" }} accept="image/*" onChange={handleFileSelect} />
                                     </div>
                                     <div className="formInput">
-                                        <label>Name</label>
-                                        <input type="text" placeholder="Jane Doe" />
+                                        <label>First Name</label>
+                                        <input type="text" placeholder={myInfo?.firstName} />
                                     </div>
                                     <div className="formInput">
-                                        <label>Username</label>
-                                        <input type="text" placeholder="jane_doe" />
+                                        <label>Last Name</label>
+                                        <input type="text" placeholder={myInfo?.lastName} />
                                     </div>
                                     <div className="formInput">
                                         <label>Email</label>
-                                        <input type="email" placeholder="jane_doe@gmail.com" />
+                                        <input type="email" placeholder={myInfo?.email} />
                                     </div>
                                     <div className="formInput">
-                                        <label>Phone</label>
-                                        <input type="text" placeholder="+4 123 456 789" />
+                                        <label>Bio</label>
+                                        <input type="text" placeholder={myInfo?.bio} />
                                     </div>
                                     <div className="formInput">
-                                        <label>Address</label>
-                                        <input
-                                            type="text"
-                                            placeholder="Melwood str. 71 Liverpool"
-                                        />
-                                    </div>
-                                    <div className="formInput">
-                                        <label>Country</label>
-                                        <input type="text" placeholder="United Kingdom" />
+                                        <label>Relationship</label>
+                                        <input type="text" placeholder="single" />
                                     </div>
                                     <button type="submit" className="updateButton">
                                         Update Profile
