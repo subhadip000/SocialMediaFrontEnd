@@ -6,6 +6,7 @@ const BaseUrl = "http://127.0.0.1:4000" || "https://testing-blog-server.onrender
 const config = {
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
   },
 };
 
@@ -90,12 +91,14 @@ export const ForgetPasswordAction = createAsyncThunk(
 export const ChangePasswordAction = createAsyncThunk(
   "user/change-pass",
   async(input, { rejectWithValue, getState, dispatch }) => {
+    // console.log("input from action : ", input);
     try {
       const { data } = await axios.post(
         `${BaseUrl}/api/user/change-password`,
         input,
         config
       );
+      
       return data;
     } catch (error) {
       if(!error?.response) {

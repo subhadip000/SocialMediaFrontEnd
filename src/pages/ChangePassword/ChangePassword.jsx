@@ -1,20 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
+import * as Yup from "yup";
+import YupPassword from "yup-password";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { NewPasswordAction } from "../../redux/slices/AuthSlice";
+import { useFormik } from "formik";
+YupPassword(Yup);
+
+//Form schema
+const formSchema = Yup.object({
+  password: Yup.string().required("Password is required").password(),
+  confPassword: Yup.string().required("Password is required").password(),
+});
 
 const ChangePassword = () => {
-  const [params] = useSearchParams();
+  const { email } = useParams();
 
-  const email = params.get("email");
   console.log("email: ", email);
 
   const dispatch = useDispatch();
 
-  const [pass, setPass] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
+  const { serverErr, appErr, token, new_pass } = useSelector(
+    (state) => state.auth
+  );
 
-  const { serverErr, appErr, token, new_pass } = useSelector((state) => state.auth);
+  //formik
+  const formik = useFormik({
+    initialValues: {
+      password: "",
+      confPassword: "",
+    },
+    onSubmit: (values) => {
+      console.log("password: ", values);
+      dispatch(NewPasswordAction({email, token, password: values.password}));
+    },
+    validationSchema: formSchema,
+  });
 
   if (new_pass) {
     return <Navigate to={"/login"} />;
@@ -26,39 +47,40 @@ const ChangePassword = () => {
 
   return (
     <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log("password: ", pass);
-          dispatch(NewPasswordAction({ email, token, password: pass }));
-        }}
-      >
+      <form onSubmit={formik.handleSubmit}>
         <h2>Set Your New Password</h2>
-        {pass !== confirmPass ? (
+        {/* CONFIRM PASSWORD ERROR */}
+        {formik.values.password !== formik.values.confPassword ? (
           <small style={errStyle}>Passwords don't match</small>
         ) : null}
-        <strong className="error">
+        <strong style={errStyle}>
           {serverErr === "Network Error" ? serverErr : null}
         </strong>
-        <strong className="error">{appErr ? appErr : null}</strong>
-        <label>
+        <strong style={errStyle}>{appErr ? appErr : null}</strong>
+        <label htmlFor="password">
           New Password:
           <input
             type="password"
-            name="newpass"
+            name="password"
             id="newpass"
-            onChange={(e) => setPass(e.target.value)}
-            value={pass}
+            onChange={formik.handleChange("password")}
+            value={formik.values.password}
+            // onBlur={formik.handleBlur("password")}
           />
         </label>
+        <small style={errStyle}>
+          {formik.touched.password && formik.errors.password}
+        </small>
+        {/* CONFIRM PASSWORD FEATURE */}
         <label>
           Confirm Password:
           <input
             type="password"
             name="confirmpass"
             id="confirmpass"
-            onChange={(e) => setConfirmPass(e.target.value)}
-            value={confirmPass}
+            onChange={formik.handleChange("confPassword")}
+            value={formik.values.confPassword}
+            // onBlur={formik.handleBlur("confPassword")}
           />
         </label>
         <input type="submit" value="Change Password" />
