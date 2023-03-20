@@ -216,7 +216,7 @@ const AuthSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(ChangePasswordAction.fulfilled, (state, action) => {
-      state.change_pass = action?.payload;
+      state.token = action?.payload;
       state.isLoading = false;
       state.appErr = undefined;
       state.serverErr = undefined;

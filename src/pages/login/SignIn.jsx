@@ -29,8 +29,7 @@ const SignIn = () => {
     validationSchema: formSchema,
   });
 
-  const user = useSelector((state) => state.user);
-  const { appErr, serverErr } = user;
+  const { appErr, serverErr } = useSelector((state) => state.auth);
 
   return (
     <>
