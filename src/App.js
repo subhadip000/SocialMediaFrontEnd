@@ -23,7 +23,7 @@ function App() {
           />
           <Route path="/login" element={<Login />} />
           <Route path="/forget-pass" element={<ForgetPass />} />
-          <Route path="/change-pass" element={<ChangePassword />} />
+          <Route path="/change-pass/:email" element={<ChangePassword />} />
           <Route
             path="/profile"
             element={
