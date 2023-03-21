@@ -9,7 +9,7 @@ const Post = ({ post }) => {
   const [likePopup, setLikePopup] = useState(false);
   const [commentPopup, setCommentPopup] = useState(false);
 
-  console.log(post?.author);
+  console.log("from post.jsx", post?.author);
   return (
     <div className="post">
       <div className="postWrapper">
@@ -22,7 +22,7 @@ const Post = ({ post }) => {
                 className="postProfileImg"
               />
             </a>
-            <span className="postUsername">{post?.author[0]?.firstName} {post?.author[0]?.lastName}</span>
+            <span className="postUsername">{post?.author?.firstName} {post?.author?.lastName}</span>
             <span className="postDate">
               <Moment fromNow ago>
                 {post?.createdAt}

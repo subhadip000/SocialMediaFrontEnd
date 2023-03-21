@@ -106,13 +106,17 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    /* border: 2px solid rgb(255, 120, 188); */
     object-fit: cover;
     cursor: pointer;
     margin-right: 15px;
 }
-
+.navToggleSidebar{
+    display: none;
+}
 @media only screen and (max-width: 992px) {
+    .navbarContainer .navbarLeft .hamburger {
+        display: inline;
+    }
     .navbarContainer .navbarLeft {
         flex: 2;
     }
@@ -136,6 +140,10 @@
     .navbarContainer .navbarRight .navbarImg {
         margin-right: 20px;
     }
+
+    .navToggleSidebar{
+        display: block;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -157,13 +165,8 @@
         flex: 2;
     }
 
-    .navbarContainer .navbarLeft .hamburger {
-        display: inline;
-    }
-
     .navbarContainer .navbarCenter {
         flex: 3;
-        /* display: none; */
     }
 
     .navbarContainer .navbarRight {

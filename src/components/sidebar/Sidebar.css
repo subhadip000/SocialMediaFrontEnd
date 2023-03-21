@@ -1,15 +1,80 @@
 .sidebar {
+    display: block;
     flex: 3;
     height: calc(100vh - 50px);
     position: sticky;
     top: 50px;
     overflow-y: scroll;
+    overflow-x: hidden;
     background-color: white;
 }
+
 .sidebar .sidebarWrapper {
     padding: 20px;
-    margin-top: 50px;
+    margin-top: 15px;
 }
+
+.sidebarHeader {
+    border-bottom: 1px solid rgb(190, 190, 190);
+    margin-left: -5vw;
+    margin-right: -5vw;
+}
+
+.sideProfileCover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sideProfileUserImg {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+}
+
+.sideProfileInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.sideProfileInfoName {
+    font-size: 24px;
+    color: gray;
+    text-decoration: none;
+}
+
+.sideProfileInfoDesc {
+    font-weight: 300;
+}
+
+.sideFollowInfo {
+    margin-bottom: 15px;
+    font-size: 15px;
+    display: flex;
+    gap: 5px;
+
+}
+
+.sideFollowInfoDesc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #272727;
+}
+
+.sidebarElements{
+    margin-top: 20px;
+}
+
+
+
 .sidebar .sidebarWrapper .sidebarButton {
     background-color: #920b44;
     color: white;
@@ -21,57 +86,36 @@
     border: none;
     cursor: pointer;
 }
-.sidebar .sidebarWrapper .sidebarButton:hover{
+
+.sidebar .sidebarWrapper .sidebarButton:hover {
     background-color: #be185d;
 }
-.sidebar .sidebarWrapper .sidebar-bottom{
+
+.sidebar .sidebarWrapper .sidebar-bottom {
     width: 90%;
     position: absolute;
     bottom: 0;
     box-shadow: 0px -10px 5px -10px #111;
 }
+
 ::-webkit-scrollbar {
     width: 5px;
 }
+
 ::-webkit-scrollbar-track {
     background-color: #f1f1f1;
 }
+
 ::-webkit-scrollbar-thumb {
-    background-color: gray;
+    background-color: rgb(179, 174, 174);
 }
+
 @media only screen and (max-width: 992px) {
     .sidebar {
-        flex: 1;
-   }
-    .sidebar .sidebarWrapper {
-        padding: 17px;
-   }
-    .sidebar .sidebarWrapper .sidebarButton {
         display: none;
-   }
-    .sidebar .sidebarWrapper .sidebarHr {
-        display: none;
-   }
-    ::-webkit-scrollbar {
-        display: none;
-   }
-    ::-webkit-scrollbar-track {
-        display: none;
-   }
-    ::-webkit-scrollbar-thumb {
-        display: none;
-   }
-}
-@media only screen and (max-width: 768px) {
-    .sidebar {
+        z-index: 100;
+    }
+    .sidebar.show {
         display: block;
-   }
-    .sidebar .sidebarWrapper {
-        padding: 3px;
-   }
-}
-@media only screen and (max-width: 576px) {
-    .sidebar {
-        display: none;
-   }
+        position: absolute;}
 }
