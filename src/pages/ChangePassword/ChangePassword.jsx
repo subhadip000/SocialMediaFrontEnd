@@ -16,7 +16,7 @@ const formSchema = Yup.object({
 const ChangePassword = () => {
   const { email } = useParams();
 
-  console.log("email: ", email);
+  // console.log("email: ", email);
 
   const dispatch = useDispatch();
 
@@ -31,7 +31,7 @@ const ChangePassword = () => {
       confPassword: "",
     },
     onSubmit: (values) => {
-      console.log("password: ", values);
+      // console.log("password: ", values);
       dispatch(NewPasswordAction({email, token, password: values.password}));
     },
     validationSchema: formSchema,

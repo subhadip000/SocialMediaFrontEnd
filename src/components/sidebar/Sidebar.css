@@ -73,7 +73,9 @@
     margin-top: 20px;
 }
 
-
+.sidebarElements>a{
+    text-decoration: none;
+}
 
 .sidebar .sidebarWrapper .sidebarButton {
     background-color: #920b44;

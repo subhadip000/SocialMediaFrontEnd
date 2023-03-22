@@ -7,6 +7,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/private/PrivateRoute";
 import ForgetPass from "./pages/forgetPass/ForgetPass";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
+import Settings from "./pages/Settings/Settings";
+import Account from "./components/Account/Account";
 
 function App() {
   return (
@@ -37,6 +39,24 @@ function App() {
             element={
               <PrivateRoute>
                 <EditProfile />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <PrivateRoute>
+                <Settings />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/settings/account"
+            element={
+              <PrivateRoute>
+                <Account />
               </PrivateRoute>
             }
           />
