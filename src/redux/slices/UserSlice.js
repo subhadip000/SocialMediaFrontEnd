@@ -14,7 +14,7 @@ const config = {
 export const MyProfileAction = createAsyncThunk(
   "user/Profile",
   async (i, { rejectWithValue, getState, dispatch }) => {
-    const user = getState()?.user;
+    const user = getState()?.auth;
     const { userInfo } = user;
     const configToken = {
       headers: {

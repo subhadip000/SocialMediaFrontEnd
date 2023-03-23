@@ -43,15 +43,18 @@
     margin: 10px 0;
 }
 
-.post .postWrapper .postCenter .postText{
+.post .postWrapper .postCenter .postText {
     padding: 0 20px;
 }
+
 .post .postWrapper .postCenter .postImg {
-    width: 100%;
+    object-fit: contain !important;
+    width: 100% !important;
     max-height: 500px;
-    /* object-fit: contain; */
     margin-top: 10px;
     cursor: pointer;
+    text-align: center;
+    justify-content: center;
 }
 
 .post .postWrapper .postBottom {

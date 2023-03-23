@@ -1,8 +1,3 @@
-// import {
-//     EmojiEmotions,
-//     PermMedia,
-//     VideoCameraFront,
-// } from "@mui/icons-material";
 import { MdClose } from 'react-icons/md';
 import { FcStackOfPhotos } from 'react-icons/fc';
 import { FaShare } from 'react-icons/fa';
@@ -10,11 +5,24 @@ import React, { useState } from "react";
 import "./PostCreate.css";
 
 const PostCreate = () => {
-    const [file, setFile] = useState(null);
 
-    const removeImage = () => {
-        setFile(null);
+    const [selectedImages, setSelectedImages] = useState([]);
+
+    const onSelectFile = (event) => {
+        const selectedFiles = event.target.files;
+        const selectedFilesArray = Array.from(selectedFiles);
+        const imagesArray = selectedFilesArray.map((file) => {
+            return URL.createObjectURL(file);
+        });
+        setSelectedImages(imagesArray);
     };
+
+    function deleteHandler(image) {
+        setSelectedImages(selectedImages.filter((e) => e !== image));
+        URL.revokeObjectURL(image);
+    }
+
+
     return (
         <div className="share">
             <div className="shareWrapper">
@@ -36,26 +44,30 @@ const PostCreate = () => {
                                 <span className="shareOptionText">Photo</span>
                                 <input
                                     type="file"
+                                    multiple
                                     id="file"
                                     accept=".png,.jpeg,.jpg"
                                     style={{ display: "none" }}
-                                    onChange={(e) => setFile(e.target.files[0])}
+                                    onChange={onSelectFile}
                                 />
                             </label>
                         </div>
                         <div className="shareOptions">
-                            <button className='shareBtn'><FaShare/></button>
+                            <button className='shareBtn'><FaShare /></button>
                         </div>
                     </div>
                 </div>
 
                 <hr className="shareHr" />
-                {file && (
-                    <div className="shareImgContainer">
-                        <img src={URL.createObjectURL(file)} alt="" className="shareImg" />
-                        <MdClose className="shareCancelImg" onClick={removeImage} />
-                    </div>
-                )}
+                {selectedImages &&
+                    selectedImages.map((image, index) => {
+                        return (
+                            <div key={image} className="shareImgContainer">
+                                <img src={image} alt="upload" className="shareImg" />
+                                <MdClose className="shareCancelImg" onClick={() => deleteHandler(image)} />
+                            </div>
+                        );
+                    })}
 
             </div>
         </div>

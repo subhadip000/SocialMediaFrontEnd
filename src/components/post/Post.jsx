@@ -4,10 +4,13 @@ import Moment from 'react-moment';
 import { FaTelegramPlane } from "react-icons/fa";
 import { FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import Popup from "../popup/Popup";
+import SimpleImageSlider from "react-simple-image-slider";
 
 const Post = ({ post }) => {
   const [likePopup, setLikePopup] = useState(false);
   const [commentPopup, setCommentPopup] = useState(false);
+
+  const ImgArrayLen = post?.image.length;
 
   console.log("from post.jsx", post?.author);
   return (
@@ -32,7 +35,19 @@ const Post = ({ post }) => {
         </div>
         <div className="postCenter">
           <p className="postText">{post?.description}</p>
-          <img src={post?.image} alt="" className="postImg" />
+          {/* <img src={post?.image} alt="" className="postImg" /> */}
+          {ImgArrayLen === 0 ? ""
+            : ImgArrayLen === 1 ? <img src={post?.image} alt="" className="postImg" />
+              : <SimpleImageSlider                
+                width={500}
+                height={500}
+                images={post?.image}
+                showBullets={true}
+                showNavs={true}
+                className="postImg"
+              />
+          }
+
         </div>
 
         <div className="postBottom">
