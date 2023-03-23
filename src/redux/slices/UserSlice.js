@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // const BaseUrl = "https://testing-blog-server.onrender.com"
-const BaseUrl = "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+const BaseUrl =
+  "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 
 const config = {
   headers: {
@@ -37,16 +38,10 @@ export const MyProfileAction = createAsyncThunk(
   }
 );
 
-const userInfo = localStorage.getItem("userInfo")
-  ? JSON.parse(localStorage.getItem("userInfo"))
-  : null;
-
 // Then, handle actions in your reducers:
 const UserSlice = createSlice({
   name: "user",
-  initialState: {
-    userInfo,
-  },
+  initialState: {},
   extraReducers: (builder) => {
     //My Profile
     builder.addCase(MyProfileAction.pending, (state, action) => {

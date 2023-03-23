@@ -1,18 +1,21 @@
-import React from 'react'
-import Deactivation from './Deactivation/Deactivation'
-import DeleteAccount from './Deletion/DeleteAccount'
+import React from "react";
+import './Account.css'
+import Deactivation from "./Deactivation/Deactivation";
+import DeleteAccount from "./Deletion/DeleteAccount";
 
 const Account = () => {
   return (
     <>
+      <div className="options">
         <div className="delete">
-            <DeleteAccount />
+          <DeleteAccount />
         </div>
         <div className="deactivation">
-            <Deactivation />
+          <Deactivation />
         </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;

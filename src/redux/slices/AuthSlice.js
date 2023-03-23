@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // const BaseUrl = "https://testing-blog-server.onrender.com"
-const BaseUrl = "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+const BaseUrl =
+  "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 
 const config = {
   headers: {
@@ -10,7 +11,7 @@ const config = {
   },
 };
 
-//register
+//Register / Create Account
 export const UserRegisterAction = createAsyncThunk(
   "user/register",
   async (input, { rejectWithValue, getState, dispatch }) => {
@@ -57,7 +58,7 @@ export const UserLogoutAction = createAsyncThunk(
   "user/logout",
   async (input, { rejectWithValue, getState, dispatch }) => {
     try {
-      localStorage.removeItem("userInfo")
+      localStorage.removeItem("userInfo");
     } catch (error) {
       if (!error?.response) {
         throw error;
@@ -70,7 +71,7 @@ export const UserLogoutAction = createAsyncThunk(
 // Forget Password
 export const ForgetPasswordAction = createAsyncThunk(
   "user/forget-pass",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${BaseUrl}/api/user/forget-password`,
@@ -79,18 +80,18 @@ export const ForgetPasswordAction = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      if(!error?.response) {
+      if (!error?.response) {
         throw error;
       }
-      return rejectWithValue(error?.response?.data)
+      return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // Change Password
 export const ChangePasswordAction = createAsyncThunk(
   "user/change-pass",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     // console.log("input from action : ", input);
     try {
       const { data } = await axios.post(
@@ -98,21 +99,21 @@ export const ChangePasswordAction = createAsyncThunk(
         input,
         config
       );
-      
+
       return data;
     } catch (error) {
-      if(!error?.response) {
+      if (!error?.response) {
         throw error;
       }
-      return rejectWithValue(error?.response?.data)
+      return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // New Password
 export const NewPasswordAction = createAsyncThunk(
   "user/new-pass",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
         `${BaseUrl}/api/user/new-password`,
@@ -121,13 +122,72 @@ export const NewPasswordAction = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      if(!error?.response) {
+      if (!error?.response) {
         throw error;
       }
-      return rejectWithValue(error?.response?.data)
+      return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
+
+// Delete Account
+export const DeleteAccountAction = createAsyncThunk(
+  "user/delete-account",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const auth = getState()?.auth;
+    const { userInfo } = auth;
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    console.log(configToken);
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/user/deleteduser`,
+        input,
+        configToken
+      );
+      localStorage.removeItem("userInfo");
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// Deactivate Account
+const DeactivateConfirm = createAction("user/deactivate");
+export const DeactivateAccountAction = createAsyncThunk(
+  "user/deactivate-account",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const auth = getState()?.auth;
+    const { userInfo } = auth;
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/user/inactive`,
+        input,
+        configToken
+      );
+      localStorage.removeItem("userInfo");
+      dispatch(DeactivateConfirm())
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
 
 const userInfo = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -157,7 +217,7 @@ const AuthSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     //Login
     builder.addCase(UserLoginAction.pending, (state, action) => {
       state.isLoading = true;
@@ -248,6 +308,45 @@ const AuthSlice = createSlice({
       state.serverErr = action?.error?.message;
     });
 
+    // Delete Account
+    builder.addCase(DeleteAccountAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(DeleteAccountAction.fulfilled, (state, action) => {
+      state.delete_acc = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(DeleteAccountAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Deactivate Account
+    builder.addCase(DeactivateAccountAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(DeactivateConfirm, (state, action) => {
+      state.isToken = true;
+    });
+    builder.addCase(DeactivateAccountAction.fulfilled, (state, action) => {
+      state.deactivate_acc = action?.payload;
+      state.isToken = false
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(DeactivateAccountAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
   },
 });
 

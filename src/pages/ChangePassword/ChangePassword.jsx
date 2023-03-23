@@ -24,6 +24,8 @@ const ChangePassword = () => {
     (state) => state.auth
   );
 
+  console.log(token);
+
   //formik
   const formik = useFormik({
     initialValues: {

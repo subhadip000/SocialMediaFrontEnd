@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UserLogoutAction } from "../../redux/slices/AuthSlice";
 import { Navigate } from "react-router";
 import { MyProfileAction } from "../../redux/slices/UserSlice";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ showSidebar }) => {
   const dispatch = useDispatch();
@@ -55,21 +56,25 @@ const Sidebar = ({ showSidebar }) => {
             </div>
           </div>
           <div className="sidebarElements">
-            <a href="#" className="feed">
+            <Link to={"#"}>
               <MenuLink Icon={<MdFeed />} text="Feed" />
-            </a>
-            <a href="#" className="chats">
+            </Link>
+
+            <Link to={"#"}>
               <MenuLink Icon={<BsChatFill />} text="Chats" />
-            </a>
-            <a href="#" className="videos">
+            </Link>
+
+            <Link to={"#"}>
               <MenuLink Icon={<FaVideo />} text="Videos" />
-            </a>
-            <a href="#" className="friends">
+            </Link>
+
+            <Link to={"#"}>
               <MenuLink Icon={<FaUserFriends />} text="Friends" />
-            </a>
-            <a href="/settings" className="settings">
+            </Link>
+
+            <Link to={"/settings"}>
               <MenuLink Icon={<MdOutlineSettings />} text="Settings" />
-            </a>
+            </Link>
           </div>
 
           <button
