@@ -7,14 +7,12 @@
     background-color: white;
 }
 
-.post .postWrapper {
-    padding: 20px;
-}
-
 .post .postWrapper .postTop {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 20px;
+    padding-bottom: 0;
 }
 
 .post .postWrapper .postTop .postTopLeft {
@@ -41,21 +39,18 @@
     font-size: 14px;
 }
 
-.post .postWrapper .postTop .postTopRight .postVertButton {
-    font-size: 30px;
-    color: #333;
-    cursor: pointer;
-}
-
 .post .postWrapper .postCenter {
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
+.post .postWrapper .postCenter .postText{
+    padding: 0 20px;
+}
 .post .postWrapper .postCenter .postImg {
     width: 100%;
     max-height: 500px;
-    object-fit: contain;
-    margin-top: 20px;
+    /* object-fit: contain; */
+    margin-top: 10px;
     cursor: pointer;
 }
 
@@ -63,6 +58,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 20px;
+    /* padding-top: 0; */
 }
 
 .post .postWrapper .postBottom .postBottomLeft {
@@ -99,6 +96,8 @@
 .post .postWrapper .postBottomFooter {
     display: flex;
     flex-direction: column;
+    padding: 0 5px;
+    /* margin-bottom: 10px; */
 }
 
 .post .postWrapper .postBottomFooter .postBottomFooterItem {
@@ -138,7 +137,7 @@
     font-weight: 500;
 }
 
-.post .postWrapper .addComment {
+.post .postWrapper .postBottomFooter .addComment {
     width: 100%;
     height: 35px;
     border-radius: 30px;
@@ -146,9 +145,12 @@
     background-color: rgb(238, 247, 255);
     display: flex;
     align-items: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 15px;
 }
 
-.post .postWrapper .addComment input {
+.post .postWrapper .postBottomFooter .addComment input {
     border: none;
     width: 90%;
     height: 100%;
@@ -157,11 +159,11 @@
     padding: 2px 6px;
 }
 
-.post .postWrapper .addComment input:focus {
+.post .postWrapper .postBottomFooter .addComment input:focus {
     outline: none;
 }
 
-.post .postWrapper .addComment .sendIcon {
+.post .postWrapper .postBottomFooter .addComment .sendIcon {
     font-size: 20px;
     margin-left: 10px;
     /* color: gray; */
