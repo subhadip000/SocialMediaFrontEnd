@@ -34,7 +34,7 @@ const ForgetPass = () => {
     validationSchema: emailFormSchema,
   });
 
-  console.log(emailFormik.values.email);
+  // console.log(emailFormik.values.email);
 
   // OTP Formik
   const otpFormik = useFormik({
@@ -42,7 +42,7 @@ const ForgetPass = () => {
       otp: "",
     },
     onSubmit: (values) => {
-      console.log("email: ", emailFormik.values.email);
+      // console.log("email: ", emailFormik.values.email);
       console.log("calling otp onsubmit");
       dispatch(ChangePasswordAction({email: emailFormik.values.email, otp: values.otp}));
     },
@@ -54,7 +54,7 @@ const ForgetPass = () => {
   );
 
   if (token) {
-    console.log("email from token: ", token);
+    // console.log("email from token: ", token);
     return <Navigate to={`/change-pass/${emailFormik.values.email}`} />;
   }
 

@@ -1,0 +1,18 @@
+.options{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 25px;
+}
+
+/* .options>a{
+    border: 2px solid;
+} */
+
+button{
+    margin: 10px;
+    height: 40px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+}

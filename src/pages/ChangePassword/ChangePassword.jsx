@@ -16,13 +16,15 @@ const formSchema = Yup.object({
 const ChangePassword = () => {
   const { email } = useParams();
 
-  console.log("email: ", email);
+  // console.log("email: ", email);
 
   const dispatch = useDispatch();
 
   const { serverErr, appErr, token, new_pass } = useSelector(
     (state) => state.auth
   );
+
+  console.log(token);
 
   //formik
   const formik = useFormik({
@@ -31,7 +33,7 @@ const ChangePassword = () => {
       confPassword: "",
     },
     onSubmit: (values) => {
-      console.log("password: ", values);
+      // console.log("password: ", values);
       dispatch(NewPasswordAction({email, token, password: values.password}));
     },
     validationSchema: formSchema,
