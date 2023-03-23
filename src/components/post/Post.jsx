@@ -31,9 +31,10 @@ const Post = ({ post }) => {
           </div>
         </div>
         <div className="postCenter">
-          <span className="postText">{post?.description}</span>
+          <p className="postText">{post?.description}</p>
           <img src={post?.image} alt="" className="postImg" />
         </div>
+
         <div className="postBottom">
           <div className="postBottomLeft">
             <div className="LikeComment">
@@ -88,11 +89,12 @@ const Post = ({ post }) => {
             </a>
             <p>nice picture</p>
           </div>
+          <div className="addComment">
+            <input type="text" placeholder="Add your comment..." />
+            <FaTelegramPlane className="sendIcon" />
+          </div>
         </div>
-        <div className="addComment">
-          <input type="text" placeholder="Add your comment..." />
-          <FaTelegramPlane className="sendIcon" />
-        </div>
+
 
       </div>
     </div>
