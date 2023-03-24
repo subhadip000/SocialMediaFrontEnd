@@ -4,7 +4,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./EditProfile.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { editProfileAction, MyProfileAction } from '../../redux/slices/UserSlice';
+import { editProfileAction, editProfilePhotoAction, MyProfileAction } from '../../redux/slices/UserSlice';
 import * as Yup from "yup";
 import { useFormik } from 'formik';
 
@@ -28,10 +28,13 @@ const EditProfile = () => {
 
     const [selectedFile, setSelectedFile] = useState(null);
 
+    const [url, setUrl] = useState("");
+
     function handleFileSelect(event) {
-        setSelectedFile(URL.createObjectURL(event.target.files[0]));
+        setSelectedFile(event.target.files[0]);
+        setUrl(URL.createObjectURL(event.target.files[0]))
     }
-    // console.log(selectedFile);
+
     //formik
     const formik = useFormik({
         enableReinitialize: true,
@@ -48,6 +51,7 @@ const EditProfile = () => {
         },
         validationSchema: formSchema,
     });
+
     return (
         <div className="editProfile">
             <Navbar />
@@ -57,11 +61,33 @@ const EditProfile = () => {
                     <div className="profileRightTop">
                         <div className="profileCover">
                             <div className="profilePhoto">
-                                <img
-                                    src={myInfo?.profilePhoto}
-                                    alt=""
-                                    className="profileUserImg"
-                                />
+                                <form>
+                                    <label htmlFor="file">
+                                        Image: <MdOutlineDriveFolderUpload className="icon" />
+                                    </label>
+                                    <input
+                                        type="file"
+                                        id="file"
+                                        style={{ display: "none" }}
+                                        accept="image/*"
+                                        onChange={handleFileSelect}
+                                        name="image"
+                                    />
+                                    <div>
+                                        {url ? (
+                                            <img src={url} alt="" className="profileUserImg" />
+                                        ) : <img src={myInfo?.profilePhoto} alt="" className="profileUserImg" />}
+                                    </div>
+                                    <div>
+                                        <button
+                                            type="submit"
+                                            className="updateButton"
+                                            onClick={(e) => { e.preventDefault(); dispatch(editProfilePhotoAction(selectedFile)) }}>
+                                            Update Photo
+                                        </button>
+                                    </div>
+
+                                </form>
                             </div>
                             <div className="profileInfo">
                                 <h4 className="profileInfoName">{myInfo?.firstName} {myInfo?.lastName}</h4>
@@ -83,20 +109,8 @@ const EditProfile = () => {
                             <h1>Edit User Profile</h1>
                         </div>
                         <div className="bottom">
-                            {/* <div className="left">
-                                {selectedFile && (
-                                    <img src={selectedFile} alt="" />
-                                )}
-
-                            </div> */}
                             <div className="right">
                                 <form onSubmit={formik.handleSubmit}>
-                                    {/* <div className="formInput">
-                                        <label htmlFor="file">
-                                            Image: <MdOutlineDriveFolderUpload className="icon" />
-                                        </label>
-                                        <input type="file" id="file" style={{ display: "none" }} accept="image/*" onChange={handleFileSelect} />
-                                    </div> */}
                                     <div className="formInput">
                                         <label>First Name</label>
                                         <input type="text" value={formik.values.firstName}

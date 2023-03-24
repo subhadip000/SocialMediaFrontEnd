@@ -119,7 +119,7 @@
     outline: none;
 }
 
-.editProfileWrapper .profileRight .editprofileRightBottom .bottom .right form .updateButton {
+ .updateButton {
     background-color: #920b44;
     color: white;
     border-radius: 5px;
@@ -131,7 +131,7 @@
     cursor: pointer;
 }
 
-.editProfileWrapper .profileRight .editprofileRightBottom .bottom .right form .updateButton:hover {
+ .updateButton:hover {
     background-color: #be185d;
 }
 

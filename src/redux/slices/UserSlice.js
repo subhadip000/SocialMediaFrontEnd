@@ -66,6 +66,38 @@ export const editProfileAction = createAsyncThunk(
   }
 );
 
+//Edit Profile photo
+export const editProfilePhotoAction = createAsyncThunk(
+  "user/EditProfilePhoto",
+  async (userImg, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const configToken = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    const formData = new FormData();
+    console.log(userImg.url);
+    formData.append("image", userImg);
+    console.log(formData);
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/user/avatar-update`,
+        formData,
+        configToken
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 // Then, handle actions in your reducers:
 const UserSlice = createSlice({
   name: "user",
@@ -99,6 +131,21 @@ const UserSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(editProfileAction.rejected, (state, action) => {
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+      state.loading = false;
+    });
+    //Profile photo Edit
+    builder.addCase(editProfilePhotoAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(editProfilePhotoAction.fulfilled, (state, action) => {
+      state.myInfo = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(editProfilePhotoAction.rejected, (state, action) => {
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
       state.loading = false;
