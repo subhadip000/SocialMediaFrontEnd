@@ -7,6 +7,7 @@ import Feed from "../../components/feed/Feed";
 import Rightbar from "../../components/rightbar/Rightbar";
 import { useDispatch, useSelector } from "react-redux";
 import { MyProfileAction } from "../../redux/slices/UserSlice";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -35,22 +36,30 @@ const Profile = () => {
                 </h4>
                 <span className="profileInfoDesc">{myInfo?.bio}</span>
                 <div className="followInfo">
-                  <span className="followInfoDesc"><b>10</b> Posts</span>
-                  <span className="followInfoDesc"><b>10</b> Followers</span>
-                  <span className="followInfoDesc"><b>10</b> Following</span>
+                  <span className="followInfoDesc">
+                    <b>10</b> Posts
+                  </span>
+                  <span className="followInfoDesc">
+                    <b>10</b> Followers
+                  </span>
+                  <span className="followInfoDesc">
+                    <b>10</b> Following
+                  </span>
                 </div>
                 <div className="userStatus">
                   <span className="userStatusDesc">Relationship: Single</span>
                 </div>
               </div>
               <div className="editProfile">
-                <button className="editProfileBtn">Edit Profile</button>
+                <Link to={`/editprofile`}>
+                  <button className="editProfileBtn">Edit Profile</button>
+                </Link>
               </div>
             </div>
           </div>
           <div className="profileRightBottom">
             {myInfo ? <Feed post={myInfo?.Post} isStory={false} /> : null}
-            <Rightbar profile post={myInfo?.Post}/>
+            <Rightbar profile post={myInfo?.Post} />
             {/* <ProfileRightbar/> */}
           </div>
         </div>

@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router";
-import { DeleteAccountAction } from "../../../redux/slices/AuthSlice";
+import {
+  DeleteAccountAction,
+  PopupConfirmAction,
+} from "../../../redux/slices/AuthSlice";
+import Popup from "../../popup/Popup";
 
 const DeleteAccount = () => {
   const dispatch = useDispatch();
@@ -12,7 +15,7 @@ const DeleteAccount = () => {
 
   const [show, setShow] = useState(true);
 
-  if (delete_acc) return <Navigate to={"/login"} />;
+  const [popup, setPopup] = useState(false);
 
   return (
     <>
@@ -27,13 +30,18 @@ const DeleteAccount = () => {
         </div>
       ) : (
         <div className="password-popup">
+          <p className="content">
+            This is to inform you that once you delete your account, you will
+            not be able to login anymore. You will not be able to recover your
+            account in any way. You can deactivate if you just need a break.
+          </p>
           <h3 className="confirmation">
-            Please Write the below sentence for confirmation
+            Please give your password for confirmation
           </h3>
-          <p className="confirmation">Delete My Account</p>
+          <p className="confirmation">Yes, delete my account</p>
           <label htmlFor="confirmation">
             <input
-              type="confirmation"
+              type="password"
               name="confirmation"
               id="confirmation"
               value={confirm}
@@ -43,9 +51,14 @@ const DeleteAccount = () => {
           <input
             type="button"
             value="Delete"
-            onClick={() => dispatch(DeleteAccountAction({ password: confirm }))}
-            // disabled={confirm === "Delete My Account" ? !able : able}
+            onClick={() => {
+              dispatch(DeleteAccountAction({ password: confirm }));
+              setPopup(!popup);
+            }}
           />
+          <Popup trigger={popup} setTrigger={setPopup} name={"We're sorry to see you go🥺"}>
+            <input type="button" onClick={() => dispatch(PopupConfirmAction())} value="Good Bye👋🏻" />
+          </Popup>
         </div>
       )}
     </>

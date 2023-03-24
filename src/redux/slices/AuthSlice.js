@@ -13,7 +13,7 @@ const config = {
 
 //Register / Create Account
 export const UserRegisterAction = createAsyncThunk(
-  "user/register",
+  "auth/register",
   async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
@@ -34,7 +34,7 @@ export const UserRegisterAction = createAsyncThunk(
 
 // Login
 export const UserLoginAction = createAsyncThunk(
-  "user/login",
+  "auth/login",
   async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
@@ -55,7 +55,7 @@ export const UserLoginAction = createAsyncThunk(
 
 // Logout
 export const UserLogoutAction = createAsyncThunk(
-  "user/logout",
+  "auth/logout",
   async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       localStorage.removeItem("userInfo");
@@ -70,7 +70,7 @@ export const UserLogoutAction = createAsyncThunk(
 
 // Forget Password
 export const ForgetPasswordAction = createAsyncThunk(
-  "user/forget-pass",
+  "auth/forget-pass",
   async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
@@ -90,7 +90,7 @@ export const ForgetPasswordAction = createAsyncThunk(
 
 // Change Password
 export const ChangePasswordAction = createAsyncThunk(
-  "user/change-pass",
+  "auth/change-pass",
   async (input, { rejectWithValue, getState, dispatch }) => {
     // console.log("input from action : ", input);
     try {
@@ -112,7 +112,7 @@ export const ChangePasswordAction = createAsyncThunk(
 
 // New Password
 export const NewPasswordAction = createAsyncThunk(
-  "user/new-pass",
+  "auth/new-pass",
   async (input, { rejectWithValue, getState, dispatch }) => {
     try {
       const { data } = await axios.post(
@@ -132,7 +132,7 @@ export const NewPasswordAction = createAsyncThunk(
 
 // Delete Account
 export const DeleteAccountAction = createAsyncThunk(
-  "user/delete-account",
+  "auth/delete-account",
   async (input, { rejectWithValue, getState, dispatch }) => {
     const auth = getState()?.auth;
     const { userInfo } = auth;
@@ -160,9 +160,8 @@ export const DeleteAccountAction = createAsyncThunk(
 );
 
 // Deactivate Account
-const DeactivateConfirm = createAction("user/deactivate");
 export const DeactivateAccountAction = createAsyncThunk(
-  "user/deactivate-account",
+  "auth/deactivate-account",
   async (input, { rejectWithValue, getState, dispatch }) => {
     const auth = getState()?.auth;
     const { userInfo } = auth;
@@ -178,7 +177,6 @@ export const DeactivateAccountAction = createAsyncThunk(
         configToken
       );
       localStorage.removeItem("userInfo");
-      dispatch(DeactivateConfirm());
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -188,6 +186,9 @@ export const DeactivateAccountAction = createAsyncThunk(
     }
   }
 );
+
+// Popup Confirmation Delete/Deactivate
+export const PopupConfirmAction = createAction('auth/PopupAction')
 
 const userInfo = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -317,7 +318,6 @@ const AuthSlice = createSlice({
     builder.addCase(DeleteAccountAction.fulfilled, (state, action) => {
       state.delete_acc = action?.payload;
       state.isLoading = false;
-      state.userInfo = undefined;
       state.appErr = undefined;
       state.serverErr = undefined;
     });
@@ -333,13 +333,8 @@ const AuthSlice = createSlice({
       state.appErr = undefined;
       state.serverErr = undefined;
     });
-    builder.addCase(DeactivateConfirm, (state, action) => {
-      state.isToken = true;
-    });
     builder.addCase(DeactivateAccountAction.fulfilled, (state, action) => {
       state.deactivate_acc = action?.payload;
-      // state.isToken = false;
-      state.userInfo = undefined;
       state.isLoading = false;
       state.appErr = undefined;
       state.serverErr = undefined;
@@ -349,6 +344,11 @@ const AuthSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
+    
+    // Popup Delete/Deactivate Confirmation
+    builder.addCase(PopupConfirmAction, (state, action) => {
+      state.userInfo = undefined;
+    })
   },
 });
 

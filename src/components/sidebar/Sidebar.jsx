@@ -35,9 +35,9 @@ console.log("sidebar",myInfo);
                 className="sideProfileUserImg"
               />
               <div className="sideProfileInfo">
-                <a href="/profile" className="sideProfileInfoName">
+                <Link to={"/profile"} className="sideProfileInfoName">
                   {myInfo?.firstName} {myInfo?.lastName}
-                </a>
+                </Link>
               </div>
               <div className="sideFollowInfo">
                 <span className="sideFollowInfoDesc">
@@ -56,7 +56,7 @@ console.log("sidebar",myInfo);
             </div>
           </div>
           <div className="sidebarElements">
-            <Link to={"#"}>
+            <Link to={"/"}>
               <MenuLink Icon={<MdFeed />} text="Feed" />
             </Link>
 
