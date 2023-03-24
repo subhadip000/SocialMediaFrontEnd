@@ -29,7 +29,7 @@ export const FetchPostAction = createAsyncThunk(
 
 // Then, handle actions in your reducers:
 const PostSlice = createSlice({
-  name: "user",
+  name: "post",
   initialState: {},
   extraReducers: (builder) => {
     //Register
