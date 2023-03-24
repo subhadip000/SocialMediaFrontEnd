@@ -178,7 +178,7 @@ export const DeactivateAccountAction = createAsyncThunk(
         configToken
       );
       localStorage.removeItem("userInfo");
-      dispatch(DeactivateConfirm())
+      dispatch(DeactivateConfirm());
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -317,6 +317,7 @@ const AuthSlice = createSlice({
     builder.addCase(DeleteAccountAction.fulfilled, (state, action) => {
       state.delete_acc = action?.payload;
       state.isLoading = false;
+      state.userInfo = undefined;
       state.appErr = undefined;
       state.serverErr = undefined;
     });
@@ -337,7 +338,8 @@ const AuthSlice = createSlice({
     });
     builder.addCase(DeactivateAccountAction.fulfilled, (state, action) => {
       state.deactivate_acc = action?.payload;
-      state.isToken = false
+      // state.isToken = false;
+      state.userInfo = undefined;
       state.isLoading = false;
       state.appErr = undefined;
       state.serverErr = undefined;
