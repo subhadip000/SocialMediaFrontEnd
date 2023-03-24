@@ -22,7 +22,7 @@ const Sidebar = ({ showSidebar }) => {
   }, [dispatch]);
 
   const myInfo = useSelector((state) => state.user?.myInfo);
-console.log("sidebar",myInfo);
+// console.log("sidebar",myInfo);
   return (
     <>
       <div className={`sidebar ${showSidebar ? "show" : ""}`}>

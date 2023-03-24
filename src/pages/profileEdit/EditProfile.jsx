@@ -4,7 +4,18 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./EditProfile.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { MyProfileAction } from '../../redux/slices/UserSlice';
+import { editProfileAction, MyProfileAction } from '../../redux/slices/UserSlice';
+import * as Yup from "yup";
+import { useFormik } from 'formik';
+
+
+//Form schema
+const formSchema = Yup.object({
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    email: Yup.string().required("Email is required").email(),
+    bio: Yup.string().required("Bio is required")
+});
 
 const EditProfile = () => {
 
@@ -21,6 +32,22 @@ const EditProfile = () => {
         setSelectedFile(URL.createObjectURL(event.target.files[0]));
     }
     // console.log(selectedFile);
+    //formik
+    const formik = useFormik({
+        enableReinitialize: true,
+        initialValues: {
+            firstName: myInfo?.firstName,
+            lastName: myInfo?.lastName,
+            email: myInfo?.email,
+            bio: myInfo?.bio,
+        },
+        onSubmit: (values) => {
+            //dispath the action
+            dispatch(editProfileAction(values));
+            console.log(values);
+        },
+        validationSchema: formSchema,
+    });
     return (
         <div className="editProfile">
             <Navbar />
@@ -29,11 +56,13 @@ const EditProfile = () => {
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                            <img
-                                src={myInfo?.profilePhoto}
-                                alt=""
-                                className="profileUserImg"
-                            />
+                            <div className="profilePhoto">
+                                <img
+                                    src={myInfo?.profilePhoto}
+                                    alt=""
+                                    className="profileUserImg"
+                                />
+                            </div>
                             <div className="profileInfo">
                                 <h4 className="profileInfoName">{myInfo?.firstName} {myInfo?.lastName}</h4>
                                 <span className="profileInfoDesc">{myInfo?.bio}</span>
@@ -54,40 +83,48 @@ const EditProfile = () => {
                             <h1>Edit User Profile</h1>
                         </div>
                         <div className="bottom">
-                            <div className="left">
+                            {/* <div className="left">
                                 {selectedFile && (
                                     <img src={selectedFile} alt="" />
                                 )}
 
-                            </div>
+                            </div> */}
                             <div className="right">
-                                <form>
-                                    <div className="formInput">
+                                <form onSubmit={formik.handleSubmit}>
+                                    {/* <div className="formInput">
                                         <label htmlFor="file">
                                             Image: <MdOutlineDriveFolderUpload className="icon" />
                                         </label>
                                         <input type="file" id="file" style={{ display: "none" }} accept="image/*" onChange={handleFileSelect} />
-                                    </div>
+                                    </div> */}
                                     <div className="formInput">
                                         <label>First Name</label>
-                                        <input type="text" placeholder={myInfo?.firstName} />
+                                        <input type="text" value={formik.values.firstName}
+                                            onChange={formik.handleChange("firstName")}
+                                        />
                                     </div>
                                     <div className="formInput">
                                         <label>Last Name</label>
-                                        <input type="text" placeholder={myInfo?.lastName} />
+                                        <input type="text" value={formik.values.lastName}
+                                            onChange={formik.handleChange("lastName")}
+                                        />
                                     </div>
                                     <div className="formInput">
                                         <label>Email</label>
-                                        <input type="email" placeholder={myInfo?.email} />
+                                        <input type="email" value={formik.values.email}
+                                            onChange={formik.handleChange("email")}
+                                        />
                                     </div>
                                     <div className="formInput">
                                         <label>Bio</label>
-                                        <input type="text" placeholder={myInfo?.bio} />
+                                        <input type="text" value={formik.values.bio}
+                                            onChange={formik.handleChange("bio")}
+                                        />
                                     </div>
-                                    <div className="formInput">
+                                    {/* <div className="formInput">
                                         <label>Relationship</label>
                                         <input type="text" placeholder="single" />
-                                    </div>
+                                    </div> */}
                                     <button type="submit" className="updateButton">
                                         Update Profile
                                     </button>
