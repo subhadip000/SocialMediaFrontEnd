@@ -28,9 +28,10 @@
 }
 
 .popup-header .close-btn {
-    position: absolute;
+    /* position: absolute; */
     right: 20px;
     padding: 10px 20px;
+    width: 25%;
     border-radius: 5px;
     font-weight: 700;
     background-color: #be185d;

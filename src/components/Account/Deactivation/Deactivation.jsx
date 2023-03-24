@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router";
-import { DeactivateAccountAction } from "../../../redux/slices/AuthSlice";
+import {
+  DeactivateAccountAction,
+  PopupConfirmAction,
+} from "../../../redux/slices/AuthSlice";
+import Popup from "../../popup/Popup";
 
 const Deactivation = () => {
   const dispatch = useDispatch();
 
-  const { serverErr, appErr, isToken } = useSelector(
+  const { serverErr, appErr, deactivate_acc } = useSelector(
     (state) => state.auth
   );
 
@@ -14,7 +17,7 @@ const Deactivation = () => {
 
   const [confirm, setConfirm] = useState("");
 
-  if (isToken) return <Navigate to={'/login'} />
+  const [popup, setPopup] = useState(false);
 
   return (
     <>
@@ -29,13 +32,19 @@ const Deactivation = () => {
         </div>
       ) : (
         <div className="password-popup">
+          <p className="content">
+            This is to inform you that once you deactivate your account, it will
+            become inactive for 90 days before getting deleted automatically. To
+            prevent the deletion of your account, you need to login again before
+            the 90day mark to make your account active again.
+          </p>
           <h3 className="confirmation">
-            Please Write the below sentence for confirmation
+          Please give your password for confirmation
           </h3>
-          <p className="confirmation">Deactivate My Account</p>
+          <p className="confirmation">Yes, deactivate my account</p>
           <label htmlFor="confirmation">
             <input
-              type="confirmation"
+              type="password"
               name="confirmation"
               id="confirmation"
               value={confirm}
@@ -45,11 +54,14 @@ const Deactivation = () => {
           <input
             type="button"
             value="Deactivate"
-            onClick={() =>
-              dispatch(DeactivateAccountAction({ password: confirm }))
-            }
-            // disabled={confirm === "Deactivate My Account" ? !able : able}
+            onClick={() => {
+              dispatch(DeactivateAccountAction({ password: confirm }));
+              setPopup(!popup);
+            }}
           />
+          <Popup trigger={popup} setTrigger={setPopup} name={"See you soon again😇"}>
+          <input type="button" onClick={() => dispatch(PopupConfirmAction())} value="See you👋🏻" />
+          </Popup>
         </div>
       )}
     </>

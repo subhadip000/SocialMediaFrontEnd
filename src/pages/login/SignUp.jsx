@@ -58,6 +58,7 @@ const SignUp = () => {
             placeholder="First Name"
             value={formik.values.firstName}
             onChange={formik.handleChange("firstName")}
+            autoComplete="off"
           />
         </div>
         <small className="error">
@@ -73,6 +74,7 @@ const SignUp = () => {
             placeholder="Last Name"
             value={formik.values.lastName}
             onChange={formik.handleChange("lastName")}
+            autoComplete="off"
           />
         </div>
         <small className="error">
@@ -88,6 +90,7 @@ const SignUp = () => {
             placeholder="Email"
             value={formik.values.email}
             onChange={formik.handleChange("email")}
+            autoComplete="off"
             required
           />
         </div>
