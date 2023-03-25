@@ -11,11 +11,11 @@ function Popup(props) {
     <div className="popup">
       <div className="popup-inner">
         <div className="popup-header">
-          <h1>{props.name}</h1>
+          <h1 style={props.isRequired === "No" ? displayStyle : null}>{props.name}</h1>
           <button
             className="close-btn"
             onClick={() => props.setTrigger(false)}
-            style={(props.name === "See you soon again😇" || props.name === "We're sorry to see you go🥺") ? displayStyle : null }
+            style={props.isRequired === "No" ? displayStyle : null}
           >
             Close
           </button>

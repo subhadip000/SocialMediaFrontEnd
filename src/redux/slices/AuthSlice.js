@@ -141,7 +141,6 @@ export const DeleteAccountAction = createAsyncThunk(
         Authorization: `Bearer ${userInfo?.token}`,
       },
     };
-    console.log(configToken);
     try {
       const { data } = await axios.put(
         `${BaseUrl}/api/user/deleteduser`,
@@ -348,6 +347,8 @@ const AuthSlice = createSlice({
     // Popup Delete/Deactivate Confirmation
     builder.addCase(PopupConfirmAction, (state, action) => {
       state.userInfo = undefined;
+      state.deactivate_acc = undefined;
+      state.delete_acc = undefined;
     })
   },
 });

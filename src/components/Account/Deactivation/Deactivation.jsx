@@ -19,6 +19,11 @@ const Deactivation = () => {
 
   const [popup, setPopup] = useState(false);
 
+  const clickDeactivate = () => {
+    dispatch(DeactivateAccountAction({ password: confirm }));
+    setPopup(!popup);
+  };
+
   return (
     <>
       {show ? (
@@ -32,6 +37,11 @@ const Deactivation = () => {
         </div>
       ) : (
         <div className="password-popup">
+          <h2>Deactivation</h2>
+          <strong className="error">
+            {serverErr === "Network Error" ? serverErr : null}
+          </strong>
+          <strong className="error">{appErr ? appErr : null}</strong>
           <p className="content">
             This is to inform you that once you deactivate your account, it will
             become inactive for 90 days before getting deleted automatically. To
@@ -39,7 +49,7 @@ const Deactivation = () => {
             the 90day mark to make your account active again.
           </p>
           <h3 className="confirmation">
-          Please give your password for confirmation
+            Please give your password for confirmation
           </h3>
           <p className="confirmation">Yes, deactivate my account</p>
           <label htmlFor="confirmation">
@@ -51,16 +61,25 @@ const Deactivation = () => {
               onChange={(e) => setConfirm(e.target.value)}
             />
           </label>
-          <input
-            type="button"
-            value="Deactivate"
-            onClick={() => {
-              dispatch(DeactivateAccountAction({ password: confirm }));
-              setPopup(!popup);
-            }}
-          />
-          <Popup trigger={popup} setTrigger={setPopup} name={"See you soon again😇"}>
-          <input type="button" onClick={() => dispatch(PopupConfirmAction())} value="See you👋🏻" />
+          <input type="button" value="Deactivate" onClick={clickDeactivate} />
+          <Popup
+            trigger={popup}
+            setTrigger={setPopup}
+            name={""}
+            isRequired={"No"}
+          >
+            <h1>{deactivate_acc ? "See you soon again😇" : "Try Again"}</h1>
+            <input
+              type="button"
+              onClick={() => {
+                if (deactivate_acc) {
+                  dispatch(PopupConfirmAction());
+                } else {
+                  setPopup(!popup);
+                }
+              }}
+              value="OK"
+            />
           </Popup>
         </div>
       )}
