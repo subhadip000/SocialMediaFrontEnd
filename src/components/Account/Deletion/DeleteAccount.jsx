@@ -6,7 +6,7 @@ import {
 } from "../../../redux/slices/AuthSlice";
 import Popup from "../../popup/Popup";
 
-const DeleteAccount = () => {
+const DeleteAccount = ({styleHead}) => {
   const dispatch = useDispatch();
 
   const [confirm, setConfirm] = useState("");
@@ -20,17 +20,14 @@ const DeleteAccount = () => {
   return (
     <>
       {show ? (
-        <div className="deleteBtn">
+        <div className="delete">
+          <h3 style={styleHead} onClick={() => setShow(!show)}>
           Delete Account
-          <input
-            type="button"
-            onClick={() => setShow(!show)}
-            value="Delete Your Account"
-          />
+          </h3>
         </div>
       ) : (
         <div className="password-popup">
-          <h2>Deletion</h2>
+          <h2 style={styleHead} onClick={() => setShow(!show)}>Deletion</h2>
           <strong className="error">
             {serverErr === "Network Error" ? serverErr : null}
           </strong>

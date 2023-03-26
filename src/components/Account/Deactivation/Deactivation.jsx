@@ -6,7 +6,7 @@ import {
 } from "../../../redux/slices/AuthSlice";
 import Popup from "../../popup/Popup";
 
-const Deactivation = () => {
+const Deactivation = ({styleHead}) => {
   const dispatch = useDispatch();
 
   const { serverErr, appErr, deactivate_acc } = useSelector(
@@ -28,16 +28,13 @@ const Deactivation = () => {
     <>
       {show ? (
         <div>
+          <h3 style={styleHead} onClick={() => setShow(!show)}>
           Deactivate Account
-          <input
-            type="button"
-            onClick={() => setShow(!show)}
-            value="Deactivate Your Account"
-          />
+          </h3>
         </div>
       ) : (
         <div className="password-popup">
-          <h2>Deactivation</h2>
+          <h2 style={styleHead} onClick={() => setShow(!show)}>Deactivation</h2>
           <strong className="error">
             {serverErr === "Network Error" ? serverErr : null}
           </strong>

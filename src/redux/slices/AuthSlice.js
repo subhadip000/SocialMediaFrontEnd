@@ -68,6 +68,30 @@ export const UserLogoutAction = createAsyncThunk(
   }
 );
 
+// Update Password
+export const UpdatePasswordAction = createAsyncThunk(
+  "auth/update-pass",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const auth = getState()?.auth;
+    const { userInfo } = auth;
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/user/update-password`,
+        input,
+        configToken
+      );
+      return data;
+    } catch (error) {
+      if (error?.response) throw error;
+    }
+  }
+);
+
 // Forget Password
 export const ForgetPasswordAction = createAsyncThunk(
   "auth/forget-pass",
@@ -187,7 +211,7 @@ export const DeactivateAccountAction = createAsyncThunk(
 );
 
 // Popup Confirmation Delete/Deactivate
-export const PopupConfirmAction = createAction('auth/PopupAction')
+export const PopupConfirmAction = createAction("auth/PopupAction");
 
 const userInfo = localStorage.getItem("userInfo")
   ? JSON.parse(localStorage.getItem("userInfo"))
@@ -249,6 +273,24 @@ const AuthSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(UserLogoutAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    //Update Password
+    builder.addCase(UpdatePasswordAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UpdatePasswordAction.fulfilled, (state, action) => {
+      state.updatePass = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UpdatePasswordAction.rejected, (state, action) => {
       state.isLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
@@ -343,13 +385,13 @@ const AuthSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // Popup Delete/Deactivate Confirmation
     builder.addCase(PopupConfirmAction, (state, action) => {
       state.userInfo = undefined;
       state.deactivate_acc = undefined;
       state.delete_acc = undefined;
-    })
+    });
   },
 });
 

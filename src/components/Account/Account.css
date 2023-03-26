@@ -1,3 +1,4 @@
-/* .options{
-    border: 2px solid;
-} */
+.options>div{
+    /* border: 2px solid; */
+    margin: 25px 25px 0px;
+}

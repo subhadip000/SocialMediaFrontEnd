@@ -127,6 +127,7 @@ const EditProfile = () => {
                                         <label>Email</label>
                                         <input type="email" value={formik.values.email}
                                             onChange={formik.handleChange("email")}
+                                            disabled
                                         />
                                     </div>
                                     <div className="formInput">
