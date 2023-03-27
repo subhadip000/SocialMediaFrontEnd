@@ -67,7 +67,7 @@ const ChangePassword = () => {
             id="newpass"
             onChange={formik.handleChange("password")}
             value={formik.values.password}
-            // onBlur={formik.handleBlur("password")}
+            onBlur={formik.handleBlur("password")}
           />
         </label>
         <small style={errStyle}>
@@ -82,7 +82,7 @@ const ChangePassword = () => {
             id="confirmpass"
             onChange={formik.handleChange("confPassword")}
             value={formik.values.confPassword}
-            // onBlur={formik.handleBlur("confPassword")}
+            onBlur={formik.handleBlur("confPassword")}
           />
         </label>
         <input type="submit" value="Change Password" />

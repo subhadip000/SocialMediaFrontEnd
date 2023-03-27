@@ -6,7 +6,7 @@ import {
 } from "../../../redux/slices/AuthSlice";
 import Popup from "../../popup/Popup";
 
-const DeleteAccount = () => {
+const DeleteAccount = ({styleHead}) => {
   const dispatch = useDispatch();
 
   const [confirm, setConfirm] = useState("");
@@ -20,16 +20,18 @@ const DeleteAccount = () => {
   return (
     <>
       {show ? (
-        <div className="deleteBtn">
+        <div className="delete">
+          <h3 style={styleHead} onClick={() => setShow(!show)}>
           Delete Account
-          <input
-            type="button"
-            onClick={() => setShow(!show)}
-            value="Delete Your Account"
-          />
+          </h3>
         </div>
       ) : (
         <div className="password-popup">
+          <h2 style={styleHead} onClick={() => setShow(!show)}>Deletion</h2>
+          <strong className="error">
+            {serverErr === "Network Error" ? serverErr : null}
+          </strong>
+          <strong className="error">{appErr ? appErr : null}</strong>
           <p className="content">
             This is to inform you that once you delete your account, you will
             not be able to login anymore. You will not be able to recover your
@@ -56,8 +58,24 @@ const DeleteAccount = () => {
               setPopup(!popup);
             }}
           />
-          <Popup trigger={popup} setTrigger={setPopup} name={"We're sorry to see you go🥺"}>
-            <input type="button" onClick={() => dispatch(PopupConfirmAction())} value="Good Bye👋🏻" />
+          <Popup
+            trigger={popup}
+            setTrigger={setPopup}
+            name={""}
+            isRequired={"No"}
+          >
+            <h1>{delete_acc ? "We're sorry to see you go🥺" : "Try Again"}</h1>
+            <input
+              type="button"
+              onClick={() => {
+                if (delete_acc) {
+                  dispatch(PopupConfirmAction());
+                } else {
+                  setPopup(!popup);
+                }
+              }}
+              value="OK"
+            />
           </Popup>
         </div>
       )}
