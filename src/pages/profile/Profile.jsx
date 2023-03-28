@@ -8,6 +8,8 @@ import Rightbar from "../../components/rightbar/Rightbar";
 import { useDispatch, useSelector } from "react-redux";
 import { MyProfileAction } from "../../redux/slices/UserSlice";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Popup from "../../components/popup/Popup";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -15,8 +17,11 @@ const Profile = () => {
     dispatch(MyProfileAction());
   }, [dispatch]);
 
+  const [followersPopup, setFollowersPopup] = useState(false);
+  const [followingPopup, setFollowingPopup] = useState(false);
+
   const myInfo = useSelector((state) => state.user?.myInfo);
-  // console.log(myInfo?.Post);
+  console.log(myInfo?.following);
   return (
     <div className="profile">
       <Navbar />
@@ -37,14 +42,50 @@ const Profile = () => {
                 <span className="profileInfoDesc">{myInfo?.bio}</span>
                 <div className="followInfo">
                   <span className="followInfoDesc">
-                    <b>10</b> Posts
+                    <b>{myInfo?.Post?.length}</b> Posts
                   </span>
-                  <span className="followInfoDesc">
-                    <b>10</b> Followers
+                  <span className="followInfoDesc" onClick={() => { setFollowersPopup(true) }}>
+                    <b>{myInfo?.followers?.length}</b> Followers
                   </span>
-                  <span className="followInfoDesc">
-                    <b>10</b> Following
+
+                  <Popup
+                    trigger={followersPopup}
+                    setTrigger={setFollowersPopup}
+                    name={"Followers"}
+                  >
+                    <div className="PopupDiv">
+                      <a href="/profile/userId">
+                        <img
+                          src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                          alt=""
+                          className="PopupProfileImg"
+                        />
+                      </a>
+                      <span className="PopupUsername">username</span>
+                    </div>
+                  </Popup>
+
+                  <span className="followInfoDesc" onClick={() => { setFollowingPopup(true) }}>
+                    <b>{myInfo?.following?.length}</b> Following
                   </span>
+                  <Popup
+                    trigger={followingPopup}
+                    setTrigger={setFollowingPopup}
+                    name={"Following"}
+                  >
+                    <div className="PopupDiv">
+                      <a href="/profile/userId">
+                        <img
+                          src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                          alt=""
+                          className="PopupProfileImg"
+                        />
+                      </a>
+                      <span className="PopupUsername">username</span>
+                    </div>
+                  </Popup>
+
+
                 </div>
                 <div className="userStatus">
                   <span className="userStatusDesc">Relationship: Single</span>

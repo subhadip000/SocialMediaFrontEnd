@@ -42,15 +42,15 @@ const Sidebar = ({ showSidebar }) => {
               <div className="sideFollowInfo">
                 <span className="sideFollowInfoDesc">
                   <b>Posts</b>
-                  <span style={{ color: "gray" }}>10</span>
+                  <span style={{ color: "gray" }}>{myInfo?.Post?.length}</span>
                 </span>
                 <span className="sideFollowInfoDesc">
                   <b>Followers</b>
-                  <span style={{ color: "gray" }}>10</span>
+                  <span style={{ color: "gray" }}>{myInfo?.followers?.length}</span>
                 </span>
                 <span className="sideFollowInfoDesc">
                   <b>Following</b>
-                  <span style={{ color: "gray" }}>10</span>
+                  <span style={{ color: "gray" }}>{myInfo?.following?.length}</span>
                 </span>
               </div>
             </div>

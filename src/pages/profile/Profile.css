@@ -43,6 +43,9 @@
   display: flex;
   gap: 13px;
 }
+.followInfoDesc{
+  cursor: pointer;
+}
 .profile .profileWrapper .profileRight .profileInfo .userStatus {
   margin-top: 5px;
 }
@@ -63,6 +66,26 @@
 
 .profile .profileWrapper .profileRight .profileRightBottom {
   display: flex;
+}
+
+.PopupDiv {
+  display: flex;
+  align-items: center;
+}
+
+.PopupProfileImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.PopupUsername {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 0 10px;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {

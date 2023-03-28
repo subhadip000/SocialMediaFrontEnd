@@ -93,9 +93,9 @@ const EditProfile = () => {
                                 <h4 className="profileInfoName">{myInfo?.firstName} {myInfo?.lastName}</h4>
                                 <span className="profileInfoDesc">{myInfo?.bio}</span>
                                 <div className="followInfo">
-                                    <span className="followInfoDesc"><b>10</b> Posts</span>
-                                    <span className="followInfoDesc"><b>10</b> Followers</span>
-                                    <span className="followInfoDesc"><b>10</b> Following</span>
+                                    <span className="followInfoDesc"><b>{myInfo?.Post?.length}</b> Posts</span>
+                                    <span className="followInfoDesc"><b>{myInfo?.followers?.length}</b> Followers</span>
+                                    <span className="followInfoDesc"><b>{myInfo?.following?.length}</b> Following</span>
                                 </div>
                                 <div className="userStatus">
                                     <span className="userStatusDesc">Relationship: Single</span>

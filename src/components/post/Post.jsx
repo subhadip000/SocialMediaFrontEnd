@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./Post.css";
 import Moment from "react-moment";
-import { FaTelegramPlane } from "react-icons/fa";
-import { FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaTelegramPlane, FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import Popup from "../popup/Popup";
 import SimpleImageSlider from "react-simple-image-slider";
 
@@ -34,6 +34,7 @@ const Post = ({ post }) => {
               </Moment>
             </span>
           </div>
+          <BsThreeDotsVertical/>
         </div>
         <div className="postCenter">
           <p className="postText">{post?.caption}</p>
