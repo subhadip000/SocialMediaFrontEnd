@@ -12,7 +12,7 @@ const Post = ({ post }) => {
 
   const ImgArrayLen = post?.image?.length || 0;
 
-  console.log("from post.jsx", post);
+  // console.log("from post.jsx", post);
   return (
     <div className="post">
       <div className="postWrapper">
@@ -26,7 +26,7 @@ const Post = ({ post }) => {
               />
             </a>
             <span className="postUsername">
-              {post?.author?.firstName} {post?.author?.lastName}
+              {post?.author?.firstName } {post?.author?.lastName} 
             </span>
             <span className="postDate">
               <Moment fromNow ago>
@@ -36,7 +36,7 @@ const Post = ({ post }) => {
           </div>
         </div>
         <div className="postCenter">
-          <p className="postText">{post?.description}</p>
+          <p className="postText">{post?.caption}</p>
           {/* <img src={post?.image} alt="" className="postImg" /> */}
           {ImgArrayLen === 0 ? (
             ""
