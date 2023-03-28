@@ -98,6 +98,35 @@ export const editProfilePhotoAction = createAsyncThunk(
   }
 );
 
+// fetch all users 
+export const fetchUsersAction = createAsyncThunk(
+  "users/fetch",
+  async (users, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/user`,
+        config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+
+
 // Then, handle actions in your reducers:
 const UserSlice = createSlice({
   name: "user",
@@ -150,6 +179,23 @@ const UserSlice = createSlice({
       state.serverErr = action?.error?.message;
       state.loading = false;
     });
+    //users details
+    builder.addCase(fetchUsersAction.pending, (state, action) => {
+      state.profileLoading = true;
+    });
+    builder.addCase(fetchUsersAction.fulfilled, (state, action) => {
+      state.userList = action?.payload;
+      state.profileLoading = false;
+      state.profileAppErr = undefined;
+      state.profileServerErr = undefined;
+    });
+    builder.addCase(fetchUsersAction.rejected, (state, action) => {
+      state.profileAppErr = action?.payload?.message;
+      state.profileServerErr = action?.error?.message;
+      state.profileLoading = false;
+    });
+
+
   },
 });
 
