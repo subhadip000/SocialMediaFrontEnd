@@ -2,7 +2,7 @@ import React from "react";
 import "./ProfileRightbar.css";
 
 const ProfileRightbar = ({ post }) => {
-    console.log("Post", post);
+    // console.log("Post", post);
     return (
         <div className="profileRightBar">
             <div className="profileRightBarHeading">

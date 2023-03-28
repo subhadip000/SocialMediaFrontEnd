@@ -14,6 +14,11 @@
     justify-content: center;
 }
 
+.shareWrapperForm{
+    padding: 0;
+    margin: 0;
+}
+
 .share .shareWrapper .shareTop {
     display: flex;
     align-items: center;

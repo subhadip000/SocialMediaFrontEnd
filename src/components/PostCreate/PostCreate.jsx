@@ -69,7 +69,7 @@ const PostCreate = () => {
     return (
         <div className="share">
             <div className="shareWrapper">
-                <form onSubmit={formik.handleSubmit}>
+                <form onSubmit={formik.handleSubmit} className="shareWrapperForm">
                     <div className="shareTop">
                         <img
                             src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
