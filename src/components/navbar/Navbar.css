@@ -110,8 +110,16 @@
     cursor: pointer;
     margin-right: 15px;
 }
+.sideNavigation{
+    position: fixed !important;;
+    height: 100vh;
+    z-index: 999;
+}
 .navToggleSidebar{
     display: none;
+    position: sticky;
+    height: 100vh;
+    bottom: 0;
 }
 @media only screen and (max-width: 992px) {
     .navbarContainer .navbarLeft .hamburger {
@@ -164,12 +172,17 @@
     .navbarContainer .navbarLeft {
         flex: 2;
     }
-
+    .navbarContainer .navbarLeft .logo {
+        font-size: 20px;
+    }
     .navbarContainer .navbarCenter {
         flex: 3;
     }
 
     .navbarContainer .navbarRight {
-        flex: 1;
+        flex: 0;
+    }
+    .navbarContainer .navbarRight a{
+        display: none;
     }
 }

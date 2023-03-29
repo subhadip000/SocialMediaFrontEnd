@@ -43,3 +43,26 @@
     margin: 0 10px;
     cursor: pointer;
 }
+
+@media only screen and (max-width: 992px){
+    .PopupProfileImg {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+    }
+    .PopupUsername {
+        font-size: 10px;
+        font-weight: 400;
+        margin: 0 8px;
+    }
+    .followBtn{
+        font-weight: 400;
+        width: 100px;
+    }
+}
+
+@media only screen and (max-width: 859px) {
+    .rightbarhome{
+        display: none;
+    }
+}

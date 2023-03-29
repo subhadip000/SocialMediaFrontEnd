@@ -21,11 +21,11 @@ const Navbar = () => {
   };
   return (
     <>
-      <div className="navToggleSidebar">
-        <Sidebar showSidebar={showSidebar} />
+      <div className="sideNavigation">
+        <div className="navToggleSidebar">
+          <Sidebar showSidebar={showSidebar} />
+        </div>
       </div>
-
-
       <div className="navbarContainer">
         <div className="navbarLeft">
           <div style={{ textDecoration: "none" }}>

@@ -89,7 +89,7 @@ const Post = ({
         <div className="postBottom">
           <div className="postBottomLeft">
             <div className="LikeComment">
-              <FaHeart className="bottomLeftIcon" onClick={() => LikeHandler()} color={isLike ? "red" : ""} />
+              <FaHeart className="bottomLeftIcon" onClick={() => LikeHandler()} color={isLike ? "#fc0341" : ""} />
               <span
                 className="postLikeCounter"
                 onClick={() => {
