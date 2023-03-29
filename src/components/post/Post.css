@@ -41,13 +41,20 @@
 
 .post .postWrapper .postCenter {
     margin: 10px 0;
+    width: 100%;
 }
 
 .post .postWrapper .postCenter .postText {
     padding: 0 20px;
 }
-
-.post .postWrapper .postCenter .postImg {
+.sliderContainer{
+    width: 100%;
+}
+.mySwiper{
+    display: "flex";
+    flex-direction: row;
+}
+ .postImg {
     object-fit: contain !important;
     width: 100% !important;
     max-height: 500px;

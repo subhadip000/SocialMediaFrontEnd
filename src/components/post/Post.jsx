@@ -4,10 +4,11 @@ import Moment from "react-moment";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaTelegramPlane, FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import Popup from "../popup/Popup";
-import SimpleImageSlider from "react-simple-image-slider";
 import { useDispatch, useSelector } from "react-redux";
 import { postLikesAction } from "../../redux/slices/PostSlice";
 import withLike from "../HOC/likeHoc";
+import ImageSwiper from "../Swiper/ImageSwiper";
+
 
 const Post = ({
   post,
@@ -75,14 +76,9 @@ const Post = ({
           ) : ImgArrayLen === 1 ? (
             <img src={post?.image} alt="" className="postImg" />
           ) : (
-            <SimpleImageSlider
-              width={500}
-              height={500}
-              images={post?.image}
-              showBullets={true}
-              showNavs={true}
-              className="postImg"
-            />
+            <div className="sliderContainer">
+              <ImageSwiper images={post?.image} />
+            </div>
           )}
         </div>
 
