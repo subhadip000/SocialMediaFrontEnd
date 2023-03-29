@@ -1,16 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Post.css";
 import Moment from "react-moment";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaTelegramPlane, FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import Popup from "../popup/Popup";
 import SimpleImageSlider from "react-simple-image-slider";
+import { useDispatch, useSelector } from "react-redux";
+import { postLikesAction } from "../../redux/slices/PostSlice";
+import withLike from "../HOC/likeHoc";
 
-const Post = ({ post }) => {
+const Post = ({
+  post,
+  setIsLiked,
+  setLikeCount,
+  likeCount,
+  isLike, }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state?.user);
+  const Post = useSelector((state) => state?.post);
+  const { myInfo } = user;
+  const { like } = Post;
+
   const [likePopup, setLikePopup] = useState(false);
   const [commentPopup, setCommentPopup] = useState(false);
 
   const ImgArrayLen = post?.image?.length || 0;
+
+  useEffect(() => {
+    setLikeCount(like?.likes || post?.likes);
+    const isIt = post?.likedBy?.find(
+      (e) => e.toString() === myInfo?.id.toString()
+    );
+    if (isIt) {
+      // console.log("res--", isIt);
+      setIsLiked(true);
+    }
+  }, []);
+
+  const LikeHandler = () => {
+    setLikeCount((count) => (isLike ? count - 1 : count + 1));
+    setIsLiked((current) => !current);
+    dispatch(postLikesAction(post?.id));
+  };
 
   // console.log("from post.jsx", post);
   return (
@@ -26,7 +57,7 @@ const Post = ({ post }) => {
               />
             </a>
             <span className="postUsername">
-              {post?.author?.firstName } {post?.author?.lastName} 
+              {post?.author?.firstName} {post?.author?.lastName}
             </span>
             <span className="postDate">
               <Moment fromNow ago>
@@ -34,7 +65,7 @@ const Post = ({ post }) => {
               </Moment>
             </span>
           </div>
-          <BsThreeDotsVertical/>
+          <BsThreeDotsVertical />
         </div>
         <div className="postCenter">
           <p className="postText">{post?.caption}</p>
@@ -58,14 +89,14 @@ const Post = ({ post }) => {
         <div className="postBottom">
           <div className="postBottomLeft">
             <div className="LikeComment">
-              <FaHeart className="bottomLeftIcon" />
+              <FaHeart className="bottomLeftIcon" onClick={() => LikeHandler()} color={isLike ? "red" : ""} />
               <span
                 className="postLikeCounter"
                 onClick={() => {
                   setLikePopup(true);
                 }}
               >
-                {post?.likes} Likes
+                {likeCount} Likes
               </span>
               <Popup
                 trigger={likePopup}
@@ -141,4 +172,4 @@ const Post = ({ post }) => {
   );
 };
 
-export default Post;
+export default withLike(Post);

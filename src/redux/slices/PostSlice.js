@@ -47,12 +47,6 @@ export const createPostAction = createAsyncThunk(
       const postImg = post?.image;
       console.log(postImg);
 
-      // postImg.map((image)=>formData.append("image", image))
-      // formData.append("image", postImg[0]);
-
-      // postImg?.forEach(image => {
-      //   formData.append("image", image);
-      // });
       for (let i = 0; i < postImg.length; i++) {
         formData.append('image', postImg[i])
      }
@@ -62,6 +56,32 @@ export const createPostAction = createAsyncThunk(
       const { data } = await axios.post(
         `${BaseUrl}/api/post/create`,
         formData,
+        config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// post like action
+export const postLikesAction = createAsyncThunk(
+  "post/like",
+  async (id, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/post/like`,
+        { id },
         config
       );
       return data;
@@ -108,6 +128,21 @@ const PostSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(createPostAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    //post like slice
+    builder.addCase(postLikesAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(postLikesAction.fulfilled, (state, action) => {
+      state.like = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(postLikesAction.rejected, (state, action) => {
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
