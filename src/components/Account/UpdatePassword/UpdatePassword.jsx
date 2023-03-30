@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { UpdatePasswordAction } from "../../../redux/slices/AuthSlice";
 import Popup from "../../popup/Popup";
 import { useFormik } from "formik";
-import { Navigate } from "react-router";
+import ShowButton from "../ShowButton/ShowButton";
 YupPassword(Yup);
 
 // Form Schema
@@ -16,7 +16,7 @@ const passwordSchema = Yup.object({
   confirmNewPassword: Yup.string().required("Password is required").password(),
 });
 
-const UpdatePassword = ({ styleHead }) => {
+const UpdatePassword = () => {
   const [show, setShow] = useState(true);
 
   const dispatch = useDispatch();
@@ -65,14 +65,10 @@ const UpdatePassword = ({ styleHead }) => {
   return (
     <>
       {show ? (
-        <div>
-          <h3 style={styleHead} onClick={() => setShow(!show)}>
-            Update Password
-          </h3>
-        </div>
+        <ShowButton show={show} setShow={setShow} Value="Update Password" />
       ) : (
         <div>
-          <h2 style={styleHead} onClick={() => setShow(!show)}>
+          <h2 style={{ cursor: "pointer" }} onClick={() => setShow(!show)}>
             Change Password
           </h2>
           <form style={formStyle} onSubmit={formik.handleSubmit}>
