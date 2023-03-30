@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsersAction } from "../../redux/slices/UserSlice";
+import { fetchUsersAction, userFollowAction, userUnfollowAction } from "../../redux/slices/UserSlice";
 
 import "./Rightbarhome.css";
 
@@ -14,7 +14,10 @@ const Rightbarhome = () => {
     dispatch(fetchUsersAction());
   }, [dispatch]);
   let loginUser = myInfo?.id;
-  let newArray = userList?.filter((e)=>e.id!==loginUser);
+  let newArray = userList?.filter((e) => e.id !== loginUser);
+  let isFollowed = (user) => user.followers.includes(myInfo?.id);
+  console.log(isFollowed);
+
 
   return (
     <div className="rightbarhome">
@@ -32,7 +35,10 @@ const Rightbarhome = () => {
               </a>
               <span className="PopupUsername">{user.firstName} {user.lastName}</span>
             </div>
-            <button className="followBtn">Follow</button>
+            {isFollowed(user) ?
+              <button className="followBtn" onClick={() => dispatch(userUnfollowAction(user.id))}>Unfollow</button>
+              : <button className="followBtn" onClick={() => dispatch(userFollowAction(user.id))}>Follow</button>
+            }
           </form>
         ))}
       </div>

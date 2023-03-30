@@ -17,4 +17,4 @@ const withLike = (Component) => {
   return NewComponent;
 };
 
-export default withLike;
+export default withLike;

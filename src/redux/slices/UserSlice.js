@@ -125,6 +125,66 @@ export const fetchUsersAction = createAsyncThunk(
   }
 );
 
+//follow user action
+export const userFollowAction = createAsyncThunk(
+  "user/follow",
+  async (userId, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/follow`,
+        {
+          Id: userId
+        },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+//unfollow user action
+export const userUnfollowAction = createAsyncThunk(
+  "user/unfollow",
+  async (userId, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/unfollow`,
+        {
+          Id: userId
+        },
+        config
+      );
+
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
 
 
 // Then, handle actions in your reducers:
@@ -194,7 +254,40 @@ const UserSlice = createSlice({
       state.profileServerErr = action?.error?.message;
       state.profileLoading = false;
     });
+    //user follow action 
+    builder.addCase(userFollowAction.pending, (state, action) => {
+      state.loading = true;
+    });
 
+    builder.addCase(userFollowAction.fulfilled, (state, action) => {
+      state.followed = action?.payload;
+      state.unfollowed = undefined;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(userFollowAction.rejected, (state, action) => {
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+      state.loading = false;
+    });
+    //user unfollow action 
+    builder.addCase(userUnfollowAction.pending, (state, action) => {
+      state.loading = true;
+    });
+
+    builder.addCase(userUnfollowAction.fulfilled, (state, action) => {
+      state.unfollowed = action?.payload;
+      state.followed = undefined;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(userUnfollowAction.rejected, (state, action) => {
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+      state.loading = false;
+    });
 
   },
 });
