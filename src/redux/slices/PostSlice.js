@@ -69,7 +69,7 @@ export const createPostAction = createAsyncThunk(
 // post like action
 export const postLikesAction = createAsyncThunk(
   "post/like",
-  async (id, { rejectWithValue, getState, dispatch }) => {
+  async (postId, { rejectWithValue, getState, dispatch }) => {
     const user = getState()?.auth;
     const { userInfo } = user;
     const config = {
@@ -81,7 +81,7 @@ export const postLikesAction = createAsyncThunk(
     try {
       const { data } = await axios.put(
         `${BaseUrl}/api/post/like`,
-        { id },
+        { postId },
         config
       );
       return data;

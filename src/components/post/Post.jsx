@@ -44,7 +44,7 @@ const Post = ({
     dispatch(postLikesAction(post?.id));
   };
 
-  // console.log("from post.jsx", post);
+  // console.log("from post.jsx", post.LikedBy);
   return (
     <div className="post">
       <div className="postWrapper">
@@ -99,16 +99,18 @@ const Post = ({
                 setTrigger={setLikePopup}
                 name={"Likes"}
               >
-                <div className="PopupDiv">
-                  <a href="/profile/userId">
-                    <img
-                      src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
-                      alt=""
-                      className="PopupProfileImg"
-                    />
-                  </a>
-                  <span className="PopupUsername">username</span>
-                </div>
+                {post?.LikedBy.map((user) =>
+                  <div className="PopupDiv">
+                    <a href="/profile/userId">
+                      <img
+                        src={user.profilePhoto}
+                        alt=""
+                        className="PopupProfileImg"
+                      />
+                    </a>
+                    <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                  </div>
+                )}
               </Popup>
             </div>
             <div className="LikeComment">
