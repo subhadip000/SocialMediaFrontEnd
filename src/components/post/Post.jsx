@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { postLikesAction } from "../../redux/slices/PostSlice";
 import withLike from "../HOC/likeHoc";
 import ImageSwiper from "../Swiper/ImageSwiper";
+import { Link } from "react-router-dom";
 
 
 const Post = ({
@@ -99,15 +100,15 @@ const Post = ({
                 setTrigger={setLikePopup}
                 name={"Likes"}
               >
-                {post?.LikedBy.map((user) =>
+                {post?.LikedBy?.map((user) =>
                   <div className="PopupDiv">
-                    <a href="/profile/userId">
+                    <Link to={`/user/${user?.id}`}>
                       <img
                         src={user.profilePhoto}
                         alt=""
                         className="PopupProfileImg"
                       />
-                    </a>
+                    </Link>
                     <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                   </div>
                 )}

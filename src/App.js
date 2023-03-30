@@ -9,6 +9,7 @@ import ForgetPass from "./pages/forgetPass/ForgetPass";
 import ChangePassword from "./pages/ChangePassword/ChangePassword";
 import Settings from "./pages/Settings/Settings";
 import Account from "./components/Account/Account";
+import UserProfile from "./pages/userProfile/UserProfile";
 
 function App() {
   return (
@@ -57,6 +58,15 @@ function App() {
             element={
               <PrivateRoute>
                 <Account />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/user/:id"
+            element={
+              <PrivateRoute>
+                <UserProfile/>
               </PrivateRoute>
             }
           />

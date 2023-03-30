@@ -25,7 +25,7 @@ const Profile = () => {
   const myInfo = useSelector((state) => state.user?.myInfo);
   const followingInfo = useSelector((state) => state.user?.followingList);
   const followerInfo = useSelector((state) => state.user?.followerList);
-  console.log(followingInfo);
+  // console.log(followingInfo);
 
   return (
     <div className="profile">
@@ -58,17 +58,17 @@ const Profile = () => {
                     setTrigger={setFollowersPopup}
                     name={"Followers"}
                   >
-                    {followerInfo?.map((user)=>
-                    <div className="PopupDiv">
-                      <a href="/profile/userId">
-                        <img
-                          src={user.profilePhoto}
-                          alt=""
-                          className="PopupProfileImg"
-                        />
-                      </a>
-                      <span className="PopupUsername">{user.firstName} {user.lastName}</span>
-                    </div>
+                    {followerInfo?.map((user) =>
+                      <div className="PopupDiv">
+                        <Link to={`/user/${user?.id}`}>
+                          <img
+                            src={user.profilePhoto}
+                            alt=""
+                            className="PopupProfileImg"
+                          />
+                        </Link>
+                        <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                      </div>
                     )}
                   </Popup>
 
@@ -80,17 +80,17 @@ const Profile = () => {
                     setTrigger={setFollowingPopup}
                     name={"Following"}
                   >
-                    {followingInfo?.map((user)=>
-                    <div className="PopupDiv">
-                      <a href="/profile/userId">
-                        <img
-                          src={user.profilePhoto}
-                          alt=""
-                          className="PopupProfileImg"
-                        />
-                      </a>
-                      <span className="PopupUsername">{user.firstName} {user.lastName}</span>
-                    </div>
+                    {followingInfo?.map((user) =>
+                      <div className="PopupDiv">
+                        <Link to={`/user/${user?.id}`}>
+                          <img
+                            src={user.profilePhoto}
+                            alt=""
+                            className="PopupProfileImg"
+                          />
+                        </Link>
+                        <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                      </div>
                     )}
                   </Popup>
 

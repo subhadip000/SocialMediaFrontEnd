@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsersAction, userFollowAction, userUnfollowAction } from "../../redux/slices/UserSlice";
+import { Link } from "react-router-dom";
+import { fetchUsersAction, userFollowAction } from "../../redux/slices/UserSlice";
 
 import "./Rightbarhome.css";
 
@@ -16,7 +17,7 @@ const Rightbarhome = () => {
   let loginUser = myInfo?.id;
   let newArray = userList?.filter((e) => e.id !== loginUser);
   let isFollowed = (user) => user.followers.includes(myInfo?.id);
-  console.log(isFollowed);
+  // console.log(isFollowed);
 
 
   return (
@@ -25,14 +26,15 @@ const Rightbarhome = () => {
       <div>
         {newArray?.map((user) => (
           <form className="rightbarUserList" key={user.id}>
+
             <div className="UserDiv">
-              <a href="/profile/userId">
+              <Link to={`/user/${user?.id}`}>
                 <img
                   src={user.profilePhoto}
                   alt=""
                   className="PopupProfileImg"
                 />
-              </a>
+              </Link>
               <span className="PopupUsername">{user.firstName} {user.lastName}</span>
             </div>
             {isFollowed(user) ?
