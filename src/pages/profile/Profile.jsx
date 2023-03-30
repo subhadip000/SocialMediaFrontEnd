@@ -6,7 +6,7 @@ import Feed from "../../components/feed/Feed";
 // import ProfileRightbar from "../../components/rightbarprofile/ProfileRightbar";
 import Rightbar from "../../components/rightbar/Rightbar";
 import { useDispatch, useSelector } from "react-redux";
-import { MyProfileAction } from "../../redux/slices/UserSlice";
+import { fetchFolloweingAction, fetchFollowersAction, MyProfileAction } from "../../redux/slices/UserSlice";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Popup from "../../components/popup/Popup";
@@ -15,13 +15,18 @@ const Profile = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(MyProfileAction());
+    dispatch(fetchFolloweingAction());
+    dispatch(fetchFollowersAction());
   }, [dispatch]);
 
   const [followersPopup, setFollowersPopup] = useState(false);
   const [followingPopup, setFollowingPopup] = useState(false);
 
   const myInfo = useSelector((state) => state.user?.myInfo);
-  console.log(myInfo?.following);
+  const followingInfo = useSelector((state) => state.user?.followingList);
+  const followerInfo = useSelector((state) => state.user?.followerList);
+  console.log(followingInfo);
+
   return (
     <div className="profile">
       <Navbar />
@@ -53,16 +58,18 @@ const Profile = () => {
                     setTrigger={setFollowersPopup}
                     name={"Followers"}
                   >
+                    {followerInfo?.map((user)=>
                     <div className="PopupDiv">
                       <a href="/profile/userId">
                         <img
-                          src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                          src={user.profilePhoto}
                           alt=""
                           className="PopupProfileImg"
                         />
                       </a>
-                      <span className="PopupUsername">username</span>
+                      <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                     </div>
+                    )}
                   </Popup>
 
                   <span className="followInfoDesc" onClick={() => { setFollowingPopup(true) }}>
@@ -73,16 +80,18 @@ const Profile = () => {
                     setTrigger={setFollowingPopup}
                     name={"Following"}
                   >
+                    {followingInfo?.map((user)=>
                     <div className="PopupDiv">
                       <a href="/profile/userId">
                         <img
-                          src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                          src={user.profilePhoto}
                           alt=""
                           className="PopupProfileImg"
                         />
                       </a>
-                      <span className="PopupUsername">username</span>
+                      <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                     </div>
+                    )}
                   </Popup>
 
 

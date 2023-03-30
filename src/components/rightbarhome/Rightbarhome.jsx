@@ -36,7 +36,7 @@ const Rightbarhome = () => {
               <span className="PopupUsername">{user.firstName} {user.lastName}</span>
             </div>
             {isFollowed(user) ?
-              <button className="followBtn" onClick={() => dispatch(userUnfollowAction(user.id))}>Unfollow</button>
+              <button className="followBtn" onClick={() => dispatch(userFollowAction(user.id))}>Unfollow</button>
               : <button className="followBtn" onClick={() => dispatch(userFollowAction(user.id))}>Follow</button>
             }
           </form>

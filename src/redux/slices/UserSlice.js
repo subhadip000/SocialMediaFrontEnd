@@ -155,27 +155,24 @@ export const userFollowAction = createAsyncThunk(
     }
   }
 );
-//unfollow user action
-export const userUnfollowAction = createAsyncThunk(
-  "user/unfollow",
-  async (userId, { rejectWithValue, getState, dispatch }) => {
+
+// fetch followers 
+export const fetchFollowersAction = createAsyncThunk(
+  "followers/fetch",
+  async (users, { rejectWithValue, getState, dispatch }) => {
     const user = getState()?.auth;
     const { userInfo } = user;
     const config = {
       headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${userInfo?.token}`,
       },
     };
     try {
-
-      const { data } = await axios.post(
-        `${BaseUrl}/api/user/unfollow`,
-        {
-          Id: userId
-        },
+      const { data } = await axios.get(
+        `${BaseUrl}/api/user/profile/my-followers`,
         config
       );
-
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -185,6 +182,34 @@ export const userUnfollowAction = createAsyncThunk(
     }
   }
 );
+
+// fetch following
+export const fetchFolloweingAction = createAsyncThunk(
+  "following/fetch",
+  async (users, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/user/profile/my-following`,
+        config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 
 
 // Then, handle actions in your reducers:
@@ -271,24 +296,36 @@ const UserSlice = createSlice({
       state.serverErr = action?.error?.message;
       state.loading = false;
     });
-    //user unfollow action 
-    builder.addCase(userUnfollowAction.pending, (state, action) => {
-      state.loading = true;
+    //followers details
+    builder.addCase(fetchFollowersAction.pending, (state, action) => {
+      state.profileLoading = true;
     });
-
-    builder.addCase(userUnfollowAction.fulfilled, (state, action) => {
-      state.unfollowed = action?.payload;
-      state.followed = undefined;
-      state.loading = false;
-      state.appErr = undefined;
-      state.serverErr = undefined;
+    builder.addCase(fetchFollowersAction.fulfilled, (state, action) => {
+      state.followerList = action?.payload;
+      state.profileLoading = false;
+      state.profileAppErr = undefined;
+      state.profileServerErr = undefined;
     });
-    builder.addCase(userUnfollowAction.rejected, (state, action) => {
-      state.appErr = action?.payload?.message;
-      state.serverErr = action?.error?.message;
-      state.loading = false;
+    builder.addCase(fetchFollowersAction.rejected, (state, action) => {
+      state.profileAppErr = action?.payload?.message;
+      state.profileServerErr = action?.error?.message;
+      state.profileLoading = false;
     });
-
+    //following details
+    builder.addCase(fetchFolloweingAction.pending, (state, action) => {
+      state.profileLoading = true;
+    });
+    builder.addCase(fetchFolloweingAction.fulfilled, (state, action) => {
+      state.followingList = action?.payload;
+      state.profileLoading = false;
+      state.profileAppErr = undefined;
+      state.profileServerErr = undefined;
+    });
+    builder.addCase(fetchFolloweingAction.rejected, (state, action) => {
+      state.profileAppErr = action?.payload?.message;
+      state.profileServerErr = action?.error?.message;
+      state.profileLoading = false;
+    });
   },
 });
 
