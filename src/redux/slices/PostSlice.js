@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const BaseUrl =
   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+// const BaseUrl = "https://testing-blog-server.onrender.com"
 
 // Login
 export const FetchPostAction = createAsyncThunk(
