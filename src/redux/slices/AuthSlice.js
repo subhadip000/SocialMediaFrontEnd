@@ -68,6 +68,57 @@ export const UserLogoutAction = createAsyncThunk(
   }
 );
 
+// Email Verification Otp
+export const EmailVerifyAction = createAsyncThunk(
+  "auth/verify-email",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const auth = getState()?.auth;
+    const { userInfo } = auth;
+    console.log("token: ", userInfo?.token);
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/user/verify-email`,
+        configToken
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      if (error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// Email Verification Success
+export const EmailVerifyOtpAction = createAsyncThunk(
+  "auth/verification",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const { userInfo } = getState()?.auth;
+    console.log(userInfo?.token);
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/verification`,
+        input,
+        configToken
+      );
+      return data;
+    } catch (error) {
+      if (error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 // Update Password
 export const UpdatePasswordAction = createAsyncThunk(
   "auth/update-pass",
@@ -88,6 +139,7 @@ export const UpdatePasswordAction = createAsyncThunk(
       return data;
     } catch (error) {
       if (error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
     }
   }
 );
@@ -273,6 +325,42 @@ const AuthSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(UserLogoutAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Send otp for Email Verification
+    builder.addCase(EmailVerifyAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(EmailVerifyAction.fulfilled, (state, action) => {
+      state.otpSend = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(EmailVerifyAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Check Otp for email verification
+    builder.addCase(EmailVerifyOtpAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(EmailVerifyOtpAction.fulfilled, (state, action) => {
+      state.otpCheck = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(EmailVerifyOtpAction.rejected, (state, action) => {
       state.isLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;

@@ -2,30 +2,25 @@ import React from "react";
 import './Account.css'
 import Deactivation from "./Deactivation/Deactivation";
 import DeleteAccount from "./Deletion/DeleteAccount";
+import EmailVerification from "./Email/EmailVerification";
 import UpdatePassword from "./UpdatePassword/UpdatePassword";
 
 const Account = () => {
 
-  const styleHead = {
-    border: "1px solid black",
-    cursor: "pointer",
-    borderRadius: "10px",
-    padding: "5px",
-    width: "300px",
-    marginBottom: "5px",
-  };
-
   return (
     <>
       <div className="options">
+        <div className="verify">
+          <EmailVerification />
+        </div>
         <div className="delete">
-          <DeleteAccount styleHead={styleHead}/>
+          <DeleteAccount />
         </div>
         <div className="deactivation">
-          <Deactivation styleHead={styleHead}/>
+          <Deactivation />
         </div>
         <div className="update-password">
-          <UpdatePassword styleHead={styleHead}/>
+          <UpdatePassword />
         </div>
       </div>
     </>
