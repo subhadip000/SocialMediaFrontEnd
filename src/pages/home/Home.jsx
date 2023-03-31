@@ -17,12 +17,14 @@ const Home = () => {
 
   const post = useSelector((state) => state.post?.Post);
 
+  console.log("home",post);
+
   return (
     <div className="home">
       <Navbar />
       <div className="homeContainer">
         <Sidebar />
-            <Feed post={post} isStory={true}/>
+            <Feed post={post} isStory={true} profileInfo={post?.author}/>
         <Rightbar />
       </div>
     </div>

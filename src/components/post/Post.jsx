@@ -13,10 +13,12 @@ import { Link } from "react-router-dom";
 
 const Post = ({
   post,
+  profileInfo,
   setIsLiked,
   setLikeCount,
   likeCount,
   isLike, }) => {
+    console.log("profileInfo",profileInfo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
   const Post = useSelector((state) => state?.post);
@@ -51,28 +53,16 @@ const Post = ({
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            {post?.author?.id === myInfo?.id ?
-              <Link to={"/profile"} className="Link">
+              {/* <Link to={"/profile"} className="Link"> */}
                 <img
-                  src={post?.author?.profilePhoto}
+                  src={profileInfo?.profilePhoto}
                   alt=""
                   className="postProfileImg"
                 />
                 <span className="postUsername">
-                  {post?.author?.firstName} {post?.author?.lastName}
+                  {profileInfo?.firstName} {profileInfo?.lastName}
                 </span>
-              </Link>
-              : <Link to={`/user/${post?.author?.id}`} className="Link">
-                <img
-                  src={post?.author?.profilePhoto}
-                  alt=""
-                  className="postProfileImg"
-                />
-                <span className="postUsername">
-                  {post?.author?.firstName} {post?.author?.lastName}
-                </span>
-              </Link>
-            }
+              {/* </Link> */}
 
             <span className="postDate">
               <Moment fromNow ago>

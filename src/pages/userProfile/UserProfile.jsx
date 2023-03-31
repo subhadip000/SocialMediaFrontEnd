@@ -111,7 +111,7 @@ const UserProfile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            {profile ? <Feed post={profile?.Post} isStory={false} /> : null}
+            {profile ? <Feed post={profile?.Post} isStory={false} profileInfo={profile}/> : null}
             <Rightbar profile post={profile?.Post} />
             {/* <ProfileRightbar/> */}
           </div>

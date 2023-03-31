@@ -16,9 +16,9 @@ const Profile = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(MyProfileAction());
-    dispatch(fetchFolloweingAction());
-    dispatch(fetchFollowersAction());
-    dispatch(FetchPostAction());
+    // dispatch(fetchFolloweingAction());
+    // dispatch(fetchFollowersAction());
+    // dispatch(FetchPostAction());
   }, [dispatch]);
 
   const [followersPopup, setFollowersPopup] = useState(false);
@@ -27,13 +27,13 @@ const Profile = () => {
   const myInfo = useSelector((state) => state.user?.myInfo);
   const followingInfo = useSelector((state) => state.user?.followingList);
   const followerInfo = useSelector((state) => state.user?.followerList);
-  const post = useSelector((state) => state.post?.Post);
+  // const post = useSelector((state) => state.post?.Post);
   // console.log("post", post);
   // console.log("myinfo post", myInfo?.Post);
 
-  const MyInfoPost = myInfo?.Post;
+  // const MyInfoPost = myInfo?.Post;
 
-  let myPost = [];
+  // let myPost = [];
 
 
   // for (let i = 0; i < post.length; i++) {
@@ -44,7 +44,7 @@ const Profile = () => {
   //   }
   // }
 
-
+// console.log(myInfo);
 
   return (
     <div className="profile">
@@ -127,7 +127,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            {myInfo ? <Feed post={myInfo?.Post} isStory={false} /> : null}
+            {myInfo ? <Feed post={myInfo?.Post} isStory={false} profileInfo={myInfo}/> : null}
             <Rightbar profile post={myInfo?.Post} />
             {/* <ProfileRightbar/> */}
           </div>
