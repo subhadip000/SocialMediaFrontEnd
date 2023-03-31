@@ -6,39 +6,41 @@ import Feed from "../../components/feed/Feed";
 // import ProfileRightbar from "../../components/rightbarprofile/ProfileRightbar";
 import Rightbar from "../../components/rightbar/Rightbar";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFolloweingAction, fetchFollowersAction, fetchUserDetailsAction, MyProfileAction } from "../../redux/slices/UserSlice";
+import { fetchFolloweingAction, fetchFollowersAction, fetchUserDetailsAction, MyProfileAction, userFollowAction } from "../../redux/slices/UserSlice";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import Popup from "../../components/popup/Popup";
 
 const UserProfile = () => {
 
-    // dispatch
-    const dispatch = useDispatch();
-    // get id
-    const {id} = useParams()
-    const user = useSelector((state) => state?.user);
-    const { profile } = user;
-    // getting user details
-    useEffect(()=>{
-        dispatch(fetchUserDetailsAction(id))
-    },[id,dispatch]);
-    // console.log(profile);
+  // dispatch
+  const dispatch = useDispatch();
+  // get id
+  const { id } = useParams()
+  const user = useSelector((state) => state?.user);
+  const { profile, myInfo } = user;
+  // getting user details
+  useEffect(() => {
+    dispatch(MyProfileAction());
+    dispatch(fetchUserDetailsAction(id));
+  }, [id, dispatch]);
+  // console.log(profile);
+  let isFollowed = (profile) => profile?.followers.includes(myInfo?.id);
 
-//   const dispatch = useDispatch();
-//   useEffect(() => {
-//     dispatch(MyProfileAction());
-//     dispatch(fetchFolloweingAction());
-//     dispatch(fetchFollowersAction());
-//   }, [dispatch]);
+  //   const dispatch = useDispatch();
+  //   useEffect(() => {
+  //     dispatch(MyProfileAction());
+  //     dispatch(fetchFolloweingAction());
+  //     dispatch(fetchFollowersAction());
+  //   }, [dispatch]);
 
   const [followersPopup, setFollowersPopup] = useState(false);
   const [followingPopup, setFollowingPopup] = useState(false);
 
-//   const myInfo = useSelector((state) => state.user?.myInfo);
-//   const followingInfo = useSelector((state) => state.user?.followingList);
-//   const followerInfo = useSelector((state) => state.user?.followerList);
-//   console.log(followingInfo);
+  //   const myInfo = useSelector((state) => state.user?.myInfo);
+  //   const followingInfo = useSelector((state) => state.user?.followingList);
+  //   const followerInfo = useSelector((state) => state.user?.followerList);
+  //   console.log(followingInfo);
 
   return (
     <div className="profile">
@@ -55,7 +57,7 @@ const UserProfile = () => {
               />
               <div className="profileInfo">
                 <h4 className="profileInfoName">
-                {profile?.firstName} {profile?.lastName}
+                  {profile?.firstName} {profile?.lastName}
                 </h4>
                 <span className="profileInfoDesc">{profile?.bio}</span>
                 <div className="followInfo">
@@ -110,14 +112,18 @@ const UserProfile = () => {
                 </div>
               </div>
               <div className="editProfile">
-                <Link to={`/`}>
+                {/* <Link to={`/`}>
                   <button className="editProfileBtn">Follow</button>
-                </Link>
+                </Link> */}
+                {isFollowed(profile) ?
+                  <button className="followBtn" onClick={() => dispatch(userFollowAction(profile?.id))}>Unfollow</button>
+                  : <button className="followBtn" onClick={() => dispatch(userFollowAction(profile?.id))}>Follow</button>
+                }
               </div>
             </div>
           </div>
           <div className="profileRightBottom">
-          {profile ? <Feed post={profile?.Post} isStory={false} /> : null}
+            {profile ? <Feed post={profile?.Post} isStory={false} /> : null}
             <Rightbar profile post={profile?.Post} />
             {/* <ProfileRightbar/> */}
           </div>

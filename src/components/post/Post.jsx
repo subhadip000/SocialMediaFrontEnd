@@ -102,13 +102,23 @@ const Post = ({
               >
                 {post?.LikedBy?.map((user) =>
                   <div className="PopupDiv">
-                    <Link to={`/user/${user?.id}`}>
-                      <img
-                        src={user.profilePhoto}
-                        alt=""
-                        className="PopupProfileImg"
-                      />
-                    </Link>
+                    {user?.id === myInfo?.id ?
+                      <Link to={"/profile"}>
+                        <img
+                          src={user.profilePhoto}
+                          alt=""
+                          className="PopupProfileImg"
+                        />
+                      </Link>
+                      : <Link to={`/user/${user?.id}`}>
+                        <img
+                          src={user.profilePhoto}
+                          alt=""
+                          className="PopupProfileImg"
+                        />
+                      </Link>
+                    }
+
                     <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                   </div>
                 )}
