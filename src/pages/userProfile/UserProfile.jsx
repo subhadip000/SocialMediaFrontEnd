@@ -24,23 +24,11 @@ const UserProfile = () => {
     dispatch(MyProfileAction());
     dispatch(fetchUserDetailsAction(id));
   }, [id, dispatch]);
-  // console.log(profile);
+  // console.log(profile?.Post);
   let isFollowed = (profile) => profile?.followers.includes(myInfo?.id);
-
-  //   const dispatch = useDispatch();
-  //   useEffect(() => {
-  //     dispatch(MyProfileAction());
-  //     dispatch(fetchFolloweingAction());
-  //     dispatch(fetchFollowersAction());
-  //   }, [dispatch]);
 
   const [followersPopup, setFollowersPopup] = useState(false);
   const [followingPopup, setFollowingPopup] = useState(false);
-
-  //   const myInfo = useSelector((state) => state.user?.myInfo);
-  //   const followingInfo = useSelector((state) => state.user?.followingList);
-  //   const followerInfo = useSelector((state) => state.user?.followerList);
-  //   console.log(followingInfo);
 
   return (
     <div className="profile">

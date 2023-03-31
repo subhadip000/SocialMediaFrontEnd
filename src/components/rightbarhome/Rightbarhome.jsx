@@ -28,14 +28,14 @@ const Rightbarhome = () => {
           <form className="rightbarUserList" key={user.id}>
 
             <div className="UserDiv">
-              <Link to={`/user/${user?.id}`}>
+              <Link to={`/user/${user?.id}`} className="Link">
                 <img
                   src={user.profilePhoto}
                   alt=""
                   className="PopupProfileImg"
                 />
+                <span className="PopupUsername">{user.firstName} {user.lastName}</span>
               </Link>
-              <span className="PopupUsername">{user.firstName} {user.lastName}</span>
             </div>
             {isFollowed(user) ?
               <button className="followBtn" onClick={() => dispatch(userFollowAction(user.id))}>Unfollow</button>

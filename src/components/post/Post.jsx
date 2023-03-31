@@ -51,16 +51,29 @@ const Post = ({
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <a href="/profile/userId">
-              <img
-                src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
-                alt=""
-                className="postProfileImg"
-              />
-            </a>
-            <span className="postUsername">
-              {post?.author?.firstName} {post?.author?.lastName}
-            </span>
+            {post?.author?.id === myInfo?.id ?
+              <Link to={"/profile"} className="Link">
+                <img
+                  src={post?.author?.profilePhoto}
+                  alt=""
+                  className="postProfileImg"
+                />
+                <span className="postUsername">
+                  {post?.author?.firstName} {post?.author?.lastName}
+                </span>
+              </Link>
+              : <Link to={`/user/${post?.author?.id}`} className="Link">
+                <img
+                  src={post?.author?.profilePhoto}
+                  alt=""
+                  className="postProfileImg"
+                />
+                <span className="postUsername">
+                  {post?.author?.firstName} {post?.author?.lastName}
+                </span>
+              </Link>
+            }
+
             <span className="postDate">
               <Moment fromNow ago>
                 {post?.createdAt}
@@ -103,23 +116,23 @@ const Post = ({
                 {post?.LikedBy?.map((user) =>
                   <div className="PopupDiv">
                     {user?.id === myInfo?.id ?
-                      <Link to={"/profile"}>
+                      <Link to={"/profile"} className="Link">
                         <img
                           src={user.profilePhoto}
                           alt=""
                           className="PopupProfileImg"
                         />
+                        <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                       </Link>
-                      : <Link to={`/user/${user?.id}`}>
+                      : <Link to={`/user/${user?.id}`} className="Link">
                         <img
                           src={user.profilePhoto}
                           alt=""
                           className="PopupProfileImg"
                         />
+                        <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                       </Link>
                     }
-
-                    <span className="PopupUsername">{user.firstName} {user.lastName}</span>
                   </div>
                 )}
               </Popup>

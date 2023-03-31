@@ -71,6 +71,15 @@
 .PopupDiv {
   display: flex;
   align-items: center;
+  margin-bottom: 5px;
+}
+
+.Link{
+  text-decoration: none !important;
+  text-align: center;
+  justify-content: center;
+  display: contents;
+  color: black;
 }
 
 .PopupProfileImg {
