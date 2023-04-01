@@ -4,9 +4,9 @@ const BaseUrl =
   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 // const BaseUrl = "https://testing-blog-server.onrender.com"
 
-// Login
+// posts fetch
 export const FetchPostAction = createAsyncThunk(
-  "post/fetch",
+  "posts/fetch",
   async (i, { rejectWithValue, getState, dispatch }) => {
     const user = getState()?.auth;
     const { userInfo } = user;
@@ -27,7 +27,33 @@ export const FetchPostAction = createAsyncThunk(
     }
   }
 );
+// post fetch
+export const FetchSinglePostAction = createAsyncThunk(
+  "post/fetch",
+  async (postId, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    console.log("single post");
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/post/${postId}`,
+        configToken
+        );
 
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
 
 //create post action
 export const createPostAction = createAsyncThunk(
@@ -98,7 +124,7 @@ const PostSlice = createSlice({
   name: "post",
   initialState: {},
   extraReducers: (builder) => {
-    //Register
+    //posts fetch
     builder.addCase(FetchPostAction.pending, (state, action) => {
       state.isLoading = true;
       state.appErr = undefined;
@@ -111,6 +137,24 @@ const PostSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(FetchPostAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+     //post fetch
+     builder.addCase(FetchSinglePostAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchSinglePostAction.fulfilled, (state, action) => {
+      state.SinglePost = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchSinglePostAction.rejected, (state, action) => {
       state.isLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;

@@ -16,7 +16,7 @@ const Home = () => {
 
   const post = useSelector((state) => state.post?.Post);
 
-  console.log("home",post);
+  // console.log("home",post);
 
   return (
     <div className="home">

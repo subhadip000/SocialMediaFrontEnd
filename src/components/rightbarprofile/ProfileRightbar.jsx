@@ -9,14 +9,16 @@ const ProfileRightbar = ({ post }) => {
                 <span className="profileRightBarTitle">Photos</span>
             </div>
             <div className="profileRightBarPhotos">
-                {post ? post.map((e, i) => {
-                    return <div className="profileRightBarPhoto" key={i}>
+                {post ? post.map((e) => {
+                    return <div className="profileRightBarPhoto" key={e}>
+                        {e?.image?.map(image =>
+                            <img
+                                src={image}
+                                alt=""
+                                className="profileRightBarPhotoImg"
+                            />
+                        )}
 
-                        <img
-                            src={post[i]?.image}
-                            alt=""
-                            className="profileRightBarPhotoImg"
-                        />
 
                     </div>
                 }) : null}

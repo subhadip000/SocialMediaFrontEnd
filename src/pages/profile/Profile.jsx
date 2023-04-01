@@ -16,8 +16,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(MyProfileAction());
-    // dispatch(fetchFolloweingAction());
-    // dispatch(fetchFollowersAction());
+    dispatch(fetchFolloweingAction());
+    dispatch(fetchFollowersAction());
     // dispatch(FetchPostAction());
   }, [dispatch]);
 
@@ -28,23 +28,6 @@ const Profile = () => {
   const followingInfo = useSelector((state) => state.user?.followingList);
   const followerInfo = useSelector((state) => state.user?.followerList);
   // const post = useSelector((state) => state.post?.Post);
-  // console.log("post", post);
-  // console.log("myinfo post", myInfo?.Post);
-
-  // const MyInfoPost = myInfo?.Post;
-
-  // let myPost = [];
-
-
-  // for (let i = 0; i < post.length; i++) {
-  //   for (let j = 0; j < MyInfoPost.length; j++) {
-  //     if (post[i].id === MyInfoPost[j].id) {
-  //       myPost.push(post[i].value);
-  //     }
-  //   }
-  // }
-
-// console.log(myInfo);
 
   return (
     <div className="profile">
@@ -127,7 +110,7 @@ const Profile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            {myInfo ? <Feed post={myInfo?.Post} isStory={false} profileInfo={myInfo}/> : null}
+            {myInfo ? <Feed post={myInfo?.Post} isStory={false} profileInfo={myInfo} /> : null}
             <Rightbar profile post={myInfo?.Post} />
             {/* <ProfileRightbar/> */}
           </div>

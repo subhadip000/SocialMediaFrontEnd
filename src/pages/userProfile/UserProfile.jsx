@@ -23,12 +23,18 @@ const UserProfile = () => {
   useEffect(() => {
     dispatch(MyProfileAction());
     dispatch(fetchUserDetailsAction(id));
+    dispatch(fetchFolloweingAction(id));
+    dispatch(fetchFollowersAction(id));
   }, [id, dispatch]);
   // console.log(profile?.Post);
   let isFollowed = (profile) => profile?.followers.includes(myInfo?.id);
 
   const [followersPopup, setFollowersPopup] = useState(false);
   const [followingPopup, setFollowingPopup] = useState(false);
+
+  const followingInfo = useSelector((state) => state.user?.followingList);
+  const followerInfo = useSelector((state) => state.user?.followerList);
+
 
   return (
     <div className="profile">
@@ -61,16 +67,18 @@ const UserProfile = () => {
                     setTrigger={setFollowersPopup}
                     name={"Followers"}
                   >
-                    <div className="PopupDiv">
-                      <a href="/profile/userId">
-                        <img
-                          src="https://img2.goodfon.com/wallpaper/nbig/8/42/batman-bruce-wayne-dark.jpg"
-                          alt=""
-                          className="PopupProfileImg"
-                        />
-                      </a>
-                      <span className="PopupUsername">firstName lastName</span>
-                    </div>
+                    {followerInfo?.map((user) =>
+                      <div className="PopupDiv">
+                        <Link to={`/user/${user?.id}`} className="Link">
+                          <img
+                            src={user.profilePhoto}
+                            alt=""
+                            className="PopupProfileImg"
+                          />
+                          <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                        </Link>
+                      </div>
+                    )}
                   </Popup>
 
                   <span className="followInfoDesc" onClick={() => { setFollowingPopup(true) }}>
@@ -81,16 +89,18 @@ const UserProfile = () => {
                     setTrigger={setFollowingPopup}
                     name={"Following"}
                   >
-                    <div className="PopupDiv">
-                      <a href="/profile/userId">
-                        <img
-                          src="https://img2.goodfon.com/wallpaper/nbig/8/42/batman-bruce-wayne-dark.jpg"
-                          alt=""
-                          className="PopupProfileImg"
-                        />
-                      </a>
-                      <span className="PopupUsername">firstName lastName</span>
-                    </div>
+                    {followingInfo?.map((user) =>
+                      <div className="PopupDiv">
+                        <Link to={`/user/${user?.id}`} className="Link">
+                          <img
+                            src={user.profilePhoto}
+                            alt=""
+                            className="PopupProfileImg"
+                          />
+                          <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                        </Link>
+                      </div>
+                    )}
                   </Popup>
 
 
@@ -111,7 +121,7 @@ const UserProfile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            {profile ? <Feed post={profile?.Post} isStory={false} profileInfo={profile}/> : null}
+            {profile ? <Feed post={profile?.Post} isStory={false} profileInfo={profile} /> : null}
             <Rightbar profile post={profile?.Post} />
             {/* <ProfileRightbar/> */}
           </div>

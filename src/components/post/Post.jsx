@@ -18,7 +18,7 @@ const Post = ({
   setLikeCount,
   likeCount,
   isLike, }) => {
-    console.log("profileInfo",profileInfo);
+  console.log("profileInfo", profileInfo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
   const Post = useSelector((state) => state?.post);
@@ -53,7 +53,8 @@ const Post = ({
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-              {/* <Link to={"/profile"} className="Link"> */}
+            {profileInfo?.id === myInfo?.id ?
+              <Link to={"/profile"} className="Link">
                 <img
                   src={profileInfo?.profilePhoto}
                   alt=""
@@ -62,7 +63,18 @@ const Post = ({
                 <span className="postUsername">
                   {profileInfo?.firstName} {profileInfo?.lastName}
                 </span>
-              {/* </Link> */}
+              </Link>
+              : <Link to={`/user/${profileInfo?.id}`} className="Link">
+                <img
+                  src={profileInfo?.profilePhoto}
+                  alt=""
+                  className="postProfileImg"
+                />
+                <span className="postUsername">
+                  {profileInfo?.firstName} {profileInfo?.lastName}
+                </span>
+              </Link>
+            }
 
             <span className="postDate">
               <Moment fromNow ago>

@@ -172,20 +172,23 @@ export const userFollowAction = createAsyncThunk(
 // fetch followers
 export const fetchFollowersAction = createAsyncThunk(
   "followers/fetch",
-  async (users, { rejectWithValue, getState, dispatch }) => {
+  async (userId, { rejectWithValue, getState, dispatch }) => {
     const user = getState()?.auth;
     const { userInfo } = user;
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${userInfo?.token}`,
       },
     };
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.post(
         `${BaseUrl}/api/user/profile/my-followers`,
+        {
+          id: userId,
+        },
         config
       );
+      console.log("user slice", data);
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -199,18 +202,20 @@ export const fetchFollowersAction = createAsyncThunk(
 // fetch following
 export const fetchFolloweingAction = createAsyncThunk(
   "following/fetch",
-  async (users, { rejectWithValue, getState, dispatch }) => {
+  async (userId, { rejectWithValue, getState, dispatch }) => {
     const user = getState()?.auth;
     const { userInfo } = user;
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${userInfo?.token}`,
       },
     };
     try {
-      const { data } = await axios.get(
+      const { data } = await axios.post(
         `${BaseUrl}/api/user/profile/my-following`,
+        {
+          id: userId,
+        },
         config
       );
       return data;
