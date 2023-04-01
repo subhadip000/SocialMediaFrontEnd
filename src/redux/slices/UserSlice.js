@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-// const BaseUrl = "https://testing-blog-server.onrender.com"
+// const BaseUrl = "https://testing-blog-server.onrender.com";
 const BaseUrl =
   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 
@@ -92,7 +92,7 @@ export const editProfilePhotoAction = createAsyncThunk(
   }
 );
 
-// fetch all users 
+// fetch all users
 export const fetchUsersAction = createAsyncThunk(
   "users/fetch",
   async (users, { rejectWithValue, getState, dispatch }) => {
@@ -105,10 +105,7 @@ export const fetchUsersAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(
-        `${BaseUrl}/api/user`,
-        config
-      );
+      const { data } = await axios.get(`${BaseUrl}/api/user`, config);
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -131,10 +128,7 @@ export const fetchUserDetailsAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.get(
-        `${BaseUrl}/api/user/${id}`,
-        config
-      );
+      const { data } = await axios.get(`${BaseUrl}/api/user/${id}`, config);
       return data;
     } catch (error) {
       if (!error?.response) {
@@ -157,11 +151,10 @@ export const userFollowAction = createAsyncThunk(
       },
     };
     try {
-
       const { data } = await axios.post(
         `${BaseUrl}/api/user/follow`,
         {
-          Id: userId
+          Id: userId,
         },
         config
       );
@@ -176,7 +169,7 @@ export const userFollowAction = createAsyncThunk(
   }
 );
 
-// fetch followers 
+// fetch followers
 export const fetchFollowersAction = createAsyncThunk(
   "followers/fetch",
   async (users, { rejectWithValue, getState, dispatch }) => {
@@ -229,8 +222,6 @@ export const fetchFolloweingAction = createAsyncThunk(
     }
   }
 );
-
-
 
 // Then, handle actions in your reducers:
 const UserSlice = createSlice({
@@ -314,7 +305,7 @@ const UserSlice = createSlice({
       state.profileServerErr = action?.error?.message;
       state.profileLoading = false;
     });
-    //user follow action 
+    //user follow action
     builder.addCase(userFollowAction.pending, (state, action) => {
       state.loading = true;
     });

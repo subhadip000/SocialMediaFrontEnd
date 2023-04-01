@@ -78,7 +78,7 @@ const Post = ({
           {ImgArrayLen === 0 ? (
             ""
           ) : ImgArrayLen === 1 ? (
-            <img src={post?.image} alt="" className="postImg" />
+            <img src={post?.image[0]} alt="" className="postImg" />
           ) : (
             <div className="sliderContainer">
               <ImageSwiper images={post?.image} />
