@@ -2,10 +2,21 @@ import React, { useEffect, useState } from "react";
 import "./Post.css";
 import Moment from "react-moment";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
+import {
+  FaHeart,
+  FaCommentAlt,
+  FaShareAlt,
+  FaEdit,
+  FaTrash,
+} from "react-icons/fa";
 import Popup from "../popup/Popup";
 import { useDispatch, useSelector } from "react-redux";
-import { CreateCommentAction, postLikesAction } from "../../redux/slices/PostSlice";
+import {
+  CreateCommentAction,
+  DeleteCommentAction,
+  FetchPostCommentsAction,
+  postLikesAction,
+} from "../../redux/slices/PostSlice";
 import withLike from "../HOC/likeHoc";
 import ImageSwiper from "../Swiper/ImageSwiper";
 import { Link } from "react-router-dom";
@@ -54,20 +65,19 @@ const Post = ({
   const commentHandler = () => {
     console.log("postId from comment: ", post?.id);
     console.log("description of the comment: ", comment);
-    setComment("")
-    dispatch(CreateCommentAction({postId: post?.id, description: comment}))
+    setComment("");
+    dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
   };
 
-  
-  const commentEditer = () => {
-    console.log("For Update, commentId: ", post?.Comments[0]?.id, "& description: ", post?.Comments[0]?.description);
+  const commentEditer = (commentId) => {
+    console.log("For Update, commentId: ", commentId);
     console.log("post: ", post);
-  }
-  
-  const commentDeleter = () => {
-    console.log("For Delete, commentId: ", post?.Comments[0]?.id, "& description: ", post?.Comments[0]?.description);
-    console.log("Post: ", Post);
-  }
+  };
+
+  const commentDeleter = (commentId) => {
+    console.log("For Delete, commentId: ", commentId);
+    dispatch(DeleteCommentAction({ commentId }));
+  };
 
   // console.log("from post.jsx", post.LikedBy);
   return (
@@ -144,29 +154,23 @@ const Post = ({
               >
                 {post?.LikedBy?.map((user) => (
                   <div className="PopupDiv">
-                    {user?.id === myInfo?.id ? (
-                      <Link to={"/profile"} className="Link">
-                        <img
-                          src={user.profilePhoto}
-                          alt=""
-                          className="PopupProfileImg"
-                        />
-                        <span className="PopupUsername">
-                          {user.firstName} {user.lastName}
-                        </span>
-                      </Link>
-                    ) : (
-                      <Link to={`/user/${user?.id}`} className="Link">
-                        <img
-                          src={user.profilePhoto}
-                          alt=""
-                          className="PopupProfileImg"
-                        />
-                        <span className="PopupUsername">
-                          {user.firstName} {user.lastName}
-                        </span>
-                      </Link>
-                    )}
+                    <Link
+                      to={
+                        user?.id === myInfo?.id
+                          ? "/profile"
+                          : `/user/${user?.id}`
+                      }
+                      className="Link"
+                    >
+                      <img
+                        src={user.profilePhoto}
+                        alt=""
+                        className="PopupProfileImg"
+                      />
+                      <span className="PopupUsername">
+                        {user.firstName} {user.lastName}
+                      </span>
+                    </Link>
                   </div>
                 ))}
               </Popup>
@@ -176,14 +180,17 @@ const Post = ({
               <span
                 className="postLikeCounter"
                 onClick={() => {
-                  // setCommentPopup(true);
-                  setCommentSection(!commentSection);
+                  // setCommentSection((prev) => !prev);
+                  // if (!commentSection) {
+                  dispatch(FetchPostCommentsAction(post?.id));
+                  // }
+                  setCommentPopup((prev) => !prev);
                 }}
                 onMouseOver={() => {
                   console.log("Show the popup");
                 }}
                 onMouseOut={() => {
-                  console.log("Hide the popup")
+                  console.log("Hide the popup");
                 }}
               >
                 {post?.Comments?.length} Comments
@@ -193,16 +200,55 @@ const Post = ({
                 setTrigger={setCommentPopup}
                 name={"Comments"}
               >
-                <div className="PopupDiv">
-                  <a href="/profile/userId">
-                    <img
-                      src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
-                      alt=""
-                      className="PopupProfileImg"
-                    />
-                  </a>
-                  <span className="PopupUsername">username</span>
-                </div>
+                {Post?.loading ? (
+                  <p>Loading...</p>
+                ) : Post?.Comments?.length > 0 ? (
+                  Post?.Comments.map((comment) => (
+                    <div key={comment.id} className="commentFuncs">
+                      <div className="PopupContent">
+                        <Link
+                          to={
+                            comment.user?.id === myInfo.id
+                              ? `/profile`
+                              : `/user/${comment.user?.id}`
+                          }
+                          className="Link"
+                        >
+                          <img
+                            src={comment.user?.profilePhoto}
+                            alt=""
+                            className="PopupProfileImg"
+                          />
+                        </Link>
+                        <div className="PopupDetails">
+                          <Link
+                            to={`/user/${comment.user?.id}`}
+                            className="Link"
+                          >
+                            <small className="PopupUsername">
+                              {comment.user?.firstName} {comment.user?.lastName}
+                            </small>
+                          </Link>
+                          <p>{comment.description}</p>
+                        </div>
+                      </div>
+                      {comment.user?.id === myInfo.id ? (
+                        <div className="update-delete-icons">
+                          <FaEdit
+                            className="editIcon"
+                            onClick={() => commentEditer(comment.id)}
+                          />
+                          <FaTrash
+                            className="deleteIcon"
+                            onClick={() => commentDeleter(comment.id)}
+                          />
+                        </div>
+                      ) : null}
+                    </div>
+                  ))
+                ) : (
+                  <h4>Be the first one to comment</h4>
+                )}
               </Popup>
             </div>
           </div>
@@ -213,17 +259,13 @@ const Post = ({
           </div>
         </div>
 
-        {commentSection && (
-          <Comment
-            commentHandler={commentHandler}
-            postId={post?.id}
-            comment={comment}
-            setComment={setComment}
-            Comments={post?.Comments}
-            commentEditer={commentEditer}
-            commentDeleter={commentDeleter}
-          />
-        )}
+        {/* {commentSection && ( */}
+        <Comment
+          commentHandler={commentHandler}
+          comment={comment}
+          setComment={setComment}
+        />
+        {/* )} */}
       </div>
     </div>
   );

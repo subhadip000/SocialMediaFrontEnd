@@ -6,6 +6,7 @@ export const Comment = ({
   comment,
   setComment,
   Comments,
+  loading,
   commentEditer,
   commentDeleter,
 }) => {
@@ -22,26 +23,42 @@ export const Comment = ({
           />
           <FaTelegramPlane className="sendIcon" onClick={commentHandler} />
         </div>
-        {Comments.length > 0 &&
+        {/* add a conditional render  */}
+        {/* {loading ? (
+          <p>Loading...</p>
+        ) : Comments.length > 0 ? (
           Comments.map((comment) => (
             <div key={comment.id} className="commentFuncs">
               <div className="postBottomFooterItem">
                 <a href="/profile/userId">
                   <img
-                    src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
+                    src={comment.user?.profilePhoto}
                     alt=""
                     className="commentProfileImg"
                   />
                 </a>
-                {/* <p>nice picture</p> */}
-                <p>{comment.description}</p>
+                <div>
+                  <small>
+                    {comment.user?.firstName} {comment.user?.lastName}
+                  </small>
+                  <p>{comment.description}</p>
+                </div>
               </div>
               <div className="update-delete-icons">
-                <FaEdit className="editIcon" onClick={commentEditer} />
-                <FaTrash className="deleteIcon" onClick={commentDeleter} />
+                <FaEdit
+                  className="editIcon"
+                  onClick={() => commentEditer(comment.id)}
+                />
+                <FaTrash
+                  className="deleteIcon"
+                  onClick={() => commentDeleter(comment.id)}
+                />
               </div>
             </div>
-          ))}
+          ))
+        ) : (
+          <h4>Be the first one to comment</h4>
+        )} */}
       </div>
     </>
   );
