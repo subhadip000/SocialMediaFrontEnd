@@ -58,6 +58,17 @@ const Post = ({
     dispatch(CreateCommentAction({postId: post?.id, description: comment}))
   };
 
+  
+  const commentEditer = () => {
+    console.log("For Update, commentId: ", post?.Comments[0]?.id, "& description: ", post?.Comments[0]?.description);
+    console.log("post: ", post);
+  }
+  
+  const commentDeleter = () => {
+    console.log("For Delete, commentId: ", post?.Comments[0]?.id, "& description: ", post?.Comments[0]?.description);
+    console.log("Post: ", Post);
+  }
+
   // console.log("from post.jsx", post.LikedBy);
   return (
     <div className="post">
@@ -209,6 +220,8 @@ const Post = ({
             comment={comment}
             setComment={setComment}
             Comments={post?.Comments}
+            commentEditer={commentEditer}
+            commentDeleter={commentDeleter}
           />
         )}
       </div>

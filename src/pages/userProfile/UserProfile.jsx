@@ -16,6 +16,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import Popup from "../../components/popup/Popup";
+import { FetchUserPostsAction } from "../../redux/slices/PostSlice";
 
 const UserProfile = () => {
   // dispatch
@@ -27,11 +28,12 @@ const UserProfile = () => {
   // getting user details
   useEffect(() => {
     dispatch(MyProfileAction());
+    dispatch(FetchUserPostsAction(id))
     dispatch(fetchUserDetailsAction(id));
     dispatch(fetchFolloweingAction(id));
     dispatch(fetchFollowersAction(id));
   }, [id, dispatch]);
-  // console.log(profile?.Post);
+  // console.log("profile: ",profile);
   let isFollowed = (profile) => profile?.followers.includes(myInfo?.id);
 
   const [followersPopup, setFollowersPopup] = useState(false);
@@ -39,6 +41,7 @@ const UserProfile = () => {
 
   const followingInfo = useSelector((state) => state.user?.followingList);
   const followerInfo = useSelector((state) => state.user?.followerList);
+  const userPosts = useSelector((state) => state.post?.userPosts)
 
   return (
     <div className="profile">
@@ -158,7 +161,8 @@ const UserProfile = () => {
           <div className="profileRightBottom">
             {profile ? (
               <Feed
-                post={profile?.Post}
+                // post={profile?.Post}
+                post={userPosts}
                 isStory={false}
                 profileInfo={profile}
               />
