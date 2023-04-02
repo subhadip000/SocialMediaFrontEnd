@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import "./Post.css";
 import Moment from "react-moment";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { FaTelegramPlane, FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
+import { FaHeart, FaCommentAlt, FaShareAlt } from "react-icons/fa";
 import Popup from "../popup/Popup";
 import { useDispatch, useSelector } from "react-redux";
-import { postLikesAction } from "../../redux/slices/PostSlice";
+import { CreateCommentAction, postLikesAction } from "../../redux/slices/PostSlice";
 import withLike from "../HOC/likeHoc";
 import ImageSwiper from "../Swiper/ImageSwiper";
 import { Link } from "react-router-dom";
-
+import { Comment } from "./Comment/Comment";
 
 const Post = ({
   post,
@@ -17,7 +17,8 @@ const Post = ({
   setIsLiked,
   setLikeCount,
   likeCount,
-  isLike, }) => {
+  isLike,
+}) => {
   console.log("profileInfo", profileInfo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
@@ -47,13 +48,23 @@ const Post = ({
     dispatch(postLikesAction(post?.id));
   };
 
+  const [commentSection, setCommentSection] = useState(false);
+  const [comment, setComment] = useState("");
+
+  const commentHandler = () => {
+    console.log("postId from comment: ", post?.id);
+    console.log("description of the comment: ", comment);
+    setComment("")
+    dispatch(CreateCommentAction({postId: post?.id, description: comment}))
+  };
+
   // console.log("from post.jsx", post.LikedBy);
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            {profileInfo?.id === myInfo?.id ?
+            {profileInfo?.id === myInfo?.id ? (
               <Link to={"/profile"} className="Link">
                 <img
                   src={profileInfo?.profilePhoto}
@@ -64,7 +75,8 @@ const Post = ({
                   {profileInfo?.firstName} {profileInfo?.lastName}
                 </span>
               </Link>
-              : <Link to={`/user/${profileInfo?.id}`} className="Link">
+            ) : (
+              <Link to={`/user/${profileInfo?.id}`} className="Link">
                 <img
                   src={profileInfo?.profilePhoto}
                   alt=""
@@ -74,7 +86,7 @@ const Post = ({
                   {profileInfo?.firstName} {profileInfo?.lastName}
                 </span>
               </Link>
-            }
+            )}
 
             <span className="postDate">
               <Moment fromNow ago>
@@ -101,7 +113,11 @@ const Post = ({
         <div className="postBottom">
           <div className="postBottomLeft">
             <div className="LikeComment">
-              <FaHeart className="bottomLeftIcon" onClick={() => LikeHandler()} color={isLike ? "#fc0341" : ""} />
+              <FaHeart
+                className="bottomLeftIcon"
+                onClick={LikeHandler}
+                color={isLike ? "#fc0341" : ""}
+              />
               <span
                 className="postLikeCounter"
                 onClick={() => {
@@ -115,28 +131,33 @@ const Post = ({
                 setTrigger={setLikePopup}
                 name={"Likes"}
               >
-                {post?.LikedBy?.map((user) =>
+                {post?.LikedBy?.map((user) => (
                   <div className="PopupDiv">
-                    {user?.id === myInfo?.id ?
+                    {user?.id === myInfo?.id ? (
                       <Link to={"/profile"} className="Link">
                         <img
                           src={user.profilePhoto}
                           alt=""
                           className="PopupProfileImg"
                         />
-                        <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                        <span className="PopupUsername">
+                          {user.firstName} {user.lastName}
+                        </span>
                       </Link>
-                      : <Link to={`/user/${user?.id}`} className="Link">
+                    ) : (
+                      <Link to={`/user/${user?.id}`} className="Link">
                         <img
                           src={user.profilePhoto}
                           alt=""
                           className="PopupProfileImg"
                         />
-                        <span className="PopupUsername">{user.firstName} {user.lastName}</span>
+                        <span className="PopupUsername">
+                          {user.firstName} {user.lastName}
+                        </span>
                       </Link>
-                    }
+                    )}
                   </div>
-                )}
+                ))}
               </Popup>
             </div>
             <div className="LikeComment">
@@ -144,10 +165,17 @@ const Post = ({
               <span
                 className="postLikeCounter"
                 onClick={() => {
-                  setCommentPopup(true);
+                  // setCommentPopup(true);
+                  setCommentSection(!commentSection);
+                }}
+                onMouseOver={() => {
+                  console.log("Show the popup");
+                }}
+                onMouseOut={() => {
+                  console.log("Hide the popup")
                 }}
               >
-                Comments
+                {post?.Comments?.length} Comments
               </span>
               <Popup
                 trigger={commentPopup}
@@ -174,23 +202,15 @@ const Post = ({
           </div>
         </div>
 
-        <hr className="footerHr" />
-        <div className="postBottomFooter">
-          <div className="postBottomFooterItem">
-            <a href="/profile/userId">
-              <img
-                src="https://w7.pngwing.com/pngs/81/570/png-transparent-profile-logo-computer-icons-user-user-blue-heroes-logo-thumbnail.png"
-                alt=""
-                className="commentProfileImg"
-              />
-            </a>
-            <p>nice picture</p>
-          </div>
-          <div className="addComment">
-            <input type="text" placeholder="Add your comment..." />
-            <FaTelegramPlane className="sendIcon" />
-          </div>
-        </div>
+        {commentSection && (
+          <Comment
+            commentHandler={commentHandler}
+            postId={post?.id}
+            comment={comment}
+            setComment={setComment}
+            Comments={post?.Comments}
+          />
+        )}
       </div>
     </div>
   );

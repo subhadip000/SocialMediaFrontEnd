@@ -6,7 +6,11 @@ import Feed from "../../components/feed/Feed";
 // import ProfileRightbar from "../../components/rightbarprofile/ProfileRightbar";
 import Rightbar from "../../components/rightbar/Rightbar";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFolloweingAction, fetchFollowersAction, MyProfileAction } from "../../redux/slices/UserSlice";
+import {
+  fetchFolloweingAction,
+  fetchFollowersAction,
+  MyProfileAction,
+} from "../../redux/slices/UserSlice";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Popup from "../../components/popup/Popup";
@@ -51,7 +55,12 @@ const Profile = () => {
                   <span className="followInfoDesc">
                     <b>{myInfo?.Post?.length}</b> Posts
                   </span>
-                  <span className="followInfoDesc" onClick={() => { setFollowersPopup(true) }}>
+                  <span
+                    className="followInfoDesc"
+                    onClick={() => {
+                      setFollowersPopup(true);
+                    }}
+                  >
                     <b>{myInfo?.followers?.length}</b> Followers
                   </span>
 
@@ -60,21 +69,32 @@ const Profile = () => {
                     setTrigger={setFollowersPopup}
                     name={"Followers"}
                   >
-                    {followerInfo?.map((user) =>
-                      <div className="PopupDiv">
-                        <Link to={`/user/${user?.id}`} className="Link">
-                          <img
-                            src={user.profilePhoto}
-                            alt=""
-                            className="PopupProfileImg"
-                          />
-                          <span className="PopupUsername">{user.firstName} {user.lastName}</span>
-                        </Link>
-                      </div>
-                    )}
+                    <div className="PopupDiv">
+                      {Array.isArray(followerInfo) ? (
+                        followerInfo?.map((user) => (
+                          <Link to={`/user/${user?.id}`} className="Link">
+                            <img
+                              src={user.profilePhoto}
+                              alt="userDp"
+                              className="PopupProfileImg"
+                            />
+                            <span className="PopupUsername">
+                              {user.firstName} {user.lastName}
+                            </span>
+                          </Link>
+                        ))
+                      ) : (
+                        <h2> {followerInfo} </h2>
+                      )}
+                    </div>
                   </Popup>
 
-                  <span className="followInfoDesc" onClick={() => { setFollowingPopup(true) }}>
+                  <span
+                    className="followInfoDesc"
+                    onClick={() => {
+                      setFollowingPopup(true);
+                    }}
+                  >
                     <b>{myInfo?.following?.length}</b> Following
                   </span>
                   <Popup
@@ -82,21 +102,25 @@ const Profile = () => {
                     setTrigger={setFollowingPopup}
                     name={"Following"}
                   >
-                    {followingInfo?.map((user) =>
-                      <div className="PopupDiv">
-                        <Link to={`/user/${user?.id}`} className="Link">
-                          <img
-                            src={user.profilePhoto}
-                            alt=""
-                            className="PopupProfileImg"
-                          />
-                          <span className="PopupUsername">{user.firstName} {user.lastName}</span>
-                        </Link>
-                      </div>
+                    {Array.isArray(followingInfo) ? (
+                      followingInfo?.map((user) => (
+                        <div className="PopupDiv">
+                          <Link to={`/user/${user?.id}`} className="Link">
+                            <img
+                              src={user.profilePhoto}
+                              alt=""
+                              className="PopupProfileImg"
+                            />
+                            <span className="PopupUsername">
+                              {user.firstName} {user.lastName}
+                            </span>
+                          </Link>
+                        </div>
+                      ))
+                    ) : (
+                      <h2> {followingInfo} </h2>
                     )}
                   </Popup>
-
-
                 </div>
                 <div className="userStatus">
                   <span className="userStatusDesc">Relationship: Single</span>
@@ -110,7 +134,9 @@ const Profile = () => {
             </div>
           </div>
           <div className="profileRightBottom">
-            {myInfo ? <Feed post={myInfo?.Post} isStory={false} profileInfo={myInfo} /> : null}
+            {myInfo ? (
+              <Feed post={myInfo?.Post} isStory={false} profileInfo={myInfo} />
+            ) : null}
             <Rightbar profile post={myInfo?.Post} />
             {/* <ProfileRightbar/> */}
           </div>

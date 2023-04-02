@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const BaseUrl =
-  "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
-// const BaseUrl = "https://testing-blog-server.onrender.com"
+// const BaseUrl =
+//   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+const BaseUrl = "https://testing-blog-server.onrender.com"
 
 // posts fetch
 export const FetchPostAction = createAsyncThunk(
@@ -119,6 +119,130 @@ export const postLikesAction = createAsyncThunk(
   }
 );
 
+// Create Comment Action
+export const CreateCommentAction = createAsyncThunk(
+  "comment/create",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    const userInfo = getState()?.auth?.userInfo;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/comment/create`,
+        input,
+        config
+      )
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+)
+
+// Update Comment Action
+export const UpdateCommentAction = createAsyncThunk(
+  "comment/update",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    const userInfo = getState()?.auth?.userInfo;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/comment/update`,
+        input,
+        config
+      )
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+)
+
+// Like Comment Action
+export const LikeCommentAction = createAsyncThunk(
+  "comment/like",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    const userInfo = getState()?.auth?.userInfo;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/comment/like`,
+        input,
+        config
+      )
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+)
+
+// Delete Comment Action
+export const DeleteCommentAction = createAsyncThunk(
+  "comment/delete",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    const userInfo = getState()?.auth?.userInfo;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.delete(
+        `${BaseUrl}/api/comment/delete`,
+        input,
+        config
+      )
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+)
+
+// Fetch Single Comment Action
+export const FetchSingleCommentAction = createAsyncThunk(
+  "comment/fetch-single",
+  async(input, { rejectWithValue, getState, dispatch }) => {
+    const userInfo = getState()?.auth?.userInfo;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.delete(
+        `${BaseUrl}/api/comment/${input.id}`,
+        config
+      )
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+)
+
 // Then, handle actions in your reducers:
 const PostSlice = createSlice({
   name: "post",
@@ -188,6 +312,86 @@ const PostSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(postLikesAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
+    // Create Comment
+    builder.addCase(CreateCommentAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(CreateCommentAction.fulfilled, (state, action) => {
+      state.comment = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(CreateCommentAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
+    // Update Comment
+    builder.addCase(UpdateCommentAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(UpdateCommentAction.fulfilled, (state, action) => {
+      state.updatedComment = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UpdateCommentAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
+    // Like Comment
+    builder.addCase(LikeCommentAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(LikeCommentAction.fulfilled, (state, action) => {
+      state.likedComment = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(LikeCommentAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
+    // Delete Comment
+    builder.addCase(DeleteCommentAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(DeleteCommentAction.fulfilled, (state, action) => {
+      state.deletedComment = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(DeleteCommentAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
+    // Fetch Single Comment
+    builder.addCase(FetchSingleCommentAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(FetchSingleCommentAction.fulfilled, (state, action) => {
+      state.singleComment = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchSingleCommentAction.rejected, (state, action) => {
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
