@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // const BaseUrl =
 //   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
-const BaseUrl = "https://testing-blog-server.onrender.com"
+const BaseUrl = "https://testing-blog-server.onrender.com";
 
 // posts fetch
 export const FetchPostAction = createAsyncThunk(
@@ -27,6 +27,61 @@ export const FetchPostAction = createAsyncThunk(
     }
   }
 );
+
+// Fetch My Posts
+export const FetchMyPostsAction = createAsyncThunk(
+  "post/my-posts",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/post/my-posts`,
+        configToken
+      );
+      console.log("My posts action");
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// Fetch User Posts
+export const FetchUserPostsAction = createAsyncThunk(
+  "post/user-posts",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/post/posts-of/${input}`,
+        configToken
+      );
+      console.log("User posts action");
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 // post fetch
 export const FetchSinglePostAction = createAsyncThunk(
   "post/fetch",
@@ -43,7 +98,7 @@ export const FetchSinglePostAction = createAsyncThunk(
       const { data } = await axios.get(
         `${BaseUrl}/api/post/${postId}`,
         configToken
-        );
+      );
 
       return data;
     } catch (error) {
@@ -75,8 +130,8 @@ export const createPostAction = createAsyncThunk(
       console.log(postImg);
 
       for (let i = 0; i < postImg.length; i++) {
-        formData.append('image', postImg[i])
-     }
+        formData.append("image", postImg[i]);
+      }
 
       // post?.image.forEach((file) => formData.append("image", file));
 
@@ -122,7 +177,7 @@ export const postLikesAction = createAsyncThunk(
 // Create Comment Action
 export const CreateCommentAction = createAsyncThunk(
   "comment/create",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     const userInfo = getState()?.auth?.userInfo;
     const config = {
       headers: {
@@ -135,19 +190,19 @@ export const CreateCommentAction = createAsyncThunk(
         `${BaseUrl}/api/comment/create`,
         input,
         config
-      )
+      );
       return data;
     } catch (error) {
       if (!error?.response) throw error;
       return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // Update Comment Action
 export const UpdateCommentAction = createAsyncThunk(
   "comment/update",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     const userInfo = getState()?.auth?.userInfo;
     const config = {
       headers: {
@@ -160,19 +215,19 @@ export const UpdateCommentAction = createAsyncThunk(
         `${BaseUrl}/api/comment/update`,
         input,
         config
-      )
+      );
       return data;
     } catch (error) {
       if (!error?.response) throw error;
       return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // Like Comment Action
 export const LikeCommentAction = createAsyncThunk(
   "comment/like",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     const userInfo = getState()?.auth?.userInfo;
     const config = {
       headers: {
@@ -185,19 +240,19 @@ export const LikeCommentAction = createAsyncThunk(
         `${BaseUrl}/api/comment/like`,
         input,
         config
-      )
+      );
       return data;
     } catch (error) {
       if (!error?.response) throw error;
       return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // Delete Comment Action
 export const DeleteCommentAction = createAsyncThunk(
   "comment/delete",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     const userInfo = getState()?.auth?.userInfo;
     const config = {
       headers: {
@@ -210,19 +265,19 @@ export const DeleteCommentAction = createAsyncThunk(
         `${BaseUrl}/api/comment/delete`,
         input,
         config
-      )
+      );
       return data;
     } catch (error) {
       if (!error?.response) throw error;
       return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // Fetch Single Comment Action
 export const FetchSingleCommentAction = createAsyncThunk(
   "comment/fetch-single",
-  async(input, { rejectWithValue, getState, dispatch }) => {
+  async (input, { rejectWithValue, getState, dispatch }) => {
     const userInfo = getState()?.auth?.userInfo;
     const config = {
       headers: {
@@ -234,14 +289,14 @@ export const FetchSingleCommentAction = createAsyncThunk(
       const { data } = await axios.delete(
         `${BaseUrl}/api/comment/${input.id}`,
         config
-      )
+      );
       return data;
     } catch (error) {
       if (!error?.response) throw error;
       return rejectWithValue(error?.response?.data);
     }
   }
-)
+);
 
 // Then, handle actions in your reducers:
 const PostSlice = createSlice({
@@ -266,8 +321,44 @@ const PostSlice = createSlice({
       state.serverErr = action?.error?.message;
     });
 
-     //post fetch
-     builder.addCase(FetchSinglePostAction.pending, (state, action) => {
+    // fetch my posts
+    builder.addCase(FetchMyPostsAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchMyPostsAction.fulfilled, (state, action) => {
+      state.myPosts = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchMyPostsAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
+    // fetch user posts
+    builder.addCase(FetchUserPostsAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchUserPostsAction.fulfilled, (state, action) => {
+      state.userPosts = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchUserPostsAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    //post fetch
+    builder.addCase(FetchSinglePostAction.pending, (state, action) => {
       state.isLoading = true;
       state.appErr = undefined;
       state.serverErr = undefined;
@@ -283,7 +374,6 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-
 
     //create post slice
     builder.addCase(createPostAction.pending, (state, action) => {
@@ -316,7 +406,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // Create Comment
     builder.addCase(CreateCommentAction.pending, (state, action) => {
       state.loading = true;
@@ -332,7 +422,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // Update Comment
     builder.addCase(UpdateCommentAction.pending, (state, action) => {
       state.loading = true;
@@ -348,7 +438,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // Like Comment
     builder.addCase(LikeCommentAction.pending, (state, action) => {
       state.loading = true;
@@ -364,7 +454,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // Delete Comment
     builder.addCase(DeleteCommentAction.pending, (state, action) => {
       state.loading = true;
@@ -380,7 +470,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // Fetch Single Comment
     builder.addCase(FetchSingleCommentAction.pending, (state, action) => {
       state.loading = true;

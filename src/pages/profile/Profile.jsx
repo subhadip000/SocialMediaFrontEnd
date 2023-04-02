@@ -14,12 +14,13 @@ import {
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Popup from "../../components/popup/Popup";
-import { FetchPostAction } from "../../redux/slices/PostSlice";
+import { FetchMyPostsAction, FetchPostAction } from "../../redux/slices/PostSlice";
 
 const Profile = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(MyProfileAction());
+    // dispatch(MyProfileAction());
+    dispatch(FetchMyPostsAction())
     dispatch(fetchFolloweingAction());
     dispatch(fetchFollowersAction());
     // dispatch(FetchPostAction());
@@ -31,7 +32,7 @@ const Profile = () => {
   const myInfo = useSelector((state) => state.user?.myInfo);
   const followingInfo = useSelector((state) => state.user?.followingList);
   const followerInfo = useSelector((state) => state.user?.followerList);
-  // const post = useSelector((state) => state.post?.Post);
+  const myPosts = useSelector((state) => state.post?.myPosts);
 
   return (
     <div className="profile">
@@ -135,7 +136,7 @@ const Profile = () => {
           </div>
           <div className="profileRightBottom">
             {myInfo ? (
-              <Feed post={myInfo?.Post} isStory={false} profileInfo={myInfo} />
+              <Feed post={myPosts} isStory={false} profileInfo={myInfo} />
             ) : null}
             <Rightbar profile post={myInfo?.Post} />
             {/* <ProfileRightbar/> */}
