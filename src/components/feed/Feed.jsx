@@ -4,18 +4,17 @@ import PostCreate from "../PostCreate/PostCreate";
 import Stories from "../stories/Stories";
 import "./Feed.css";
 
-const Feed = ({post, isStory, profileInfo}) => {
-  // console.log("profileInfo",profileInfo);
-  
-  // console.log(post);
+const Feed = ({ post, isStory, profileInfo }) => {
+  // Reverse the post array
+  const reversedPost = post?.slice().reverse();
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {isStory?<Stories />:null}
-        
+        {isStory ? <Stories /> : null}
+
         <PostCreate />
-        {post?.map((e, i) => {
-          return <Post post={e} key={i} profileInfo={profileInfo}/>;
+        {reversedPost?.map((e, i) => {
+          return <Post post={e} key={i} profileInfo={profileInfo} />;
         })}
       </div>
     </div>

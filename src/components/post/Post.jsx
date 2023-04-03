@@ -225,11 +225,11 @@ const Post = ({
                             to={`/user/${comment.user?.id}`}
                             className="Link"
                           >
-                            <small className="PopupUsername">
+                            <small className="CommentUsername">
                               {comment.user?.firstName} {comment.user?.lastName}
                             </small>
                           </Link>
-                          <p>{comment.description}</p>
+                          <p className="CommentDesc">{comment.description}</p>
                         </div>
                       </div>
                       {comment.user?.id === myInfo.id ? (

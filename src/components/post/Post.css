@@ -47,14 +47,17 @@
 .post .postWrapper .postCenter .postText {
     padding: 0 20px;
 }
-.sliderContainer{
+
+.sliderContainer {
     width: 100%;
 }
-.mySwiper{
+
+.mySwiper {
     display: "flex";
     flex-direction: row;
 }
- .postImg {
+
+.postImg {
     object-fit: contain !important;
     width: 100% !important;
     max-height: 500px;
@@ -181,13 +184,14 @@
 }
 
 
-.Link{
+.Link {
     text-decoration: none !important;
     text-align: center;
     justify-content: center;
     display: contents;
     color: black;
 }
+
 .post .postWrapper .postBottom .postBottomLeft .LikeComment .PopupDiv {
     display: flex;
     align-items: center;
@@ -209,7 +213,7 @@
     cursor: pointer;
 }
 
-.update-delete-icons{
+.update-delete-icons {
     padding: 0 10px;
 }
 
@@ -226,19 +230,31 @@
 }
 
 .PopupContent {
+    flex: 1;
     display: flex;
+}
+
+.commentFuncs {
+    display: flex;
+    /* justify-content: space-between; */
+    /* align-items: center; */
+    padding: 5px 0;
 }
 
 .PopupDetails {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
+    background-color: rgb(234, 242, 255);
+    padding: 5px 10px;
+    border-radius: 10px;
 }
-
-.commentFuncs{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
+.CommentUsername{
+    font-size: 15px;
+    font-weight: 450;
+    margin: 0 10px;
+    cursor: pointer;
+}
+.CommentDesc{
+    font-size: 13px;
+    font-weight: 400;
+    margin: 0 10px;
+    cursor: pointer;
 }
