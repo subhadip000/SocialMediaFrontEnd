@@ -15,6 +15,7 @@ import {
   CreateCommentAction,
   DeleteCommentAction,
   FetchPostCommentsAction,
+  deletePostAction,
   postLikesAction,
 } from "../../redux/slices/PostSlice";
 import withLike from "../HOC/likeHoc";
@@ -30,7 +31,7 @@ const Post = ({
   likeCount,
   isLike,
 }) => {
-  console.log("profileInfo", profileInfo);
+  // console.log("profileInfo", profileInfo);
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.user);
   const Post = useSelector((state) => state?.post);
@@ -63,23 +64,28 @@ const Post = ({
   const [comment, setComment] = useState("");
 
   const commentHandler = () => {
-    console.log("postId from comment: ", post?.id);
-    console.log("description of the comment: ", comment);
+    // console.log("postId from comment: ", post?.id);
+    // console.log("description of the comment: ", comment);
     setComment("");
     dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
   };
 
   const commentEditer = (commentId) => {
     console.log("For Update, commentId: ", commentId);
-    console.log("post: ", post);
+    // console.log("post: ", post);
   };
 
   const commentDeleter = (commentId) => {
-    console.log("For Delete, commentId: ", commentId);
+    // console.log("For Delete, commentId: ", commentId);
     dispatch(DeleteCommentAction({ commentId }));
   };
 
-  // console.log("from post.jsx", post.LikedBy);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="post">
       <div className="postWrapper">
@@ -115,7 +121,22 @@ const Post = ({
               </Moment>
             </span>
           </div>
-          <BsThreeDotsVertical />
+          {post?.author?.id === myInfo?.id ?
+            (<div className="dropdown">
+              <BsThreeDotsVertical onClick={toggleDropdown} />
+              {isOpen && (
+                <div className="dropdown-content">
+                  {/* <span className="dropdown-element">Update Post</span> */}
+                  <span
+                    className="dropdown-element"
+                    onClick={() =>
+                      dispatch(deletePostAction(post?.id))
+                    }>
+                    Delete Post
+                  </span>
+                </div>
+              )}
+            </div>) : ""}
         </div>
         <div className="postCenter">
           <p className="postText">{post?.caption}</p>

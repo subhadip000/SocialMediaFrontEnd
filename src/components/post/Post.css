@@ -246,15 +246,47 @@
     padding: 5px 10px;
     border-radius: 10px;
 }
-.CommentUsername{
+
+.CommentUsername {
     font-size: 15px;
     font-weight: 450;
     margin: 0 10px;
     cursor: pointer;
 }
-.CommentDesc{
+
+.CommentDesc {
     font-size: 13px;
     font-weight: 400;
     margin: 0 10px;
     cursor: pointer;
+}
+
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    padding: 8px 10px;
+    right: 0;
+}
+
+.dropdown-element {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-element:hover {
+    background-color: #f1f1f1;
 }

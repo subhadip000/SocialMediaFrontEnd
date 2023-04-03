@@ -148,6 +148,34 @@ export const createPostAction = createAsyncThunk(
   }
 );
 
+// delete post
+export const deletePostAction = createAsyncThunk(
+  "post/delete",
+  async (postId, { rejectWithValue, getState, dispatch }) => {
+    ///http
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.delete(
+        `${BaseUrl}/api/post/delete/${postId}`,
+        config
+      );
+      //dispatch for redirect
+      return data;
+    } catch (error) {
+      if (!error?.response) {
+        throw error;
+      }
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 // post like action
 export const postLikesAction = createAsyncThunk(
   "post/like",
@@ -323,6 +351,7 @@ export const FetchSingleCommentAction = createAsyncThunk(
   }
 );
 
+
 // Then, handle actions in your reducers:
 const PostSlice = createSlice({
   name: "post",
@@ -416,6 +445,24 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
+    //post delete
+    builder.addCase(deletePostAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deletePostAction.fulfilled, (state, action) => {
+      state.postDeleted = action?.payload;
+      state.isDeleted = false;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(deletePostAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+
     //post like slice
     builder.addCase(postLikesAction.pending, (state, action) => {
       state.loading = true;
