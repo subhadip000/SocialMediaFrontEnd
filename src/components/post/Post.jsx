@@ -15,6 +15,7 @@ import {
   CreateCommentAction,
   DeleteCommentAction,
   FetchPostCommentsAction,
+  UpdateCommentAction,
   deletePostAction,
   postLikesAction,
 } from "../../redux/slices/PostSlice";
@@ -22,6 +23,7 @@ import withLike from "../HOC/likeHoc";
 import ImageSwiper from "../Swiper/ImageSwiper";
 import { Link } from "react-router-dom";
 import { Comment } from "./Comment/Comment";
+import CommentPopup from "./CommentPopup/CommentPopup";
 
 const Post = ({
   post,
@@ -60,7 +62,6 @@ const Post = ({
     dispatch(postLikesAction(post?.id));
   };
 
-  const [commentSection, setCommentSection] = useState(false);
   const [comment, setComment] = useState("");
 
   const commentHandler = () => {
@@ -70,8 +71,9 @@ const Post = ({
     dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
   };
 
-  const commentEditer = (commentId) => {
+  const commentEditor = (commentId, description) => {
     console.log("For Update, commentId: ", commentId);
+    dispatch(UpdateCommentAction({ commentId, description }))
     // console.log("post: ", post);
   };
 
@@ -91,29 +93,23 @@ const Post = ({
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            {profileInfo?.id === myInfo?.id ? (
-              <Link to={"/profile"} className="Link">
-                <img
-                  src={profileInfo?.profilePhoto}
-                  alt=""
-                  className="postProfileImg"
-                />
-                <span className="postUsername">
-                  {profileInfo?.firstName} {profileInfo?.lastName}
-                </span>
-              </Link>
-            ) : (
-              <Link to={`/user/${profileInfo?.id}`} className="Link">
-                <img
-                  src={profileInfo?.profilePhoto}
-                  alt=""
-                  className="postProfileImg"
-                />
-                <span className="postUsername">
-                  {profileInfo?.firstName} {profileInfo?.lastName}
-                </span>
-              </Link>
-            )}
+            <Link
+              to={
+                profileInfo?.id === myInfo?.id
+                  ? "/profile"
+                  : `/user/${profileInfo?.id}`
+              }
+              className="Link"
+            >
+              <img
+                src={profileInfo?.profilePhoto}
+                alt=""
+                className="postProfileImg"
+              />
+              <span className="postUsername">
+                {profileInfo?.firstName} {profileInfo?.lastName}
+              </span>
+            </Link>
 
             <span className="postDate">
               <Moment fromNow ago>
@@ -121,22 +117,24 @@ const Post = ({
               </Moment>
             </span>
           </div>
-          {post?.author?.id === myInfo?.id ?
-            (<div className="dropdown">
+          {post?.author?.id === myInfo?.id ? (
+            <div className="dropdown">
               <BsThreeDotsVertical onClick={toggleDropdown} />
               {isOpen && (
                 <div className="dropdown-content">
                   {/* <span className="dropdown-element">Update Post</span> */}
                   <span
                     className="dropdown-element"
-                    onClick={() =>
-                      dispatch(deletePostAction(post?.id))
-                    }>
+                    onClick={() => dispatch(deletePostAction(post?.id))}
+                  >
                     Delete Post
                   </span>
                 </div>
               )}
-            </div>) : ""}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <div className="postCenter">
           <p className="postText">{post?.caption}</p>
@@ -201,10 +199,7 @@ const Post = ({
               <span
                 className="postLikeCounter"
                 onClick={() => {
-                  // setCommentSection((prev) => !prev);
-                  // if (!commentSection) {
                   dispatch(FetchPostCommentsAction(post?.id));
-                  // }
                   setCommentPopup((prev) => !prev);
                 }}
                 onMouseOver={() => {
@@ -225,47 +220,11 @@ const Post = ({
                   <p>Loading...</p>
                 ) : Post?.Comments?.length > 0 ? (
                   Post?.Comments.map((comment) => (
-                    <div key={comment.id} className="commentFuncs">
-                      <div className="PopupContent">
-                        <Link
-                          to={
-                            comment.user?.id === myInfo.id
-                              ? `/profile`
-                              : `/user/${comment.user?.id}`
-                          }
-                          className="Link"
-                        >
-                          <img
-                            src={comment.user?.profilePhoto}
-                            alt=""
-                            className="PopupProfileImg"
-                          />
-                        </Link>
-                        <div className="PopupDetails">
-                          <Link
-                            to={`/user/${comment.user?.id}`}
-                            className="Link"
-                          >
-                            <small className="CommentUsername">
-                              {comment.user?.firstName} {comment.user?.lastName}
-                            </small>
-                          </Link>
-                          <p className="CommentDesc">{comment.description}</p>
-                        </div>
-                      </div>
-                      {comment.user?.id === myInfo.id ? (
-                        <div className="update-delete-icons">
-                          <FaEdit
-                            className="editIcon"
-                            onClick={() => commentEditer(comment.id)}
-                          />
-                          <FaTrash
-                            className="deleteIcon"
-                            onClick={() => commentDeleter(comment.id)}
-                          />
-                        </div>
-                      ) : null}
-                    </div>
+                    <CommentPopup
+                      comment={comment}
+                      commentDeleter={commentDeleter}
+                      commentEditor={commentEditor}
+                    />
                   ))
                 ) : (
                   <h4>Be the first one to comment</h4>
@@ -280,13 +239,11 @@ const Post = ({
           </div>
         </div>
 
-        {/* {commentSection && ( */}
         <Comment
           commentHandler={commentHandler}
           comment={comment}
           setComment={setComment}
         />
-        {/* )} */}
       </div>
     </div>
   );
