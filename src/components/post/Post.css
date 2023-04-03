@@ -147,15 +147,6 @@
     font-weight: 500;
 }
 
-.commentFuncs{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
-}
-
-
-
 .post .postWrapper .postBottomFooter .addComment {
     width: 100%;
     height: 35px;
@@ -232,4 +223,22 @@
     cursor: pointer;
     font-size: 18px;
     margin: 5px 10px;
+}
+
+.PopupContent {
+    display: flex;
+}
+
+.PopupDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.commentFuncs{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
 }

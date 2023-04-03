@@ -261,11 +261,36 @@ export const DeleteCommentAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.delete(
+      const { data } = await axios.put(
         `${BaseUrl}/api/comment/delete`,
         input,
         config
       );
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// Fetch Post wise Comments
+export const FetchPostCommentsAction = createAsyncThunk(
+  "comment/postWise-comments",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const userInfo = getState()?.auth?.userInfo;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.get(
+        `${BaseUrl}/api/comment/comments/${input}`,
+        config
+      );
+      console.log("FetchPostCommentsAction is called")
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -286,8 +311,8 @@ export const FetchSingleCommentAction = createAsyncThunk(
       },
     };
     try {
-      const { data } = await axios.delete(
-        `${BaseUrl}/api/comment/${input.id}`,
+      const { data } = await axios.get(
+        `${BaseUrl}/api/comment/${input}`,
         config
       );
       return data;
@@ -466,6 +491,22 @@ const PostSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(DeleteCommentAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Fetch Post wise Comments
+    builder.addCase(FetchPostCommentsAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(FetchPostCommentsAction.fulfilled, (state, action) => {
+      state.Comments = action?.payload;
+      state.loading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(FetchPostCommentsAction.rejected, (state, action) => {
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
