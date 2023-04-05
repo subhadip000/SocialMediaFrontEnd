@@ -1,7 +1,7 @@
 import React from "react";
 import { FaTelegramPlane } from "react-icons/fa";
 
-export const Comment = ({
+export const CreateComment = ({
   commentHandler,
   comment,
   setComment,

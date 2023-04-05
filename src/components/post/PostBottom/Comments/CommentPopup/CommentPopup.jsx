@@ -4,7 +4,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const CommentPopup = ({ comment, commentDeleter, commentEditor }) => {
+const CommentPopup = ({ comment, commentDeleter, commentEditor, setCommentPopup }) => {
   const user = useSelector((state) => state?.user);
   const { myInfo } = user;
 
@@ -46,7 +46,10 @@ const CommentPopup = ({ comment, commentDeleter, commentEditor }) => {
               <input
                 type="button"
                 value="Update"
-                onClick={() => commentEditor(comment.id, editComment)}
+                onClick={() => {
+                  commentEditor(comment.id, editComment)
+                  setCommentPopup((prev) => (prev = false))
+                }}
                 disabled={comment.description === editComment}
               />
               <input
@@ -68,7 +71,10 @@ const CommentPopup = ({ comment, commentDeleter, commentEditor }) => {
           />
           <FaTrash
             className="deleteIcon"
-            onClick={() => commentDeleter(comment.id)}
+            onClick={() => {
+              commentDeleter(comment.id)
+              setCommentPopup((prev) => (prev = false))
+            }}
           />
         </div>
       ) : null}
