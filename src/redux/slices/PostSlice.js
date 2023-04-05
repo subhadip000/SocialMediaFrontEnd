@@ -148,6 +148,32 @@ export const createPostAction = createAsyncThunk(
   }
 );
 
+// update post
+export const UpdatePostAction = createAsyncThunk(
+  "post/update",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const user = getState()?.auth;
+    const { userInfo } = user;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/post/update`,
+        input,
+        config
+      );
+      return data;
+    } catch (error) {
+      if (!error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
 // delete post
 export const deletePostAction = createAsyncThunk(
   "post/delete",
@@ -445,6 +471,24 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
+
+    // post update
+    builder.addCase(UpdatePostAction.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(UpdatePostAction.fulfilled, (state, action) => {
+      state.postUpdated = action?.payload;
+      state.loading = false;
+      state.isCreated = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UpdatePostAction.rejected, (state, action) => {
+      state.loading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+    
     //post delete
     builder.addCase(deletePostAction.pending, (state, action) => {
       state.loading = true;

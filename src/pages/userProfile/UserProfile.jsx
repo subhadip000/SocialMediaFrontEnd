@@ -81,7 +81,7 @@ const UserProfile = () => {
                   >
                     {Array.isArray(followerInfo) ? (
                       followerInfo?.map((user) => (
-                        <div className="PopupDiv">
+                        <div key={user?.id} className="PopupDiv">
                           <Link to={`/user/${user?.id}`} className="Link">
                             <img
                               src={user.profilePhoto}
@@ -114,7 +114,7 @@ const UserProfile = () => {
                   >
                     {Array.isArray(followingInfo) ? (
                       followingInfo?.map((user) => (
-                        <div className="PopupDiv">
+                        <div key={user?.id} className="PopupDiv">
                           <Link to={`/user/${user?.id}`} className="Link">
                             <img
                               src={user.profilePhoto}
