@@ -3,6 +3,7 @@ import axios from "axios";
 // const BaseUrl =
 //   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 const BaseUrl = "https://testing-blog-server.onrender.com";
+// const BaseUrl = "http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com";
 
 // posts fetch
 export const FetchPostAction = createAsyncThunk(
@@ -344,7 +345,7 @@ export const FetchPostCommentsAction = createAsyncThunk(
         `${BaseUrl}/api/comment/comments/${input}`,
         config
       );
-      console.log("FetchPostCommentsAction is called")
+      console.log("FetchPostCommentsAction is called");
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -376,7 +377,6 @@ export const FetchSingleCommentAction = createAsyncThunk(
     }
   }
 );
-
 
 // Then, handle actions in your reducers:
 const PostSlice = createSlice({
@@ -418,7 +418,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     // fetch user posts
     builder.addCase(FetchUserPostsAction.pending, (state, action) => {
       state.isLoading = true;
@@ -488,7 +488,7 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-    
+
     //post delete
     builder.addCase(deletePostAction.pending, (state, action) => {
       state.loading = true;
@@ -505,7 +505,6 @@ const PostSlice = createSlice({
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
     });
-
 
     //post like slice
     builder.addCase(postLikesAction.pending, (state, action) => {

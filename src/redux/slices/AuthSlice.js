@@ -1,8 +1,10 @@
 import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const BaseUrl = "https://testing-blog-server.onrender.com"
+
 // const BaseUrl =
-//   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+// "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
+const BaseUrl = "https://testing-blog-server.onrender.com"
+// const BaseUrl = "http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com";
 
 const config = {
   headers: {
@@ -108,6 +110,58 @@ export const EmailVerifyOtpAction = createAsyncThunk(
     try {
       const { data } = await axios.post(
         `${BaseUrl}/api/user/verification`,
+        input,
+        configToken
+      );
+      return data;
+    } catch (error) {
+      if (error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// Update Email send otp
+export const UpdateEmailAction = createAsyncThunk(
+  "auth/update-email",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const auth = getState()?.auth;
+    const { userInfo } = auth;
+    console.log("token: ", userInfo?.token);
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.post(
+        `${BaseUrl}/api/user/update-email`,
+        input,
+        configToken
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      if (error?.response) throw error;
+      return rejectWithValue(error?.response?.data);
+    }
+  }
+);
+
+// New Email Verification Success
+export const VerifyNewEmailAction = createAsyncThunk(
+  "auth/verify-newmail",
+  async (input, { rejectWithValue, getState, dispatch }) => {
+    const { userInfo } = getState()?.auth;
+    console.log(userInfo?.token);
+    const configToken = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+    try {
+      const { data } = await axios.put(
+        `${BaseUrl}/api/user/verify-newmail`,
         input,
         configToken
       );
@@ -361,6 +415,42 @@ const AuthSlice = createSlice({
       state.serverErr = undefined;
     });
     builder.addCase(EmailVerifyOtpAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Update Email
+    builder.addCase(UpdateEmailAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UpdateEmailAction.fulfilled, (state, action) => {
+      state.otpSend = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(UpdateEmailAction.rejected, (state, action) => {
+      state.isLoading = false;
+      state.appErr = action?.payload?.message;
+      state.serverErr = action?.error?.message;
+    });
+
+    // Check Otp for new email verification
+    builder.addCase(VerifyNewEmailAction.pending, (state, action) => {
+      state.isLoading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(VerifyNewEmailAction.fulfilled, (state, action) => {
+      state.otpCheck = action?.payload;
+      state.isLoading = false;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+    });
+    builder.addCase(VerifyNewEmailAction.rejected, (state, action) => {
       state.isLoading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;

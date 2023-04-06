@@ -2,3 +2,11 @@
     /* border: 2px solid; */
     margin: 25px 25px 0px;
 }
+
+.UpdateEmail>div {
+    display: flex;
+    width: 25%;
+}
+.UpdateEmail>div>input {
+    margin-left: 15px;
+}

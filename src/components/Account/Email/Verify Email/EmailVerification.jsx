@@ -3,26 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   EmailVerifyAction,
   EmailVerifyOtpAction,
-} from "../../../redux/slices/AuthSlice";
-import { MyProfileAction } from "../../../redux/slices/UserSlice";
-import ShowButton from "../ShowButton/ShowButton";
+} from "../../../../redux/slices/AuthSlice";
+import { MyProfileAction } from "../../../../redux/slices/UserSlice";
+import ShowButton from "../../ShowButton/ShowButton";
 
 const EmailVerification = () => {
   const dispatch = useDispatch();
-
+  
+  const [hide, setHide] = useState(true);
+  
   useEffect(() => {
     dispatch(MyProfileAction());
-  }, [dispatch]);
-
+  }, [dispatch, hide]);
+  
   const { myInfo } = useSelector((state) => state?.user);
-  console.log("my email: ", myInfo?.email);
-  console.log("isVerified: ", myInfo?.isVerified);
 
   const [otp, setOtp] = useState("");
 
   const [show, setShow] = useState(true);
-
-  const [hide, setHide] = useState(true);
 
   return (
     <>
@@ -68,7 +66,7 @@ const EmailVerification = () => {
               value="Verify"
               onClick={() => {
                 dispatch(EmailVerifyOtpAction({ otp }));
-                setHide(true);              
+                setHide(true);
               }}
             />
           </div>
