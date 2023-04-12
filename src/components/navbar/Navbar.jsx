@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { MyProfileAction } from "../../redux/slices/UserSlice";
 import "./Navbar.css";
 import Sidebar from "../sidebar/Sidebar";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -81,14 +82,14 @@ const Navbar = () => {
       {showSerchbox && <div className="searchList">
         {searchQuery !== '' && filteredData.length > 0 ? (
           filteredData.map(item =>
-            <div className="searchItem" key={item.id}>
+            <Link to={`/user/${item?.id}`} className="searchItem" key={item.id}>
               <img
                 src={item.profilePhoto}
                 alt=""
                 className="searchItemImg"
               />
               <span className="searchItemName">{item.firstName} {item.lastName}</span>
-            </div>))
+            </Link>))
           : (
             <div>No results found</div>
           )

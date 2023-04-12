@@ -152,6 +152,8 @@
     border-radius: 8px;
     display: flex;
     flex-direction: row;
+    text-decoration: none !important;
+    color: black;
 }
 .searchItemImg{
     width: 35px;
