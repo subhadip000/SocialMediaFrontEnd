@@ -19,6 +19,12 @@ const Navbar = () => {
   const handleHamburgerClick = () => {
     setShowSidebar(!showSidebar);
   };
+
+  const [showSerchbox, setShowSerchbox] = useState(false);
+
+  function handleClick() {
+    setShowSerchbox(!showSerchbox);
+  }
   return (
     <>
       <div className="sideNavigation">
@@ -34,7 +40,7 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbarCenter">
-          <div className="searchBar">
+          <div className="searchBar" onClick={handleClick}>
             <BsSearch className="searchIcon" />
             <input
               type="text"
@@ -60,6 +66,24 @@ const Navbar = () => {
         </div>
       </div>
 
+      {showSerchbox && <div className="searchList">
+        <div className="searchItem">
+          <img
+            src={myInfo?.profilePhoto}
+            alt=""
+            className="searchItemImg"
+          />
+          <span className="searchItemName">subhadip</span>
+        </div>
+        <div className="searchItem">
+          <img
+            src={myInfo?.profilePhoto}
+            alt=""
+            className="searchItemImg"
+          />
+          <span className="searchItemName">subhadip</span>
+        </div>
+      </div>}
 
     </>
 
