@@ -12,7 +12,8 @@ const Navbar = () => {
     dispatch(MyProfileAction());
   }, [dispatch]);
 
-  const myInfo = useSelector((state) => state.user?.myInfo);
+  const user = useSelector((state) => state?.user);
+  const { userList, myInfo } = user;
 
   const [showSidebar, setShowSidebar] = useState(false);
 
@@ -25,6 +26,15 @@ const Navbar = () => {
   function handleClick() {
     setShowSerchbox(!showSerchbox);
   }
+
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredData = userList?.filter(item =>{
+      const fullName = `${item.firstName} ${item.lastName}`;
+      return fullName.toLowerCase().includes(searchQuery.toLowerCase());
+    }
+  );
+
   return (
     <>
       <div className="sideNavigation">
@@ -46,6 +56,8 @@ const Navbar = () => {
               type="text"
               placeholder="Search for friends post or video"
               className="searchInput"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
             />
           </div>
         </div>
@@ -67,22 +79,20 @@ const Navbar = () => {
       </div>
 
       {showSerchbox && <div className="searchList">
-        <div className="searchItem">
-          <img
-            src={myInfo?.profilePhoto}
-            alt=""
-            className="searchItemImg"
-          />
-          <span className="searchItemName">subhadip</span>
-        </div>
-        <div className="searchItem">
-          <img
-            src={myInfo?.profilePhoto}
-            alt=""
-            className="searchItemImg"
-          />
-          <span className="searchItemName">subhadip</span>
-        </div>
+        {searchQuery !== '' && filteredData.length > 0 ? (
+          filteredData.map(item =>
+            <div className="searchItem" key={item.id}>
+              <img
+                src={item.profilePhoto}
+                alt=""
+                className="searchItemImg"
+              />
+              <span className="searchItemName">{item.firstName} {item.lastName}</span>
+            </div>))
+          : (
+            <div>No results found</div>
+          )
+        }
       </div>}
 
     </>
