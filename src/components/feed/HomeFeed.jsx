@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import Post from "../post/Post";
 import PostCreate from "../PostCreate/PostCreate";
 import Stories from "../stories/Stories";
 import "./Feed.css";
+import { usePost } from "../../context/PostContext";
+import { useEffect } from "react";
 
-const HomeFeed = ({ post, isStory }) => {
-  // Reverse the post array
-  const reversedPost = post?.slice().reverse();
+const HomeFeed = ({ isStory }) => {
+  const { id, fetchAllPostId } = usePost();
+
+  useEffect(() => {
+    fetchAllPostId();
+  }, []);
+
+  const reversedPost = id?.slice().reverse();
   return (
     <div className="feed">
       <div className="feedWrapper">
         {isStory ? <Stories /> : null}
 
         <PostCreate />
-        {reversedPost?.map((e, i) => {
-          return <Post post={e} key={i} profileInfo={e.author} />;
+        {reversedPost?.map((e) => {
+          return <Post id={e} key={e} />;
         })}
       </div>
     </div>

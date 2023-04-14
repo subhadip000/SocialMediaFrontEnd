@@ -7,24 +7,21 @@ import { PostContent } from "./PostContent/PostContent";
 import { PostBottom } from "./PostBottom/PostBottom";
 import { PostTop } from "./PostTop/PostTop";
 import { CreateComment } from "./CreateComment/CreateComment";
+import useProvidePost from "../../hooks/useProvidePost";
+import { memo } from "react";
 
-const Post = ({
-  post,
-  profileInfo,
-  setIsLiked,
-  setLikeCount,
-  likeCount,
-  isLike,
-}) => {
+const Post = ({ id, setIsLiked, setLikeCount, likeCount, isLike }) => {
   const dispatch = useDispatch();
+  const { fetchSinglePost, post: SinglePost } = useProvidePost();
+
   const user = useSelector((state) => state?.user);
   const Post = useSelector((state) => state?.post);
   const { myInfo } = user;
   const { like } = Post;
 
   useEffect(() => {
-    setLikeCount(like?.likes || post?.likes);
-    const isIt = post?.likedBy?.find(
+    setLikeCount(like?.likes || SinglePost?.likes);
+    const isIt = SinglePost?.likedBy?.find(
       (e) => e.toString() === myInfo?.id.toString()
     );
     if (isIt) {
@@ -36,21 +33,31 @@ const Post = ({
 
   const commentHandler = () => {
     setComment("");
-    dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
+    dispatch(
+      CreateCommentAction({ postId: SinglePost?.id, description: comment })
+    );
   };
+  useEffect(() => {
+    fetchSinglePost(id);
+  }, [Post]);
 
   const [isEdit, setIsEdit] = useState(false);
 
   return (
     <div className="post">
       <div className="postWrapper">
-        <PostTop profileInfo={profileInfo} post={post} myInfo={myInfo} setIsEdit={setIsEdit} />
+        <PostTop
+          profileInfo={SinglePost?.author}
+          post={SinglePost}
+          myInfo={myInfo}
+          setIsEdit={setIsEdit}
+        />
 
-        <PostContent post={post} isEdit={isEdit} setIsEdit={setIsEdit} />
+        <PostContent post={SinglePost} isEdit={isEdit} setIsEdit={setIsEdit} />
 
         <PostBottom
           Post={Post}
-          post={post}
+          post={SinglePost}
           myInfo={myInfo}
           setIsLiked={setIsLiked}
           setLikeCount={setLikeCount}
