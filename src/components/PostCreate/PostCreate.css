@@ -14,7 +14,7 @@
     justify-content: center;
 }
 
-.shareWrapperForm{
+.shareWrapperForm {
     padding: 0;
     margin: 0;
 }
@@ -41,10 +41,6 @@
 
 .share .shareWrapper .shareTop .shareInput:focus {
     outline: none;
-}
-
-.share .shareWrapper .shareHr {
-    margin: 20px;
 }
 
 .share .shareWrapper .shareImgContainer {
@@ -76,7 +72,6 @@
 .share .shareWrapper .shareBottom .shareOptions {
     display: flex;
     align-items: center;
-    margin-left: 20px;
     justify-content: space-around;
     width: 90%;
 }
@@ -84,23 +79,50 @@
 .share .shareWrapper .shareBottom .shareOptions .shareOption {
     display: flex;
     align-items: center;
-    margin-right: 20px;
     cursor: pointer;
 }
 
 .share .shareWrapper .shareBottom .shareOptions .shareOption .shareIcon {
     font-size: 30px;
-    margin-right: 10px;
 }
 
 .share .shareWrapper .shareBottom .shareOptions .shareOption .shareOptionText {
     font-size: 14px;
     font-weight: 600;
 }
-.shareBtn{
+
+.shareBtn {
     color: white;
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
     background: rgb(66, 184, 221);
     padding: 2px 8px;
+}
+
+
+@media only screen and (min-width: 768px) {
+    .shareOptions {
+        margin-left: 20px;
+    }
+
+    .shareOption {
+        margin-right: 20px;
+    }
+
+    .shareIcon {
+        margin-right: 10px;
+    }
+
+    .shareHr {
+        margin: 20px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .share .shareWrapper {
+        padding: 5px;
+    }
+    .shareHr {
+        margin: 5px;
+    }
 }

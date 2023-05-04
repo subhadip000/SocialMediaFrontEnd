@@ -222,12 +222,16 @@
         flex: 2;
     }
 
+    .hamburger{
+        margin-left: 5px;
+    }
+
     .navbarContainer .navbarLeft .logo {
         font-size: 20px;
     }
 
     .navbarContainer .navbarCenter {
-        flex: 3;
+        flex: 2;
     }
 
     .navbarContainer .navbarRight {

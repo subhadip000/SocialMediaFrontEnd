@@ -9,3 +9,8 @@
         width: 100%;
     }
 }
+@media only screen and (max-width: 576px) {
+    .feed .feedWrapper {
+        padding: 5px;
+    }
+}

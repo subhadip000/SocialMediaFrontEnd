@@ -1,7 +1,7 @@
 import React from "react";
 import Post from "../post/Post";
 import PostCreate from "../PostCreate/PostCreate";
-import Stories from "../stories/Stories";
+// import Stories from "../stories/Stories";
 import "./Feed.css";
 
 const HomeFeed = ({ post, isStory }) => {
@@ -10,7 +10,7 @@ const HomeFeed = ({ post, isStory }) => {
   return (
     <div className="feed">
       <div className="feedWrapper">
-        {isStory ? <Stories /> : null}
+        {/* {isStory ? <Stories /> : null} */}
 
         <PostCreate />
         {reversedPost?.map((e, i) => {

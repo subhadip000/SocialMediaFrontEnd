@@ -47,7 +47,7 @@ const Navbar = () => {
         <div className="navbarLeft">
           <div style={{ textDecoration: "none" }}>
             <span className="hamburger"><GiHamburgerMenu onClick={handleHamburgerClick} /></span>
-            <span className="logo">OurApp</span>
+            <span className="logo">Imagivine</span>
           </div>
         </div>
         <div className="navbarCenter">
@@ -63,12 +63,12 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbarRight">
-          <div className="navbarIcons">
+          {/* <div className="navbarIcons">
             <div className="navbarIconItem">
               <BsFillBellFill />
               <span className="navbarIconBadge">8</span>
             </div>
-          </div>
+          </div> */}
           <a href="/profile">
             <img
               src={myInfo?.profilePhoto}
