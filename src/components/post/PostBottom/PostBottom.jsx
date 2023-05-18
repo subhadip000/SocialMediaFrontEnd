@@ -3,20 +3,13 @@ import { Likes } from "./Likes/Likes";
 import { FaShareAlt } from "react-icons/fa";
 import { Comments } from "./Comments/Comments";
 
-export const PostBottom = ({ Post, post, myInfo, setIsLiked, setLikeCount, likeCount, isLike }) => {
+export const PostBottom = ({ post, myInfo }) => {
   return (
     <div className="postBottom">
       <div className="postBottomLeft">
-        <Likes
-          post={post}
-          myInfo={myInfo}
-          setIsLiked={setIsLiked}
-          setLikeCount={setLikeCount}
-          likeCount={likeCount}
-          isLike={isLike}
-        />
+        <Likes myInfo={myInfo} />
 
-        <Comments post={post} Post={Post} />
+        <Comments post={post} />
       </div>
       <div className="postBottomRight">
         <span className="postShareText">

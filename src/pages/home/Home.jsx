@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/navbar/Navbar";
 import Rightbar from "../../components/rightbar/Rightbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { FetchPostAction } from "../../redux/slices/PostSlice";
 import "./Home.css";
 import HomeFeed from "../../components/feed/HomeFeed";
+import useProvidePost from "../../hooks/post/useProvidePost";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { Post, processing } = useSelector((state) => state.post);
+  const { post, FetchPosts } = useProvidePost();
+  const { processing } = useSelector((state) => state.post);
   useEffect(() => {
-    dispatch(FetchPostAction());
+    FetchPosts();
     console.log("refressing");
   }, [dispatch, processing]);
 
@@ -22,7 +23,7 @@ const Home = () => {
       <Navbar />
       <div className="homeContainer">
         <Sidebar />
-        <HomeFeed post={Post} isStory={true} />
+        <HomeFeed post={post} isStory={true} />
         <Rightbar />
       </div>
     </div>

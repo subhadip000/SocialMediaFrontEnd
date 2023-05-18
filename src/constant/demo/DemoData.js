@@ -1,0 +1,15 @@
+export const ImageData = [
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679713903/ot5cf0kzcxn5ir0l5uoi.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679713906/jqjzli2p6f0znlj6bw0p.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679713909/pasgadggdzqibaky7fiz.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714314/hmweec429dorbyivg94d.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714318/mftcwwnkpat8lmf2zgtg.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714322/en4dttoc6m1cotqjkjm6.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714322/en4dttoc6m1cotqjkjm6.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714525/vtmwb0ewmvpkjviimv91.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714668/oucrcravlfgh0nkznxp6.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679714670/mfnj3tfw4qleqaxjxiw3.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679801402/mnx5jguidiq6ukvetxuu.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1679837562/ki7u86dfyxoh6cmi5uud.jpg",
+  "https://res.cloudinary.com/dt7rexjsk/image/upload/v1680078723/omtvgjuqbm0sf9ngsosw.jpg",
+];
