@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Post from "../post/Post";
 import PostCreate from "../PostCreate/PostCreate";
 // import Stories from "../stories/Stories";

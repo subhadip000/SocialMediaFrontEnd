@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+import { memo } from "react";
 
 const withLike = (Component) => {
-  const NewComponent = ({ post, profileInfo }) => {
+  const NewComponent = ({ id, profileInfo }) => {
     const [isLike, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
     return (
       <Component
         isLike={isLike}
-        post={post}
+        id={id}
         profileInfo={profileInfo}
         setIsLiked={setIsLiked}
         likeCount={likeCount}
@@ -18,4 +19,4 @@ const withLike = (Component) => {
   return NewComponent;
 };
 
-export default withLike;
+export default memo(withLike);

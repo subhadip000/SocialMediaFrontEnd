@@ -6,9 +6,13 @@ import { PostContent } from "./PostContent/PostContent";
 import { PostBottom } from "./PostBottom/PostBottom";
 import { PostTop } from "./PostTop/PostTop";
 import { CreateComment } from "./CreateComment/CreateComment";
+import useProvidePost from "../../hooks/useProvidePost";
+import { memo } from "react";
 
 const Post = ({ post, profileInfo }) => {
   const dispatch = useDispatch();
+  const { fetchSinglePost, post: SinglePost } = useProvidePost();
+
   const user = useSelector((state) => state?.user);
   const { myInfo } = user;
 
@@ -16,8 +20,13 @@ const Post = ({ post, profileInfo }) => {
 
   const commentHandler = () => {
     setComment("");
-    dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
+    dispatch(
+      CreateCommentAction({ postId: SinglePost?.id, description: comment })
+    );
   };
+  useEffect(() => {
+    fetchSinglePost(id);
+  }, [Post]);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -31,7 +40,7 @@ const Post = ({ post, profileInfo }) => {
           setIsEdit={setIsEdit}
         />
 
-        <PostContent post={post} isEdit={isEdit} setIsEdit={setIsEdit} />
+        <PostContent post={SinglePost} isEdit={isEdit} setIsEdit={setIsEdit} />
 
         <PostBottom post={post} myInfo={myInfo} />
 
