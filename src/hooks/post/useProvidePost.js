@@ -6,6 +6,7 @@ import {
   POST_EDIT,
   POST_LIKE,
   POST_DELETE,
+  API_URL,
 } from "../../constant/api/Api";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -17,6 +18,8 @@ const useProvidePost = () => {
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState(false);
   const [post, setPost] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [complete, setComplete] = useState(false);
   const { userInfo } = useSelector((state) => state.auth);
 
   // Configuration
@@ -112,6 +115,83 @@ const useProvidePost = () => {
       setServerErr(error?.message);
     }
   };
+  const CreateComment = async (input) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.delete(
+        `${API_URL}/api/comment/create`,
+        input,
+        config
+      );
+      setReset(true);
+      // console.log(data);
+      setPost(data);
+      setLoading(false);
+      setReset(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      console.log(error?.response?.data?.message);
+      setAppErr(error?.response?.data?.message);
+      setServerErr(error?.message);
+    }
+  };
+  const FetchComments = async (id) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(
+        `${API_URL}/api/comment/comments/${id}`,
+        config
+      );
+      setComments(data);
+      // console.log(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      console.log(error?.response?.data?.message);
+      setAppErr(error?.response?.data?.message);
+      setServerErr(error?.message);
+    }
+  };
+  const DeleteComments = async (id) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.put(
+        `${API_URL}/api/comment/delete`,
+        id,
+        config
+      );
+      setComments(data);
+      // console.log(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      console.log(error?.response?.data?.message);
+      setAppErr(error?.response?.data?.message);
+      setServerErr(error?.message);
+    }
+  };
+  const UpdateComments = async (input) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.put(
+        `${API_URL}/api/comment/update`,
+        input,
+        config
+      );
+      setComments(data);
+      // console.log(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      console.log(error?.response?.data?.message);
+      setAppErr(error?.response?.data?.message);
+      setServerErr(error?.message);
+    }
+  };
 
   return {
     loading,
@@ -124,6 +204,11 @@ const useProvidePost = () => {
     UpdatePost,
     LikePost,
     DeletePost,
+    FetchComments,
+    comments,
+    UpdateComments,
+    DeleteComments,
+    CreateComment,
   };
 };
 

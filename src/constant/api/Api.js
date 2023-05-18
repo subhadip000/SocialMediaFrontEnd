@@ -1,5 +1,6 @@
 // import { API_URL } from "@env";
-const API_URL = "http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com";
+export const API_URL =
+  "http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com";
 // const API_URL = "http://127.0.0.1:4000";
 
 // Auth API

@@ -3,13 +3,13 @@ import ImageSwiper from "../../Swiper/ImageSwiper";
 import Popup from "../../popup/Popup";
 import { useDispatch } from "react-redux";
 import { UpdatePostAction } from "../../../redux/slices/PostSlice";
+import { usePost } from "../../../context/post";
 
 export const PostContent = ({ post, isEdit, setIsEdit }) => {
-  const dispatch = useDispatch();
-
+  const { UpdatePost } = usePost();
   const ImgArrayLen = post?.image?.length || 0;
 
-  const [caption, setCaption] = useState(post?.caption);
+  const [caption, setCaption] = useState(post?.caption || "");
 
   return (
     <div className="postCenter">
@@ -29,10 +29,8 @@ export const PostContent = ({ post, isEdit, setIsEdit }) => {
             value="Update"
             disabled={caption === post?.caption}
             onClick={() => {
-              dispatch(
-                UpdatePostAction({ id: post?.id, caption })
-              );
-              setIsEdit((prev) => (prev = false));
+              UpdatePost({ id: post?.id, caption });
+              setIsEdit((prev) => !prev);
             }}
           />
         </Popup>

@@ -4,12 +4,18 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const CommentPopup = ({ comment, commentDeleter, commentEditor, setCommentPopup }) => {
+const CommentPopup = ({
+  comment,
+  commentDeleter,
+  commentEditor,
+  setCommentPopup,
+}) => {
   const user = useSelector((state) => state?.user);
   const { myInfo } = user;
 
   const [editComment, setEditComment] = useState(comment.description);
   const [isInput, setIsInput] = useState(false);
+  console.log(comment);
   return (
     <div key={comment.id} className="commentFuncs">
       <div className="PopupContent">
@@ -22,8 +28,8 @@ const CommentPopup = ({ comment, commentDeleter, commentEditor, setCommentPopup 
           className="Link"
         >
           <img
-            src={comment.user?.profilePhoto}
-            alt=""
+            src={comment?.user?.profilePhoto}
+            alt="profile"
             className="PopupProfileImg"
           />
         </Link>
@@ -47,8 +53,8 @@ const CommentPopup = ({ comment, commentDeleter, commentEditor, setCommentPopup 
                 type="button"
                 value="Update"
                 onClick={() => {
-                  commentEditor(comment.id, editComment)
-                  setCommentPopup((prev) => (prev = false))
+                  commentEditor(comment.id, editComment);
+                  setCommentPopup((prev) => (prev = false));
                 }}
                 disabled={comment.description === editComment}
               />
@@ -65,15 +71,13 @@ const CommentPopup = ({ comment, commentDeleter, commentEditor, setCommentPopup 
         <div className="update-delete-icons">
           <FaEdit
             className="editIcon"
-              onClick={() =>
-                setIsInput((prev) => (prev = true))
-              }
+            onClick={() => setIsInput((prev) => (prev = true))}
           />
           <FaTrash
             className="deleteIcon"
             onClick={() => {
-              commentDeleter(comment.id)
-              setCommentPopup((prev) => (prev = false))
+              commentDeleter(comment.id);
+              setCommentPopup((prev) => (prev = false));
             }}
           />
         </div>
