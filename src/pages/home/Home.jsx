@@ -6,6 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import "./Home.css";
 import HomeFeed from "../../components/feed/HomeFeed";
 import useProvidePost from "../../hooks/post/useProvidePost";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const { post, FetchPosts } = useProvidePost();
@@ -13,7 +14,7 @@ const Home = () => {
   useEffect(() => {
     FetchPosts();
     console.log("refressing");
-  }, [dispatch, processing]);
+  }, [processing]);
 
   // console.log("home",post);
 

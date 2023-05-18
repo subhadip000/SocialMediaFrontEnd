@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateCommentAction } from "../../redux/slices/PostSlice";
@@ -7,7 +7,6 @@ import { PostBottom } from "./PostBottom/PostBottom";
 import { PostTop } from "./PostTop/PostTop";
 import { CreateComment } from "./CreateComment/CreateComment";
 import useProvidePost from "../../hooks/useProvidePost";
-import { memo } from "react";
 
 const Post = ({ post, profileInfo }) => {
   const dispatch = useDispatch();
@@ -25,7 +24,7 @@ const Post = ({ post, profileInfo }) => {
     );
   };
   useEffect(() => {
-    fetchSinglePost(id);
+    fetchSinglePost(post?.id);
   }, [Post]);
 
   const [isEdit, setIsEdit] = useState(false);
