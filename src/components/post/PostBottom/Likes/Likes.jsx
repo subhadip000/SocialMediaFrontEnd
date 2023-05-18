@@ -1,25 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaHeart } from "react-icons/fa";
 import Popup from "../../../popup/Popup";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { postLikesAction } from "../../../../redux/slices/PostSlice";
 import { LikePopup } from "./LikePopup/LikePopup";
+import { usePost } from "../../../../context/post";
 
-export const Likes = ({
-  post,
-  myInfo,
-  setIsLiked,
-  setLikeCount,
-  likeCount,
-  isLike,
-}) => {
-  const dispatch = useDispatch();
+export const Likes = ({ myInfo }) => {
+  const { LikePost, post } = usePost();
+  const [isLike, setIsLiked] = useState(false);
+
+  useEffect(() => {
+    const isIt = post?.likedBy?.find(
+      (e) => e.toString() === myInfo?.id.toString()
+    );
+    if (isIt) {
+      setIsLiked(true);
+    } else {
+      setIsLiked(false);
+    }
+  }, [post]);
 
   const LikeHandler = () => {
-    setLikeCount((count) => (isLike ? count - 1 : count + 1));
-    setIsLiked((current) => !current);
-    dispatch(postLikesAction(post?.id));
+    LikePost(post?.id);
+    console.log("liking");
   };
 
   const [likePopup, setLikePopup] = useState(false);
@@ -37,7 +39,7 @@ export const Likes = ({
           setLikePopup(true);
         }}
       >
-        {likeCount} Likes
+        {post?.likes} Likes
       </span>
       <Popup trigger={likePopup} setTrigger={setLikePopup} name={"Likes"}>
         {post?.LikedBy?.map((user) => (

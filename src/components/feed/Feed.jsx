@@ -2,10 +2,12 @@ import React from "react";
 import Post from "../post/Post";
 import PostCreate from "../PostCreate/PostCreate";
 import "./Feed.css";
+// import { useSelector } from "react-redux";
 
 const Feed = ({ post, profileInfo }) => {
   // Reverse the post array
   const reversedPost = post?.slice().reverse();
+
   return (
     <div className="feed">
       <div className="feedWrapper">

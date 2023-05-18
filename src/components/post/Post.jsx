@@ -1,62 +1,47 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateCommentAction } from "../../redux/slices/PostSlice";
-import withLike from "../HOC/likeHoc";
 import { PostContent } from "./PostContent/PostContent";
 import { PostBottom } from "./PostBottom/PostBottom";
 import { PostTop } from "./PostTop/PostTop";
 import { CreateComment } from "./CreateComment/CreateComment";
+import useProvidePost from "../../hooks/useProvidePost";
 
-const Post = ({
-  post,
-  profileInfo,
-  setIsLiked,
-  setLikeCount,
-  likeCount,
-  isLike,
-}) => {
+const Post = ({ post, profileInfo }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state?.user);
-  const Post = useSelector((state) => state?.post);
-  const { myInfo } = user;
-  const { like } = Post;
+  const { fetchSinglePost, post: SinglePost } = useProvidePost();
 
-  useEffect(() => {
-    setLikeCount(like?.likes || post?.likes);
-    const isIt = post?.likedBy?.find(
-      (e) => e.toString() === myInfo?.id.toString()
-    );
-    if (isIt) {
-      setIsLiked(true);
-    }
-  }, []);
+  const user = useSelector((state) => state?.user);
+  const { myInfo } = user;
 
   const [comment, setComment] = useState("");
 
   const commentHandler = () => {
     setComment("");
-    dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
+    dispatch(
+      CreateCommentAction({ postId: SinglePost?.id, description: comment })
+    );
   };
+  useEffect(() => {
+    fetchSinglePost(post?.id);
+  }, [Post]);
 
   const [isEdit, setIsEdit] = useState(false);
 
   return (
     <div className="post">
       <div className="postWrapper">
-        <PostTop profileInfo={profileInfo} post={post} myInfo={myInfo} setIsEdit={setIsEdit} />
-
-        <PostContent post={post} isEdit={isEdit} setIsEdit={setIsEdit} />
-
-        <PostBottom
-          Post={Post}
+        <PostTop
+          profileInfo={profileInfo}
           post={post}
           myInfo={myInfo}
-          setIsLiked={setIsLiked}
-          setLikeCount={setLikeCount}
-          likeCount={likeCount}
-          isLike={isLike}
+          setIsEdit={setIsEdit}
         />
+
+        <PostContent post={SinglePost} isEdit={isEdit} setIsEdit={setIsEdit} />
+
+        <PostBottom post={post} myInfo={myInfo} />
 
         <CreateComment
           commentHandler={commentHandler}
@@ -68,4 +53,4 @@ const Post = ({
   );
 };
 
-export default withLike(Post);
+export default Post;

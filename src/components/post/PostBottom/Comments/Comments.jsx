@@ -2,20 +2,32 @@ import React, { useState } from "react";
 import { FaCommentAlt } from "react-icons/fa";
 import Popup from "../../../popup/Popup";
 import { useDispatch } from "react-redux";
-import { DeleteCommentAction, FetchPostCommentsAction, UpdateCommentAction } from "../../../../redux/slices/PostSlice";
+import {
+  DeleteCommentAction,
+  UpdateCommentAction,
+} from "../../../../redux/slices/PostSlice";
 import CommentPopup from "./CommentPopup/CommentPopup";
+import { usePost } from "../../../../context/post";
 
-export const Comments = ({ post, Post }) => {
+export const Comments = () => {
   const dispatch = useDispatch();
-
+  // const {}
+  const {
+    loading,
+    comments,
+    FetchComments,
+    post,
+    UpdateComments,
+    DeleteComments,
+  } = usePost();
   const [commentPopup, setCommentPopup] = useState(false);
 
   const commentEditor = (commentId, description) => {
-    dispatch(UpdateCommentAction({ commentId, description }));
+    UpdateComments({ commentId, description });
   };
 
   const commentDeleter = (commentId) => {
-    dispatch(DeleteCommentAction({ commentId }));
+    DeleteComments({ commentId });
   };
 
   return (
@@ -24,7 +36,7 @@ export const Comments = ({ post, Post }) => {
       <span
         className="postLikeCounter"
         onClick={() => {
-          dispatch(FetchPostCommentsAction(post?.id));
+          FetchComments(post?.id);
           setCommentPopup((prev) => !prev);
         }}
       >
@@ -35,10 +47,10 @@ export const Comments = ({ post, Post }) => {
         setTrigger={setCommentPopup}
         name={"Comments"}
       >
-        {Post?.loading ? (
+        {loading ? (
           <p>Loading...</p>
-        ) : Post?.Comments?.length > 0 ? (
-          Post?.Comments.map((comment) => (
+        ) : comments?.length > 0 ? (
+          comments.map((comment) => (
             <CommentPopup
               key={comment.id}
               comment={comment}
