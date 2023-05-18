@@ -8,13 +8,12 @@ import "./Home.css";
 import HomeFeed from "../../components/feed/HomeFeed";
 
 const Home = () => {
-
   const dispatch = useDispatch();
+  const { Post, processing } = useSelector((state) => state.post);
   useEffect(() => {
     dispatch(FetchPostAction());
-  }, [dispatch]);
-
-  const post = useSelector((state) => state.post?.Post);
+    console.log("refressing");
+  }, [dispatch, processing]);
 
   // console.log("home",post);
 
@@ -23,7 +22,7 @@ const Home = () => {
       <Navbar />
       <div className="homeContainer">
         <Sidebar />
-            <HomeFeed post={post} isStory={true} />
+        <HomeFeed post={Post} isStory={true} />
         <Rightbar />
       </div>
     </div>

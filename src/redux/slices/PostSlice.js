@@ -1,10 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 // const BaseUrl =
 //   "http://127.0.0.1:4000" || "https://testing-blog-server.onrender.com";
 // const BaseUrl = "https://testing-blog-server.onrender.com";
 const BaseUrl = "http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com";
 
+const PostCreateAction = createAction("reset/post/create");
 // posts fetch
 export const FetchPostAction = createAsyncThunk(
   "posts/fetch",
@@ -167,6 +168,7 @@ export const UpdatePostAction = createAsyncThunk(
         input,
         config
       );
+      dispatch(PostCreateAction());
       return data;
     } catch (error) {
       if (!error?.response) throw error;
@@ -458,11 +460,14 @@ const PostSlice = createSlice({
     //create post slice
     builder.addCase(createPostAction.pending, (state, action) => {
       state.loading = true;
+      state.appErr = undefined;
+      state.serverErr = undefined;
+      state.processing = undefined;
     });
     builder.addCase(createPostAction.fulfilled, (state, action) => {
       state.postCreated = action?.payload;
       state.loading = false;
-      state.isCreated = false;
+      state.processing = false;
       state.appErr = undefined;
       state.serverErr = undefined;
     });
@@ -470,6 +475,9 @@ const PostSlice = createSlice({
       state.loading = false;
       state.appErr = action?.payload?.message;
       state.serverErr = action?.error?.message;
+    });
+    builder.addCase(PostCreateAction, (state) => {
+      state.processing = true;
     });
 
     // post update
