@@ -16,6 +16,9 @@ const Render = ({ id }) => {
   const { FetchSinglePost, post } = usePost();
   useEffect(() => {
     FetchSinglePost(id);
-  }, []);
+    console.log("post-->", id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
   return <Post post={post} profileInfo={post?.author} />;
 };

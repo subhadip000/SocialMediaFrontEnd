@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Post.css";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateCommentAction } from "../../redux/slices/PostSlice";
@@ -6,11 +6,11 @@ import { PostContent } from "./PostContent/PostContent";
 import { PostBottom } from "./PostBottom/PostBottom";
 import { PostTop } from "./PostTop/PostTop";
 import { CreateComment } from "./CreateComment/CreateComment";
-import useProvidePost from "../../hooks/useProvidePost";
+// import useProvidePost from "../../hooks/useProvidePost";
 
 const Post = ({ post, profileInfo }) => {
   const dispatch = useDispatch();
-  const { fetchSinglePost, post: SinglePost } = useProvidePost();
+  // const { fetchSinglePost, post: SinglePost } = useProvidePost();
 
   const user = useSelector((state) => state?.user);
   const { myInfo } = user;
@@ -19,13 +19,12 @@ const Post = ({ post, profileInfo }) => {
 
   const commentHandler = () => {
     setComment("");
-    dispatch(
-      CreateCommentAction({ postId: SinglePost?.id, description: comment })
-    );
+    dispatch(CreateCommentAction({ postId: post?.id, description: comment }));
   };
-  useEffect(() => {
-    fetchSinglePost(post?.id);
-  }, [Post]);
+  // useEffect(() => {
+  //   fetchSinglePost(post?.id);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const [isEdit, setIsEdit] = useState(false);
 
@@ -39,7 +38,7 @@ const Post = ({ post, profileInfo }) => {
           setIsEdit={setIsEdit}
         />
 
-        <PostContent post={SinglePost} isEdit={isEdit} setIsEdit={setIsEdit} />
+        <PostContent post={post} isEdit={isEdit} setIsEdit={setIsEdit} />
 
         <PostBottom post={post} myInfo={myInfo} />
 

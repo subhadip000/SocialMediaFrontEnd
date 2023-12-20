@@ -21,7 +21,7 @@ const useProvidePost = () => {
     try {
       // console.log(configToken);
       const { data } = await axios.get(
-        "http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com/api/post/all-post",
+        "https://social-media-backend-server-production.up.railway.app/api/post/all-post",
         configToken
       );
       // console.log(data);
@@ -38,7 +38,7 @@ const useProvidePost = () => {
     try {
       // console.log(configToken);
       const { data } = await axios.get(
-        `http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com/api/post/${id}`,
+        `https://social-media-backend-server-production.up.railway.app/api/post/${id}`,
         configToken
       );
       console.log(data);
@@ -55,7 +55,7 @@ const useProvidePost = () => {
     try {
       // console.log(configToken);
       const { data } = await axios.post(
-        `http://socia-env.eba-fq6zfx3w.ap-south-1.elasticbeanstalk.com/api/comment/create`,
+        `https://social-media-backend-server-production.up.railway.app/api/comment/create`,
         input,
         configToken
       );
